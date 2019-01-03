@@ -1,0 +1,21 @@
+{
+  "name": "@ka/kanjidic2sql",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Forrest Jacobs <forrestjacobs@gmail.com>",
+  "license": "ISC",
+  "main": "./lib/index.js",
+  "dependencies": {
+    "@ka/base": "^0.0.0",
+    "@ka/data": "^0.0.0",
+    "sax": "^1.2.4"
+  },
+  "devDependencies": {
+    "@types/sax": "^1.0.1"
+  },
+  "scripts": {
+    "clean": "rimraf coverage lib",
+    "lint": "tslint -c ../tslint.yaml -p tsconfig.json",
+    "test": "jest"
+  }
+}

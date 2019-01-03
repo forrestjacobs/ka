@@ -1,0 +1,9 @@
+extends:
+  - "tslint:recommended"
+  - tslint-sonarts
+rules:
+  interface-name:
+    options: [never-prefix]
+  typedef:
+    options: [call-signature]
+  object-literal-sort-keys: false

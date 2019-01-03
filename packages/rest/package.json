@@ -1,0 +1,23 @@
+{
+  "name": "@ka/rest",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Forrest Jacobs <forrestjacobs@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@ka/data": "^0.0.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/supertest": "^2.0.6",
+    "supertest": "^3.3.0"
+  },
+  "scripts": {
+    "clean": "rimraf coverage lib",
+    "lint": "tslint -c ../tslint.yaml -p tsconfig.json",
+    "serve": "node -r dotenv/config ./lib/server",
+    "test": "jest"
+  }
+}

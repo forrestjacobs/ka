@@ -1,0 +1,13 @@
+{
+  "name": "@ka/base",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Forrest Jacobs <forrestjacobs@gmail.com>",
+  "license": "ISC",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "clean": "rimraf coverage lib",
+    "lint": "tslint -c ../tslint.yaml -p tsconfig.json"
+  }
+}

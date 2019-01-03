@@ -1,0 +1,17 @@
+{
+  "name": "@ka/data",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Forrest Jacobs <forrestjacobs@gmail.com>",
+  "license": "ISC",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "dependencies": {
+    "@ka/base": "^0.0.0",
+    "pg-promise": "^8.5.2"
+  },
+  "scripts": {
+    "clean": "rimraf coverage lib",
+    "lint": "tslint -c ../tslint.yaml -p tsconfig.json"
+  }
+}

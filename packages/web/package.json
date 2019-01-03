@@ -1,0 +1,35 @@
+{
+  "name": "@ka/web",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Forrest Jacobs <forrestjacobs@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@ka/base": "^0.0.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-redux": "^5.1.1",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.7",
+    "redux-thunk": "^2.3.0",
+    "serve": "^10.1.1"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^16.0.10",
+    "@types/react-redux": "^6.0.10",
+    "@types/react-router-dom": "^4.3.1",
+    "rollup": "^0.67.3",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-replace": "^2.1.0",
+    "rollup-plugin-terser": "^3.0.0",
+    "rollup-plugin-typescript2": "^0.18.0"
+  },
+  "scripts": {
+    "clean": "rimraf .rpt2_cache coverage public/app.js public/app.min.js",
+    "build": "rollup -c",
+    "lint": "tslint -c ../tslint.yaml -p tsconfig.json",
+    "serve": "serve"
+  }
+}

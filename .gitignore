@@ -1,0 +1,10 @@
+.env
+.rpt2_cache
+app.js
+app.min.js
+coverage
+kanjidic2.xml
+lerna-debug.log
+lib
+node_modules
+yarn-error.log
