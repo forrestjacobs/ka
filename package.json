@@ -5,6 +5,7 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.9",
+    "concurrently": "^4.1.0",
     "jest": "^23.6.0",
     "lerna": "^3.4.3",
     "rimraf": "^2.6.2",
@@ -17,7 +18,7 @@
     "build": "cd packages; tsc -b && lerna run build",
     "clean": "lerna run clean",
     "lint": "lerna run lint",
-    "serve": "lerna run serve",
+    "serve": "concurrently \"lerna run serve\" \"haproxy -f local-haproxy.cfg\"",
     "test": "lerna run test"
   },
   "workspaces": [
