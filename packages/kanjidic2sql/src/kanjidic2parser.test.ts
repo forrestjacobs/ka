@@ -33,6 +33,19 @@ describe("KanjiDic2Parser", () => {
     expect(errorHandler).toHaveBeenCalledTimes(0);
   });
 
+  test("ignores everything before <kanjidic2>", () => {
+    parser.write("Ye_u0MZ{]a%p9ratB]/");
+    parser.write("' <ka");
+    parser.write("njidi");
+    parser.write("c2><c");
+    parser.write("haracter><literal>日</literal></character>");
+    expect(dataHandler).toBeCalledTimes(1);
+    expect(dataHandler).toHaveBeenNthCalledWith(1, { ...BASE_CHARACTER, literal: "日" });
+
+    parser.end("</kanjidic2>");
+    expect(errorHandler).toHaveBeenCalledTimes(0);
+  });
+
   test("parses multiple characters", () => {
     parser.write("<kanjidic2>");
 

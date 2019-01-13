@@ -5,6 +5,8 @@ import { Transform } from "stream";
 // tslint:disable-next-line:max-union-size
 type BaseCharacter = Pick<Character, "strokeCount" | "radicalNames" | "on" | "kun" | "meaning" | "nanori">;
 
+const START_TEXT = "<kanjidic2>";
+
 function makeBaseCharacter(): BaseCharacter {
   return { strokeCount: [], radicalNames: [], on: [], kun: [], meaning: [], nanori: [] };
 }
@@ -13,6 +15,7 @@ export class KanjiDic2Parser extends Transform {
 
   private readonly saxParser: SAXParser;
   private currentCharacter: Partial<Character> & BaseCharacter = makeBaseCharacter();
+  private startBuffer: string | undefined = "";
 
   constructor() {
     super({readableObjectMode: true});
@@ -41,7 +44,19 @@ export class KanjiDic2Parser extends Transform {
   }
 
   public _transform(chunk: any, encoding: string, callback: (error?: Error, data?: any) => void): void {
-    this.saxParser.write(chunk);
+    // Ignore everything up until "<kanjidic2>"
+    if (this.startBuffer !== undefined) {
+      const buf: string = this.startBuffer + chunk;
+      const start = buf.indexOf(START_TEXT);
+      if (start === -1) {
+        this.startBuffer = buf.substr(-START_TEXT.length);
+      } else {
+        this.saxParser.write(buf.substr(start));
+        this.startBuffer = undefined;
+      }
+    } else {
+      this.saxParser.write(chunk);
+    }
     callback();
   }
 

@@ -3,7 +3,7 @@
 app.js
 app.min.js
 coverage
-kanjidic2.pgsql
+dict.pgsql
 kanjidic2.xml
 lerna-debug.log
 lib
