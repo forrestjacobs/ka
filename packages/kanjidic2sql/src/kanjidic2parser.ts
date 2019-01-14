@@ -15,7 +15,7 @@ export class KanjiDic2Parser extends Transform {
 
   private readonly saxParser: SAXParser;
   private currentCharacter: Partial<Character> & BaseCharacter = makeBaseCharacter();
-  private startBuffer: string | undefined = "";
+  private startBuffer?: string = "";
 
   constructor() {
     super({readableObjectMode: true});

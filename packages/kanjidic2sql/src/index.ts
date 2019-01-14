@@ -1,9 +1,9 @@
 import { end } from "@ka/data";
 import { createReadStream } from "fs";
+import { get } from "request";
 import { createGunzip } from "zlib";
 import { KanjiDic2Parser } from "./kanjidic2parser";
 import { UpdateCharacterStream } from "./update-character-stream";
-import { get } from "request";
 
 const kanjiDic2Stream = (process.argv.length > 1) ?
   createReadStream(process.argv[2], "utf8") :

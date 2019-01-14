@@ -9,8 +9,8 @@ const BASE_CHARACTER = {
   nanori: [],
 };
 
+// tslint:disable-next-line:no-big-function
 describe("KanjiDic2Parser", () => {
-
   const dataHandler = jest.fn();
   const errorHandler = jest.fn();
   let parser: KanjiDic2Parser;
@@ -34,16 +34,11 @@ describe("KanjiDic2Parser", () => {
   });
 
   test("ignores everything before <kanjidic2>", () => {
-    parser.write("Ye_u0MZ{]a%p9ratB]/");
-    parser.write("' <ka");
+    parser.write("Ye_u0MZ{]a%p9ratB]/' <ka");
     parser.write("njidi");
-    parser.write("c2><c");
-    parser.write("haracter><literal>日</literal></character>");
-    expect(dataHandler).toBeCalledTimes(1);
-    expect(dataHandler).toHaveBeenNthCalledWith(1, { ...BASE_CHARACTER, literal: "日" });
+    parser.end("c2><character><literal>日</literal></character></kanjidic2>");
 
-    parser.end("</kanjidic2>");
-    expect(errorHandler).toHaveBeenCalledTimes(0);
+    expect(dataHandler).toHaveBeenCalledWith({ ...BASE_CHARACTER, literal: "日" });
   });
 
   test("parses multiple characters", () => {
