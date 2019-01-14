@@ -12,7 +12,7 @@
     "typescript": "^3.2.0"
   },
   "scripts": {
-    "build": "cd packages; tsc -b && lerna run build",
+    "build": "tsc -b packages && lerna run --scope @ka/web build",
     "clean": "lerna run clean",
     "lint": "lerna run lint",
     "serve": "concurrently \"lerna run serve\" \"haproxy -f local-haproxy.cfg\"",
