@@ -1,8 +1,5 @@
 {
   "private": true,
-  "dependencies": {
-    "dotenv": "^6.2.0"
-  },
   "devDependencies": {
     "@types/jest": "^23.3.9",
     "concurrently": "^4.1.0",
