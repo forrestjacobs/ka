@@ -89,24 +89,10 @@ export class KanjiDic2Parser extends Transform {
         this.currentCharacter.nanori.push(text);
         break;
       case "rad_value":
-        switch (attr.rad_type) {
-          case "classical":
-            this.currentCharacter.radical = +text;
-            break;
-          case "nelson_c":
-            this.currentCharacter.nelsonRadical = +text;
-            break;
-        }
+        this.updateCharacterFromRadValue(attr, text);
         break;
       case "reading":
-        switch (attr.r_type) {
-          case "ja_on":
-            this.currentCharacter.on.push(text);
-            break;
-          case "ja_kun":
-            this.currentCharacter.kun.push(text);
-            break;
-        }
+        this.updateCharacterFromReading(attr, text);
         break;
       case "meaning":
         if (attr.m_lang === undefined) {
@@ -115,4 +101,27 @@ export class KanjiDic2Parser extends Transform {
         break;
     }
   }
+
+  private updateCharacterFromRadValue({ rad_type }: { rad_type: string }, text: string): void {
+    switch (rad_type) {
+      case "classical":
+        this.currentCharacter.radical = +text;
+        break;
+      case "nelson_c":
+        this.currentCharacter.nelsonRadical = +text;
+        break;
+    }
+  }
+
+  private updateCharacterFromReading({ r_type }: { r_type: string }, text: string): void {
+    switch (r_type) {
+      case "ja_on":
+        this.currentCharacter.on.push(text);
+        break;
+      case "ja_kun":
+        this.currentCharacter.kun.push(text);
+        break;
+    }
+  }
+
 }
