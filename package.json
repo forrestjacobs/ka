@@ -9,7 +9,7 @@
     "ts-jest": "^23.10.5",
     "tslint": "^5.11.0",
     "tslint-sonarts": "^1.8.0",
-    "typescript": "^3.2.0"
+    "typescript": "^3.3.3"
   },
   "scripts": {
     "build": "tsc -b packages && lerna run --scope @ka/web build",
