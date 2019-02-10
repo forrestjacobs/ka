@@ -16,6 +16,7 @@ function makeConfig(outputFile, shouldMinify) {
       }
     },
     external: [ "react", "react-dom" ],
+    watch: { clearScreen: false },
     plugins: [
       resolve(),
       commonjs({

@@ -22,6 +22,10 @@
 [haproxy]: http://www.haproxy.org/
 [clone]: https://help.github.com/articles/cloning-a-repository/
 
-## Start the server
+## Development cycle
 
-Run `yarn run serve` to start the server on port 8080. (`Ctrl-C` to stop.)
+  * `yarn run dev` serves the app on port 8080 and recompiles on code change.
+    (`Ctrl-C` to stop.)
+  * Before commiting:
+     1. Check lint: `yarn run lint`
+     2. Ensure tests pass: `yarn run test`

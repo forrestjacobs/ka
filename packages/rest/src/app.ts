@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { json, urlencoded } from "body-parser";
 import express from "express";
 import { router } from "./routes";

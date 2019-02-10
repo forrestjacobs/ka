@@ -29,6 +29,7 @@
   "scripts": {
     "clean": "rimraf .rpt2_cache coverage public/app.js public/app.min.js",
     "build": "rollup -c",
+    "dev": "concurrently \"rollup -w -c\" \"yarn run serve\"",
     "lint": "tslint -c ../tslint.yaml -p tsconfig.json",
     "serve": "serve"
   }
