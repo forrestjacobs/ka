@@ -6,6 +6,7 @@
   "license": "ISC",
   "dependencies": {
     "@ka/base": "^0.0.0",
+    "query-string": "^6.2.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-redux": "^6.0.0",
@@ -16,6 +17,7 @@
     "serve": "^10.1.1"
   },
   "devDependencies": {
+    "@types/query-string": "^6.2.0",
     "@types/react-dom": "^16.0.10",
     "@types/react-redux": "^7.0.1",
     "@types/react-router-dom": "^4.3.1",

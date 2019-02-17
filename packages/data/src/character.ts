@@ -18,32 +18,48 @@ const CHARACTER_CS = new pgp.helpers.ColumnSet([
   table: "character",
 });
 
+function characterFromRow(row: any): Character {
+  const character: Character = {
+    literal: row.literal,
+    radical: row.radical,
+    nelsonRadical: row.nelson_radical,
+    strokeCount: row.stroke_count,
+    radicalNames: row.radical_names,
+    on: row.on,
+    kun: row.kun,
+    meaning: row.meaning,
+    nanori: row.nanori,
+  };
+  if (row.grade !== null) {
+    character.grade = row.grade;
+  }
+  if (row.freq !== null) {
+    character.freq = row.freq;
+  }
+  if (row.jlpt !== null) {
+    character.jlpt = row.jlpt;
+  }
+  return character;
+}
+
+export async function searchForCharacters(query: string): Promise<Character[]> {
+  const terms = query.split(" ").filter((term) => term.length);
+  const rows = await db.manyOrNone(`
+    SELECT *
+    FROM (SELECT *,
+          to_tsvector('simple', array_to_string(meaning, ' ')) as meaning_vector
+          FROM character) character_search
+    WHERE meaning_vector @@ to_tsquery('simple', $1)
+  `, terms.join(" & "));
+  return rows.map(characterFromRow);
+}
+
 export async function getCharacter(literal: string): Promise<Character | undefined> {
-  const result = await db.oneOrNone("SELECT * FROM character WHERE literal = $1", literal);
-  if (result === null) {
+  const row = await db.oneOrNone("SELECT * FROM character WHERE literal = $1", literal);
+  if (row === null) {
     return undefined;
   }
-  const char: Character = {
-    literal: result.literal,
-    radical: result.radical,
-    nelsonRadical: result.nelson_radical,
-    strokeCount: result.stroke_count,
-    radicalNames: result.radical_names,
-    on: result.on,
-    kun: result.kun,
-    meaning: result.meaning,
-    nanori: result.nanori,
-  };
-  if (result.grade !== null) {
-    char.grade = result.grade;
-  }
-  if (result.freq !== null) {
-    char.freq = result.freq;
-  }
-  if (result.jlpt !== null) {
-    char.jlpt = result.jlpt;
-  }
-  return char;
+  return characterFromRow(row);
 }
 
 export function getUpdateCharactersSql(characters: Character[]): string {

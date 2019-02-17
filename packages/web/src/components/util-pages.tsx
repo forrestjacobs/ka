@@ -13,7 +13,7 @@ export function Error(): JSX.Element {
   return <>Error</>;
 }
 
-export function mapStateToPage<Response>(
+export function mapStateToComponent<Response>(
   state: AsyncState<Response | undefined> | undefined, mapper: (response: Response) => ReactNode,
 ): ReactNode {
   if (state === undefined || state.status === AsyncStatus.IN_PROGRESS) {
@@ -26,4 +26,10 @@ export function mapStateToPage<Response>(
     return <NotFound />;
   }
   return mapper(state.response);
+}
+
+export function mapStateToPage<Response>(
+  state: AsyncState<Response | undefined> | undefined, mapper: (response: Response) => ReactNode,
+): ReactNode {
+  return mapStateToComponent(state, mapper);
 }

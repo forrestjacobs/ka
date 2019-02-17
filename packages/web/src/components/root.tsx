@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AnyAction, Store } from "redux";
 import { CharacterPage } from "./character-page";
 import { HomePage } from "./home-page";
+import { SearchPage } from "./search-page";
 import { NotFound } from "./util-pages";
 
 export function Root(store: Store<any, AnyAction>): JSX.Element {
@@ -12,12 +13,13 @@ export function Root(store: Store<any, AnyAction>): JSX.Element {
       <Router>
         <>
           <h1>Ka</h1>
-          <form>
-            <input type="search" />
+          <form method="get" action="/search">
+            <input type="search" name="q" id="q" />
           </form>
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/character/:literal" component={CharacterPage} />
+            <Route exact path="/search" component={SearchPage} />
             <Route component={NotFound} />
           </Switch>
         </>
