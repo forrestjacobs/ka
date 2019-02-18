@@ -1,41 +1,26 @@
 import { Character } from "@ka/base";
-import React, { PureComponent, ReactNode } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { Dispatch, fetchCharacter } from "../actions";
+import { bindActionCreators } from "redux";
+import { fetchCharacter } from "../actions";
 import { AsyncState } from "../async";
 import { RootState } from "../state";
 import { CharacterComponent } from "./character";
-import { mapStateToPage } from "./util-pages";
+import { mapAsyncPropsToPage } from "./util-pages";
 
-interface CharacterPageProps {
-  literal: string;
-  characterState?: AsyncState<Character>;
-  dispatch: Dispatch;
+interface PageProps {
+  state?: AsyncState<Character>;
+  fetch: () => void;
 }
 
-class CharacterPageComponent extends PureComponent<CharacterPageProps> {
+type OwnProps = RouteComponentProps<{ literal: string }>;
 
-  public componentDidMount(): void {
-    this.props.dispatch(fetchCharacter(this.props.literal));
-  }
-
-  public componentDidUpdate(prevProps: CharacterPageProps): void {
-    if (this.props.literal !== prevProps.literal) {
-      this.props.dispatch(fetchCharacter(this.props.literal));
-    }
-  }
-
-  public render(): ReactNode {
-    return mapStateToPage(this.props.characterState, (character) => {
-      return <CharacterComponent character={character } />;
-    });
-  }
-
+function getLiteral(ownProps: OwnProps): string {
+  return ownProps.match.params.literal;
 }
 
 export const CharacterPage = connect(
-  (state: RootState, ownProps: RouteComponentProps<{ literal: string }>) => {
-    const literal = ownProps.match.params.literal;
-    return {literal, characterState: state.entities.characters[literal]};
-  })(CharacterPageComponent);
+  (state: RootState, ownProps: OwnProps) => ({ state: state.entities.characters[getLiteral(ownProps)] }),
+  (dispatch, ownProps) => bindActionCreators({ fetch: () => fetchCharacter(getLiteral(ownProps)) }, dispatch),
+)((props: PageProps) => mapAsyncPropsToPage(props, (character) => <CharacterComponent character={character} />));
