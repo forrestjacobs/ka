@@ -1,5 +1,20 @@
 import { Character, isKanji } from "@ka/base";
 
+export enum ApiErrorType {
+  FetchError,
+  ParseError,
+  NotFound,
+}
+
+export class ApiError extends Error {
+  public readonly type: ApiErrorType;
+
+  constructor(message: string, type: ApiErrorType) {
+    super(message);
+    this.type = type;
+  }
+}
+
 export interface Api {
   getSearchResults(q: string): Promise<Character[]>;
   getCharacter(literal: string): Promise<Character>;
@@ -7,7 +22,8 @@ export interface Api {
 
 async function mapResponse<T>(response: Response, cb: (response: Response) => Promise<T>): Promise<T> {
   if (!response.ok) {
-    throw new Error(`Status ${response.status}`);
+    const type = response.status === 404 ? ApiErrorType.NotFound : ApiErrorType.FetchError;
+    throw new ApiError(`Status ${response.status}`, type);
   }
   return await cb(response);
 }
@@ -20,7 +36,7 @@ const restApi: Api = {
 
   async getCharacter(literal: string): Promise<Character> {
     if (!isKanji(literal)) {
-      throw new Error(`Status 404`);
+      throw new ApiError(`Invalid kanji: ${literal}`, ApiErrorType.NotFound);
     }
     return mapResponse(await fetch(`/api/character/${literal}`), (result) => result.json());
   },

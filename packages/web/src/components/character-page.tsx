@@ -10,7 +10,7 @@ import { mapStateToPage } from "./util-pages";
 
 interface CharacterPageProps {
   literal: string;
-  characterState?: AsyncState<Character | undefined>;
+  characterState?: AsyncState<Character>;
   dispatch: Dispatch;
 }
 
