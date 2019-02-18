@@ -1,9 +1,9 @@
 import { Character } from "@ka/base";
 import React, { PureComponent, ReactNode, ReactNodeArray } from "react";
+import { NavLink } from "react-router-dom";
 
 interface CharacterProps {
   character: Character;
-  link?: boolean;
 }
 
 function toList(items: ReactNodeArray, keyPrefix: string): ReactNode {
@@ -13,13 +13,13 @@ function toList(items: ReactNodeArray, keyPrefix: string): ReactNode {
 export class CharacterComponent extends PureComponent<CharacterProps> {
 
   public render(): ReactNode {
-    const { character, link } = this.props;
+    const { character } = this.props;
     const { literal } = character;
     return (
       <>
-        <h1 className="literal">{
-          link ? <a href={ `/character/${literal}` }>{ literal }</a> : literal
-        }</h1>
+        <h1 className="literal">
+          <NavLink exact to={`/character/${literal}`}>{ literal }</NavLink>
+        </h1>
         <ol className="meanings">{ toList(character.meaning, `${literal}-meaning`) }</ol>
 
         <h2>Kun</h2>

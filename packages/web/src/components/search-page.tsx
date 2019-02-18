@@ -42,6 +42,6 @@ export const SearchPage = connect(
   }, dispatch),
 )((props: PageProps) => mapAsyncPropsToPage(props, (state) =>
   state.map((result) => mapStateToComponent(result, (character) =>
-    <CharacterComponent key={character.literal} link character={character} />,
+    <CharacterComponent key={character.literal} character={character} />,
   )),
 ));

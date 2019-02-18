@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, NavLink, Route, Switch } from "react-router-dom";
 import { AnyAction, Store } from "redux";
 import { CharacterPage } from "./character-page";
 import { HomePage } from "./home-page";
@@ -12,7 +12,7 @@ export function Root(store: Store<any, AnyAction>): JSX.Element {
     <Provider store={store}>
       <Router>
         <>
-          <h1>Ka</h1>
+          <h1><NavLink exact to="/">Ka</NavLink></h1>
           <form method="get" action="/search">
             <input type="search" name="q" id="q" />
           </form>
