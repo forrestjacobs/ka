@@ -14,7 +14,7 @@ export function Root(store: Store<any, AnyAction>): JSX.Element {
         <div className="container">
           <nav className="pt-3 pb-5">
             <div className="navbar navbar-light">
-              <NavLink className="navbar-brand" exact to="/">Ka</NavLink>
+              <NavLink className="navbar-brand" exact to="/">Kanji Dictionary</NavLink>
             </div>
             <form method="get" action="/search">
               <div className="form-row">
