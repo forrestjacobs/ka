@@ -7,4 +7,8 @@ module.exports = merge(common, {
   output: {
     path: path.resolve(__dirname, 'dist'),
   },
+  stats: {
+    maxModules: Infinity,
+    optimizationBailout: true,
+  },
 });
