@@ -1,9 +1,8 @@
 .env
 .rpt2_cache
-app.js
-app.min.js
 coverage
 dict.pgsql
+dist
 kanjidic2.xml
 lerna-debug.log
 lib
