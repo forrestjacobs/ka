@@ -4,6 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { getApi } from "./api";
 import { Root } from "./components/root";
+import "./index.scss";
 import { rootReducer } from "./reducers";
 
 const isProd = process.env.NODE_ENV === "production";

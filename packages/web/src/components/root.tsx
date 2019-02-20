@@ -11,18 +11,30 @@ export function Root(store: Store<any, AnyAction>): JSX.Element {
   return (
     <Provider store={store}>
       <Router>
-        <>
-          <h1><NavLink exact to="/">Ka</NavLink></h1>
-          <form method="get" action="/search">
-            <input type="search" name="q" id="q" />
-          </form>
+        <div className="container">
+          <nav className="pt-3 pb-5">
+            <div className="navbar navbar-light">
+              <NavLink className="navbar-brand" exact to="/">Ka</NavLink>
+            </div>
+            <form method="get" action="/search">
+              <div className="form-row">
+                <div className="col-10">
+                  <input type="search" name="q" id="q" placeholder="Search" aria-label="Search"
+                    className="form-control mr-sm-2" />
+                </div>
+                <div className="col-2">
+                  <button className="btn btn-outline-primary" type="submit">Search</button>
+                </div>
+              </div>
+            </form>
+          </nav>
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/character/:literal" component={CharacterPage} />
             <Route exact path="/search" component={SearchPage} />
             <Route component={NotFound} />
           </Switch>
-        </>
+        </div>
       </Router>
     </Provider>
   );
