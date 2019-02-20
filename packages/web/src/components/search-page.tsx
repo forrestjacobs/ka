@@ -41,7 +41,16 @@ export const SearchPage = connect(
     },
   }, dispatch),
 )((props: PageProps) => mapAsyncPropsToPage(props, (state) =>
-  state.map((result) => mapStateToComponent(result, (character) =>
-    <CharacterComponent key={character.literal} character={character} />,
-  )),
+  <>
+    <h1>{state.length} results</h1>
+    <ol className="list-group list-group-flush">
+      {
+        state.map((result) => mapStateToComponent(result, (character) =>
+          <li className="list-group-item" key={character.literal}>
+            <CharacterComponent character={character} />
+          </li>,
+        ))
+      }
+    </ol>
+  </>,
 ));

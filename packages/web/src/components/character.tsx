@@ -7,7 +7,7 @@ interface CharacterProps {
 }
 
 function toList(items: ReactNodeArray, keyPrefix: string): ReactNode {
-  return items.map((item) => <li key={`${keyPrefix}-${item}`}>{item}</li>);
+  return items.map((item) => <li className="list-inline-item mr-4" key={`${keyPrefix}-${item}`}>{item}</li>);
 }
 
 export class CharacterComponent extends PureComponent<CharacterProps> {
@@ -15,19 +15,38 @@ export class CharacterComponent extends PureComponent<CharacterProps> {
   public render(): ReactNode {
     const { character } = this.props;
     const { literal } = character;
+
+    const readingElements: JSX.Element[] = [];
+
+    if (character.kun.length !== 0) {
+      readingElements.push(
+        <div className="row" key="kun">
+          <h2 className="h6 col-1">Kun</h2>
+          <ol className="col-11">{ toList(character.kun, `${literal}-kun`) }</ol>
+        </div>,
+      );
+    }
+
+    if (character.on.length !== 0) {
+      readingElements.push(
+        <div className="row" key="on">
+          <h2 className="h6 col-1">On</h2>
+          <ol className="col-11">{ toList(character.on, `${literal}-on`) }</ol>
+        </div>,
+      );
+    }
+
     return (
-      <>
-        <h1 className="literal">
-          <NavLink exact to={`/character/${literal}`}>{ literal }</NavLink>
-        </h1>
-        <ol className="meanings">{ toList(character.meaning, `${literal}-meaning`) }</ol>
-
-        <h2>Kun</h2>
-        <ol className="kun-reading">{ toList(character.kun, `${literal}-kun`) }</ol>
-
-        <h2>On</h2>
-        <ol className="on-reading">{ toList(character.on, `${literal}-on`) }</ol>
-      </>
+      <div className="row position-relative">
+        <div className="col-1 h1 position-static">
+          <NavLink exact to={`/character/${literal}`}
+            className="stretched-link text-decoration-none">{ literal }</NavLink>
+        </div>
+        <div className="col-10">
+          <ol className="list-inline">{ toList(character.meaning, `${literal}-meaning`) }</ol>
+          {readingElements}
+        </div>
+      </div>
     );
   }
 
