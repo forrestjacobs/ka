@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import React from "react";
 import { ApiError, ApiErrorType } from "../api";
 import { AsyncState, AsyncStatus } from "../async";
 
@@ -15,8 +15,8 @@ export function Error({error}: {error: Error & Partial<ApiError> }): JSX.Element
 }
 
 export function mapStateToComponent<Response>(
-  state: AsyncState<Response> | undefined, mapper: (response: Response) => ReactNode,
-): ReactNode {
+  state: AsyncState<Response> | undefined, mapper: (response: Response) => JSX.Element,
+): JSX.Element {
   if (state === undefined || state.status === AsyncStatus.IN_PROGRESS) {
     return <Loading />;
   }
@@ -26,15 +26,9 @@ export function mapStateToComponent<Response>(
   return mapper(state.response);
 }
 
-export function mapAsyncPropsToPage<Response>(
-  props: { state?: AsyncState<Response>; fetch: () => void; },
-  mapper: (response: Response) => ReactNode,
-): ReactElement<any> {
-  if (props.state === undefined) {
-    props.fetch();
-  }
-
-  return <>
-    {mapStateToComponent(props.state, mapper)}
-  </>;
+export function mapAsyncStateToPage<Response>(
+  state: AsyncState<Response> | undefined,
+  mapper: (response: Response) => JSX.Element,
+): JSX.Element {
+  return mapStateToComponent(state, mapper);
 }

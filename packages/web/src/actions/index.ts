@@ -14,9 +14,9 @@ export type Dispatch = ThunkDispatch<RootState, ThunkParam, Action>;
 
 type KaThunkAction<ReturnType> = ThunkAction<ReturnType, RootState, ThunkParam, Action>;
 
-export function fetchSearchResults(q: string): KaThunkAction<Promise<void>> {
+export function fetchSearchResults(q: string | undefined): KaThunkAction<Promise<void>> {
   return async (dispatch, getState, {api}) => {
-    if (!getState().entities.searchResults.hasOwnProperty(q)) {
+    if (q !== undefined && !getState().entities.searchResults.hasOwnProperty(q)) {
       return asyncDispatch("FETCH_SEARCH_RESULTS", q, api.getSearchResults)(dispatch);
     }
   };
