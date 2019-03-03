@@ -1,5 +1,6 @@
 extends:
   - "tslint:recommended"
+  - tslint-react
   - tslint-sonarts
 rules:
   interface-name:
@@ -7,3 +8,5 @@ rules:
   typedef:
     options: [call-signature]
   object-literal-sort-keys: false
+  jsx-boolean-value:
+    options: [never]

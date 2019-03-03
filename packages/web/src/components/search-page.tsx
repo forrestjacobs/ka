@@ -25,16 +25,17 @@ export function SearchPage(props: RouteComponentProps): JSX.Element {
   const { fetchSearchResults } = useActions();
   useEffect(() => { fetchSearchResults(q); }, [fetchSearchResults, q]);
 
-  return mapAsyncState(asyncResults, (searchResults) => <>
-    <h1>{searchResults.length} results</h1>
-    <ol className="list-group list-group-flush">
-      {
-        searchResults.map((searchResult) =>
-          <li className="list-group-item" key={searchResult.literal}>
-            { mapAsyncState(searchResult.character, (character) => <CharacterComponent {...{character}} />) }
-          </li>,
-        )
-      }
-    </ol>
-  </>, true);
+  return mapAsyncState(asyncResults, (searchResults) => {
+    const searchResultsEls = searchResults.map((searchResult) => (
+      <li className="list-group-item" key={searchResult.literal}>
+        {mapAsyncState(searchResult.character, (character) => <CharacterComponent {...{character}} />)}
+      </li>
+    ));
+    return (
+      <>
+        <h1>{searchResults.length} results</h1>
+        <ol className="list-group list-group-flush">{searchResultsEls}</ol>
+      </>
+    );
+  }, true);
 }

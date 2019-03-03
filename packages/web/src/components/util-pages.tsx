@@ -1,5 +1,5 @@
-import React from "react";
-import { Route } from "react-router";
+import React, { ReactNode } from "react";
+import { Route, RouteComponentProps } from "react-router";
 import { ApiErrorType } from "../api";
 import { AsyncState, AsyncStatus } from "../async";
 
@@ -16,10 +16,12 @@ export function mapAsyncState<V>(
 }
 
 function mapError(type: ApiErrorType | undefined, updateStatus: boolean): JSX.Element {
-  return <Route render={({ staticContext }) => {
+  function render({ staticContext }: RouteComponentProps<any>): ReactNode {
     if (updateStatus && staticContext) {
       staticContext.statusCode = type === ApiErrorType.NotFound ? 404 : 500;
     }
     return type === ApiErrorType.NotFound ? "Not Found" : "Error";
-  }}/>;
+  }
+
+  return <Route {...{render}} />;
 }

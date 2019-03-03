@@ -19,8 +19,14 @@ export function Root(store: Store<any, AnyAction>): JSX.Element {
             <form method="get" action="/search">
               <div className="form-row">
                 <div className="col-10">
-                  <input type="search" name="q" id="q" placeholder="Search" aria-label="Search"
-                    className="form-control mr-sm-2" />
+                  <input
+                    type="search"
+                    name="q"
+                    id="q"
+                    placeholder="Search"
+                    aria-label="Search"
+                    className="form-control mr-sm-2"
+                  />
                 </div>
                 <div className="col-2">
                   <button className="btn btn-outline-primary" type="submit">Search</button>
