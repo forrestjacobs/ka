@@ -36,14 +36,14 @@ async function mapResponse<T>(response: Response, cb: (response: Response) => Pr
 const restApi: Api = {
 
   async getSearchResults(q: string): Promise<Character[]> {
-    return mapResponse(await fetch(`/api/character?${qsStringify({q})}`), (result) => result.json());
+    return await mapResponse(await fetch(`/api/character?${qsStringify({q})}`), (result) => result.json());
   },
 
   async getCharacter(literal: string): Promise<Character> {
     if (!isKanji(literal)) {
       throw new ApiError(`Invalid kanji: ${literal}`, ApiErrorType.NotFound);
     }
-    return mapResponse(await fetch(`/api/character/${literal}`), (result) => result.json());
+    return await mapResponse(await fetch(`/api/character/${literal}`), (result) => result.json());
   },
 
 };
