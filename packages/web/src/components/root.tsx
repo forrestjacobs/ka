@@ -12,7 +12,7 @@ export function Root(store: Store<any, AnyAction>): JSX.Element {
     <HooksProvider store={store}>
       <Router>
         <div className="container">
-          <nav className="pt-3 pb-5">
+          <nav className="pt-3 pb-5 d-print-none">
             <div className="navbar navbar-light">
               <NavLink className="navbar-brand" exact to="/">Kanji Dictionary</NavLink>
             </div>

@@ -32,7 +32,7 @@ export function SearchPage({ location }: RouteComponentProps): JSX.Element {
     ));
     return (
       <>
-        <h1>{searchResults.length} results</h1>
+        <h1>{searchResults.length} results for “{q}”</h1>
         <ol className="list-group list-group-flush">{searchResultsEls}</ol>
       </>
     );
