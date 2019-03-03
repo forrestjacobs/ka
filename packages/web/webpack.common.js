@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const template = require('html-webpack-template');
@@ -38,6 +39,11 @@ module.exports = {
       title: 'Kanji Dictionary',
       baseHref: '/',
       appMountId: 'root',
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'TARGET': JSON.stringify('web'),
+      },
     }),
   ],
 };

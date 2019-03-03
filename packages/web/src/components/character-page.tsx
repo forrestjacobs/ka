@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { CharacterComponent } from "./character";
 import { useActions, useMapState } from "./use-redux";
-import { mapAsyncState } from "./util-pages";
+import { mapAsyncStateToPage, Page } from "./util-pages";
 
 export function CharacterPage({ match }: RouteComponentProps<{ literal: string }>): JSX.Element {
   const literal = match.params.literal;
@@ -11,5 +11,9 @@ export function CharacterPage({ match }: RouteComponentProps<{ literal: string }
   const { fetchCharacter } = useActions();
   useEffect(() => { fetchCharacter(literal); }, [fetchCharacter, literal]);
 
-  return mapAsyncState(character, (c) => <CharacterComponent character={c} />, true);
+  return mapAsyncStateToPage(character, (c) => (
+    <Page title={literal}>
+      <CharacterComponent character={c} />
+    </Page>
+  ));
 }

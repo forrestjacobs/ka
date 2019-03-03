@@ -1,15 +1,15 @@
 import { parse as qsParse, stringify as qsStringify } from "query-string";
 import React, { useEffect, useState } from "react";
-import { Redirect, RouteComponentProps, withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import { map } from "../async";
 import { CharacterComponent } from "./character";
 import { useActions, useMapState } from "./use-redux";
-import { mapAsyncState } from "./util-pages";
+import { mapAsyncStateToEl, mapAsyncStateToPage, NotFoundPage, Page } from "./util-pages";
 
 export function SearchPage({ location }: RouteComponentProps): JSX.Element {
   const q = getQ(location.search);
   if (q === undefined) {
-    return <Redirect to="/" />;
+    return <NotFoundPage />;
   }
 
   const asyncResults = useMapState(({ entities }) => {
@@ -24,19 +24,19 @@ export function SearchPage({ location }: RouteComponentProps): JSX.Element {
   const { fetchSearchResults } = useActions();
   useEffect(() => { fetchSearchResults(q); }, [fetchSearchResults, q]);
 
-  return mapAsyncState(asyncResults, (searchResults) => {
+  return mapAsyncStateToPage(asyncResults, (searchResults) => {
     const searchResultsEls = searchResults.map((searchResult) => (
       <li className="list-group-item" key={searchResult.literal}>
-        {mapAsyncState(searchResult.character, (character) => <CharacterComponent {...{character}} />)}
+        {mapAsyncStateToEl(searchResult.character, (character) => <CharacterComponent {...{character}} />)}
       </li>
     ));
     return (
-      <>
+      <Page title={q}>
         <h1>{searchResults.length} results for “{q}”</h1>
         <ol className="list-group list-group-flush">{searchResultsEls}</ol>
-      </>
+      </Page>
     );
-  }, true);
+  });
 }
 
 export const SearchForm = withRouter(({ history, location }) => {
