@@ -6,8 +6,9 @@ interface CharacterProps {
   character: Character;
 }
 
-function toList(items: ReactNodeArray, keyPrefix: string): ReactNode {
-  return items.map((item) => <li className="list-inline-item mr-4" key={`${keyPrefix}-${item}`}>{item}</li>);
+function toList(items: ReactNodeArray, keyPrefix: string, lang?: string): ReactNode {
+  return items.map((item) =>
+    <li className="list-inline-item mr-4" key={`${keyPrefix}-${item}`} lang={lang}>{item}</li>);
 }
 
 export class CharacterComponent extends PureComponent<CharacterProps> {
@@ -22,7 +23,7 @@ export class CharacterComponent extends PureComponent<CharacterProps> {
       readingElements.push(
         <div className="row" key="kun">
           <h2 className="h6 col-1">Kun</h2>
-          <ol className="col-11">{ toList(character.kun, `${literal}-kun`) }</ol>
+          <ol className="col-11">{ toList(character.kun, `${literal}-kun`, "ja") }</ol>
         </div>,
       );
     }
@@ -31,7 +32,7 @@ export class CharacterComponent extends PureComponent<CharacterProps> {
       readingElements.push(
         <div className="row" key="on">
           <h2 className="h6 col-1">On</h2>
-          <ol className="col-11">{ toList(character.on, `${literal}-on`) }</ol>
+          <ol className="col-11">{ toList(character.on, `${literal}-on`, "ja") }</ol>
         </div>,
       );
     }
@@ -39,7 +40,7 @@ export class CharacterComponent extends PureComponent<CharacterProps> {
     return (
       <div className="row position-relative">
         <div className="col-1 h1 position-static">
-          <NavLink exact to={`/character/${literal}`}
+          <NavLink exact to={`/character/${literal}`} lang="ja"
             className="stretched-link text-decoration-none">{ literal }</NavLink>
         </div>
         <div className="col-10">
