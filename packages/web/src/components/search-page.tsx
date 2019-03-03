@@ -1,17 +1,16 @@
-import { parse as qsParse } from "query-string";
-import React, { useEffect } from "react";
-import { Redirect, RouteComponentProps } from "react-router-dom";
+import { parse as qsParse, stringify as qsStringify } from "query-string";
+import React, { useEffect, useState } from "react";
+import { Redirect, RouteComponentProps, withRouter } from "react-router-dom";
 import { map } from "../async";
 import { CharacterComponent } from "./character";
 import { useActions, useMapState } from "./use-redux";
 import { mapAsyncState } from "./util-pages";
 
-export function SearchPage(props: RouteComponentProps): JSX.Element {
-  const qs = qsParse(props.location.search).q;
-  if (qs === undefined) {
+export function SearchPage({ location }: RouteComponentProps): JSX.Element {
+  const q = getQ(location.search);
+  if (q === undefined) {
     return <Redirect to="/" />;
   }
-  const q = Array.isArray(qs) ? qs.join(" ") : qs;
 
   const asyncResults = useMapState(({ entities }) => {
     const results = entities.searchResults[q];
@@ -38,4 +37,56 @@ export function SearchPage(props: RouteComponentProps): JSX.Element {
       </>
     );
   }, true);
+}
+
+export const SearchForm = withRouter(({ history, location }) => {
+  const [q, setQ] = useState("");
+
+  useEffect(() => {
+    if (location.pathname === "/search") {
+      const locationQ = getQ(location.search);
+      if (locationQ !== undefined) {
+        setQ(locationQ);
+      }
+    }
+  }, [location.pathname, location.search]);
+
+  function onSearchSubmit(e: React.FormEvent<any>): void {
+    e.preventDefault();
+    history.push({
+      pathname: "/search",
+      search: `?${qsStringify({q})}`,
+    });
+  }
+
+  function onQChange(e: React.ChangeEvent<HTMLInputElement>): void {
+    setQ(e.target.value);
+  }
+
+  return (
+    <form method="get" action="/search" onSubmit={onSearchSubmit}>
+      <div className="form-row">
+        <div className="col-10">
+          <input
+            value={q}
+            onChange={onQChange}
+            type="search"
+            name="q"
+            id="q"
+            placeholder="Search"
+            aria-label="Search"
+            className="form-control mr-sm-2"
+          />
+        </div>
+        <div className="col-2">
+          <button className="btn btn-outline-primary" type="submit">Search</button>
+        </div>
+      </div>
+    </form>
+  );
+});
+
+function getQ(search: string): string | undefined {
+  const q: string | string[] | undefined = qsParse(search).q;
+  return Array.isArray(q) ? q.join(" ") : q;
 }

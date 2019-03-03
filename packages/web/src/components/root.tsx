@@ -4,7 +4,7 @@ import { BrowserRouter as Router, NavLink, Route, Switch } from "react-router-do
 import { AnyAction, Store } from "redux";
 import { CharacterPage } from "./character-page";
 import { HomePage } from "./home-page";
-import { SearchPage } from "./search-page";
+import { SearchForm, SearchPage } from "./search-page";
 import { NotFoundPage } from "./util-pages";
 
 export function Root(store: Store<any, AnyAction>): JSX.Element {
@@ -16,23 +16,7 @@ export function Root(store: Store<any, AnyAction>): JSX.Element {
             <div className="navbar navbar-light">
               <NavLink className="navbar-brand" exact to="/">Kanji Dictionary</NavLink>
             </div>
-            <form method="get" action="/search">
-              <div className="form-row">
-                <div className="col-10">
-                  <input
-                    type="search"
-                    name="q"
-                    id="q"
-                    placeholder="Search"
-                    aria-label="Search"
-                    className="form-control mr-sm-2"
-                  />
-                </div>
-                <div className="col-2">
-                  <button className="btn btn-outline-primary" type="submit">Search</button>
-                </div>
-              </div>
-            </form>
+            <SearchForm />
           </nav>
           <Switch>
             <Route exact path="/" component={HomePage} />
