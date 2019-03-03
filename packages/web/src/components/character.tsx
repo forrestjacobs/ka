@@ -21,25 +21,25 @@ export class CharacterComponent extends PureComponent<CharacterProps> {
 
     if (character.kun.length !== 0) {
       readingElements.push(
-        <div className="row" key="kun">
-          <h2 className="h6 col-1">Kun</h2>
-          <ol className="col-11">{toList(character.kun, `${literal}-kun`, "ja")}</ol>
+        <div className="row mb-3" key="kun">
+          <h2 className="h6 col-2 col-md-1 mb-0">Kun</h2>
+          <ol className="col list-inline mb-0">{toList(character.kun, `${literal}-kun`, "ja")}</ol>
         </div>,
       );
     }
 
     if (character.on.length !== 0) {
       readingElements.push(
-        <div className="row" key="on">
-          <h2 className="h6 col-1">On</h2>
-          <ol className="col-11">{toList(character.on, `${literal}-on`, "ja")}</ol>
+        <div className="row mb-3" key="on">
+          <h2 className="h6 col-2 col-md-1 mb-0">On</h2>
+          <ol className="col list-inline mb-0">{toList(character.on, `${literal}-on`, "ja")}</ol>
         </div>,
       );
     }
 
     return (
       <div className="row position-relative">
-        <div className="col-1 h1 position-static">
+        <div className="col-auto h1 position-static">
           <NavLink
             exact
             to={`/character/${literal}`}
@@ -49,8 +49,8 @@ export class CharacterComponent extends PureComponent<CharacterProps> {
             {literal}
           </NavLink>
         </div>
-        <div className="col-10">
-          <ol className="list-inline">{toList(character.meaning, `${literal}-meaning`)}</ol>
+        <div className="col">
+          <ol className="list-inline mb-3">{toList(character.meaning, `${literal}-meaning`)}</ol>
           {readingElements}
         </div>
       </div>

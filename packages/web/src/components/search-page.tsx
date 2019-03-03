@@ -65,20 +65,17 @@ export const SearchForm = withRouter(({ history, location }) => {
 
   return (
     <form method="get" action="/search" onSubmit={onSearchSubmit}>
-      <div className="form-row">
-        <div className="col-10">
-          <input
-            value={q}
-            onChange={onQChange}
-            type="search"
-            name="q"
-            id="q"
-            placeholder="Search"
-            aria-label="Search"
-            className="form-control mr-sm-2"
-          />
-        </div>
-        <div className="col-2">
+      <div className="input-group">
+        <input
+          value={q}
+          onChange={onQChange}
+          type="search"
+          name="q"
+          id="q"
+          aria-label="Search"
+          className="form-control"
+        />
+        <div className="input-group-append">
           <button className="btn btn-outline-primary" type="submit">Search</button>
         </div>
       </div>

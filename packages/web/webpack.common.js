@@ -34,6 +34,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template,
       inject: false,
+      mobile: true,
       title: 'Kanji Dictionary',
       baseHref: '/',
       appMountId: 'root',
