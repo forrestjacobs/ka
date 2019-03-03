@@ -10,7 +10,7 @@ export function mapAsyncStateToEl<V>(state: AsyncState<V> | undefined, cb: (valu
 }
 
 export function mapAsyncStateToPage<V>(state: AsyncState<V> | undefined, cb: (value: V) => JSX.Element): JSX.Element {
-  return mapAsyncState(state, <Page>Loading</Page>, <NotFoundPage/>, <Page title="Error">Error</Page>, cb);
+  return mapAsyncState(state, <Page>Loading</Page>, <Page title="Error">Error</Page>, <NotFoundPage/>, cb);
 }
 
 export function NotFoundPage(): JSX.Element {
