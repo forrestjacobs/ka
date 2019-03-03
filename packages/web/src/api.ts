@@ -6,6 +6,10 @@ export enum ApiErrorType {
   NotFound,
 }
 
+export interface HasErrorType {
+  type: ApiErrorType;
+}
+
 export class ApiError extends Error {
   public readonly type: ApiErrorType;
 

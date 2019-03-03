@@ -5,7 +5,7 @@ import { AnyAction, Store } from "redux";
 import { CharacterPage } from "./character-page";
 import { HomePage } from "./home-page";
 import { SearchPage } from "./search-page";
-import { NotFound } from "./util-pages";
+import { NotFoundPage } from "./util-pages";
 
 export function Root(store: Store<any, AnyAction>): JSX.Element {
   return (
@@ -32,7 +32,7 @@ export function Root(store: Store<any, AnyAction>): JSX.Element {
             <Route exact path="/" component={HomePage} />
             <Route exact path="/character/:literal" component={CharacterPage} />
             <Route exact path="/search" component={SearchPage} />
-            <Route component={NotFound} />
+            <Route component={NotFoundPage} />
           </Switch>
         </div>
       </Router>

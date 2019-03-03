@@ -1,9 +1,11 @@
+import { HasErrorType } from "./api";
+
 export enum AsyncStatus { IN_PROGRESS, RESOLVED, ERROR }
 
 export type AsyncState<Response> =
   { status: AsyncStatus.IN_PROGRESS } |
   { status: AsyncStatus.RESOLVED; response: Response } |
-  { status: AsyncStatus.ERROR; error: Error };
+  { status: AsyncStatus.ERROR; error: Error & Partial<HasErrorType> };
 
 export function resolved<T>(response: T): AsyncState<T> {
   return { status: AsyncStatus.RESOLVED, response };

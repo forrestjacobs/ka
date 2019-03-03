@@ -1,34 +1,25 @@
 import React from "react";
-import { ApiError, ApiErrorType } from "../api";
+import { Route } from "react-router";
+import { ApiErrorType } from "../api";
 import { AsyncState, AsyncStatus } from "../async";
 
-export function Loading(): JSX.Element {
-  return <>Loading</>;
+export function NotFoundPage(): JSX.Element {
+  return mapError(ApiErrorType.NotFound, true);
 }
 
-export function NotFound(): JSX.Element {
-  return <>Not found</>;
-}
-
-export function Error({error}: {error: Error & Partial<ApiError> }): JSX.Element {
-  return (error.type === ApiErrorType.NotFound) ? <NotFound /> : <>Error</>;
-}
-
-export function mapStateToComponent<Response>(
-  state: AsyncState<Response> | undefined, mapper: (response: Response) => JSX.Element,
+export function mapAsyncState<V>(
+  state: AsyncState<V> | undefined, map: (value: V) => JSX.Element, isPage: boolean = false,
 ): JSX.Element {
-  if (state === undefined || state.status === AsyncStatus.IN_PROGRESS) {
-    return <Loading />;
-  }
-  if (state.status === AsyncStatus.ERROR) {
-    return <Error error={state.error} />;
-  }
-  return mapper(state.response);
+  return state === undefined || state.status === AsyncStatus.IN_PROGRESS ? <>Loading</> :
+    state.status === AsyncStatus.ERROR ? mapError(state.error.type, isPage) :
+    map(state.response);
 }
 
-export function mapAsyncStateToPage<Response>(
-  state: AsyncState<Response> | undefined,
-  mapper: (response: Response) => JSX.Element,
-): JSX.Element {
-  return mapStateToComponent(state, mapper);
+function mapError(type: ApiErrorType | undefined, updateStatus: boolean): JSX.Element {
+  return <Route render={({ staticContext }) => {
+    if (updateStatus && staticContext) {
+      staticContext.statusCode = type === ApiErrorType.NotFound ? 404 : 500;
+    }
+    return type === ApiErrorType.NotFound ? "Not Found" : "Error";
+  }}/>;
 }

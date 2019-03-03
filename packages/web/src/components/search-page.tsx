@@ -1,36 +1,40 @@
 import { parse as qsParse } from "query-string";
 import React, { useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { Redirect, RouteComponentProps } from "react-router-dom";
 import { map } from "../async";
 import { CharacterComponent } from "./character";
 import { useActions, useMapState } from "./use-redux";
-import { mapAsyncStateToPage, mapStateToComponent } from "./util-pages";
-
-function getQ(props: RouteComponentProps): string | undefined {
-  const q: string | string[] | undefined = qsParse(props.location.search).q;
-  return Array.isArray(q) ? q[0] : q;
-}
+import { mapAsyncState } from "./util-pages";
 
 export function SearchPage(props: RouteComponentProps): JSX.Element {
-  const q = getQ(props);
-  const results = useMapState(({ entities }) =>
-    q !== undefined && entities.searchResults.hasOwnProperty(q)
-      ? map(entities.searchResults[q], (literals) => literals.map((literal) => entities.characters[literal]))
-      : undefined);
+  const qs = qsParse(props.location.search).q;
+  if (qs === undefined) {
+    return <Redirect to="/" />;
+  }
+  const q = Array.isArray(qs) ? qs.join(" ") : qs;
+
+  const asyncResults = useMapState(({ entities }) => {
+    const results = entities.searchResults[q];
+    if (results !== undefined) {
+      return map(results, (literals) => literals.map((literal) => ({
+        literal, character: entities.characters[literal],
+      })));
+    }
+  });
 
   const { fetchSearchResults } = useActions();
   useEffect(() => { fetchSearchResults(q); }, [fetchSearchResults, q]);
 
-  return mapAsyncStateToPage(results, (r) => <>
-    <h1>{r.length} results</h1>
+  return mapAsyncState(asyncResults, (searchResults) => <>
+    <h1>{searchResults.length} results</h1>
     <ol className="list-group list-group-flush">
       {
-        r.map((result) => mapStateToComponent(result, (character) =>
-          <li className="list-group-item" key={character.literal}>
-            <CharacterComponent character={character} />
+        searchResults.map((searchResult) =>
+          <li className="list-group-item" key={searchResult.literal}>
+            { mapAsyncState(searchResult.character, (character) => <CharacterComponent {...{character}} />) }
           </li>,
-        ))
+        )
       }
     </ol>
-  </>);
+  </>, true);
 }
