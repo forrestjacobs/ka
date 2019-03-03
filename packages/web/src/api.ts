@@ -1,4 +1,5 @@
 import { Character, isKanji } from "@ka/base";
+import { stringify as qsStringify } from "query-string";
 
 export enum ApiErrorType {
   FetchError,
@@ -35,7 +36,7 @@ async function mapResponse<T>(response: Response, cb: (response: Response) => Pr
 const restApi: Api = {
 
   async getSearchResults(q: string): Promise<Character[]> {
-    return mapResponse(await fetch(`/api/character?q=${q}`), (result) => result.json());
+    return mapResponse(await fetch(`/api/character?${qsStringify({q})}`), (result) => result.json());
   },
 
   async getCharacter(literal: string): Promise<Character> {

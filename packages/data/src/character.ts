@@ -44,6 +44,10 @@ function characterFromRow(row: any): Character {
 
 export async function searchForCharacters(query: string): Promise<Character[]> {
   const terms = query.split(" ").filter((term) => term.length);
+  if (terms.length === 0) {
+    return [];
+  }
+
   const rows = await db.manyOrNone(`
     SELECT *
     FROM (SELECT *,
