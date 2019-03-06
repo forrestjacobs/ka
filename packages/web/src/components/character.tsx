@@ -1,4 +1,5 @@
 import { Character } from "@ka/base";
+import { Localized } from "fluent-react";
 import React, { PureComponent, ReactNode, ReactNodeArray } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -22,7 +23,9 @@ export class CharacterComponent extends PureComponent<CharacterProps> {
     if (character.kun.length !== 0) {
       readingElements.push(
         <div className="row mb-3" key="kun">
-          <h2 className="h6 col-2 col-md-1 mb-0">Kun</h2>
+          <Localized id="character-kun">
+            <h2 className="h6 col-2 col-md-1 mb-0" />
+          </Localized>
           <ol className="col list-inline mb-0">{toList(character.kun, `${literal}-kun`, "ja")}</ol>
         </div>,
       );
@@ -31,7 +34,9 @@ export class CharacterComponent extends PureComponent<CharacterProps> {
     if (character.on.length !== 0) {
       readingElements.push(
         <div className="row mb-3" key="on">
-          <h2 className="h6 col-2 col-md-1 mb-0">On</h2>
+          <Localized id="character-on">
+            <h2 className="h6 col-2 col-md-1 mb-0" />
+          </Localized>
           <ol className="col list-inline mb-0">{toList(character.on, `${literal}-on`, "ja")}</ol>
         </div>,
       );

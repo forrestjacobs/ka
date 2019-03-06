@@ -25,6 +25,10 @@ module.exports = {
           'sass-loader',
         ],
       },
+      {
+        test: /\.ftl$/i,
+        use: 'raw-loader',
+      },
     ],
   },
   resolve: {

@@ -1912,6 +1912,11 @@ cache-base@^1.0.1:
     union-value "^1.0.0"
     unset-value "^1.0.0"
 
+cached-iterable@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/cached-iterable/-/cached-iterable-0.2.1.tgz#723958f5e7adc74c96bedb10b426bdfd95f2fe6d"
+  integrity sha512-8zAVjMjdn/S/QXJaOnqsko0+ZJzXT2Dum2u9TMGg5YR9fxONPrUjuO9VYqnb1AoldXeYVAcNJLgT5Q8WaIJSgA==
+
 call-me-maybe@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/call-me-maybe/-/call-me-maybe-1.0.1.tgz#26d208ea89e37b5cbde60250a15f031c16a4d66b"
@@ -3585,6 +3590,25 @@ findup-sync@^2.0.0:
     is-glob "^3.1.0"
     micromatch "^3.0.4"
     resolve-dir "^1.0.1"
+
+fluent-react@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/fluent-react/-/fluent-react-0.8.3.tgz#b3681d07748aa473cfd2b3e50b88006bc15f2956"
+  integrity sha512-uNP+kefHxZ/yAqtg/cQlsruY/K8oiVMbU2E7Tcd+LEaVd5GxKWjv6CvmQNVrAsrWai0VrrVAg5SRVD19vVPHog==
+  dependencies:
+    cached-iterable "^0.2.1"
+    fluent-sequence "^0.2.0"
+    prop-types "^15.6.0"
+
+fluent-sequence@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/fluent-sequence/-/fluent-sequence-0.2.0.tgz#f351d93e0194182de60c6d5dfbdb3c96772813f8"
+  integrity sha512-t8fc4rHvzO9Yk8otP8LkTqWo6mzjdemooQcnHlDrNzrYAnwsSbVFIlthnkzK2pLsRnO9Ybmw4lXOYUx+fAIyJw==
+
+fluent@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/fluent/-/fluent-0.10.0.tgz#0096b87557a1f7a43cd093999b6d194af7e1197d"
+  integrity sha512-2I6xaHecA76FiGavw6eKurXaHd6p25eenAgRYKSaMwJEpbvWpAlwFWAnC+BGzrGIKINUHwDlCQRtRenJvlbqQQ==
 
 flush-write-stream@^1.0.0:
   version "1.1.1"
@@ -7163,7 +7187,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
