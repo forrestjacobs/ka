@@ -11,7 +11,7 @@ test("It should get characters", async () => {
   expect(response.body).toEqual({ literal: "日" });
 });
 
-test("It should get characters", async () => {
+test("It should 404 when character is not available", async () => {
   (getCharacter as jest.Mock).mockImplementation(() => Promise.resolve(undefined));
 
   const response = await request(app).get("/api/character/0");
