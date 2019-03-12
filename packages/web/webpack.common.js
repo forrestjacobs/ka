@@ -16,11 +16,7 @@ module.exports = function (isProd) {
       baseHref: '/',
       appMountId: 'root',
     }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'TARGET': JSON.stringify('web'),
-      },
-    }),
+    new webpack.DefinePlugin({'process.env.TARGET': JSON.stringify('web')}),
   ];
 
   if (isProd) {
@@ -34,7 +30,10 @@ module.exports = function (isProd) {
         {
           test: /\.tsx?$/,
           use: 'ts-loader',
-          exclude: /node_modules/,
+          include: [
+            path.resolve(__dirname, "../base/src"),
+            path.resolve(__dirname, "src"),
+          ],
         },
         {
           test: /\.scss$/,
@@ -47,10 +46,12 @@ module.exports = function (isProd) {
             },
             'sass-loader',
           ],
+          include: path.resolve(__dirname, "src"),
         },
         {
           test: /\.ftl$/i,
           use: 'raw-loader',
+          include: path.resolve(__dirname, "src"),
         },
       ],
     },
@@ -59,6 +60,9 @@ module.exports = function (isProd) {
       alias: {
         "@ka/base": path.resolve(__dirname, "../base/src/index.ts"),
       },
+    },
+    optimization: {
+      splitChunks: {chunks: 'all'},
     },
     plugins,
   };
