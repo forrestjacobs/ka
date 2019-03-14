@@ -8,6 +8,7 @@
   "typings": "./lib/index.d.ts",
   "scripts": {
     "clean": "rimraf coverage lib",
-    "lint": "tslint -c ../tslint.yaml -p tsconfig.json"
+    "lint": "tslint -c ../tslint.yaml -p tsconfig.json",
+    "test": "jest"
   }
 }

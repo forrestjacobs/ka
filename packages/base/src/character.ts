@@ -15,9 +15,9 @@ export interface Character {
 
 export function isKanji(literal: string): boolean {
   const val = literal.codePointAt(0);
-  return val !== undefined && (
-    (val >= 0x3400 && val <= 0x4DB5) ||
-    (val >= 0x4E00 && val <= 0x9FCB) ||
-    (val >= 0xF900 && val <= 0xFA6A)
+  return val !== undefined && literal.length === 1 && (
+    (val >= 0x3400 && val <= 0x4DB5) || // CJK Unified Ideographs Extension A
+    (val >= 0x4E00 && val <= 0x9FFF) || // CJK Unified Ideographs
+    (val >= 0xF900 && val <= 0xFAFF) // CJK Compatibility Ideographs
   );
 }
