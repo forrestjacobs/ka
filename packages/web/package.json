@@ -48,6 +48,7 @@
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack-dev-server --config webpack.dev.js",
     "lint": "tslint -c ../tslint.yaml -p tsconfig.json",
+    "test": "jest",
     "serve": "serve"
   }
 }
