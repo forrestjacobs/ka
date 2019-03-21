@@ -1,29 +1,6 @@
 import { Character, isKanji } from "@ka/base";
 import { stringify as qsStringify } from "query-string";
-
-export enum ApiErrorType {
-  FetchError,
-  ParseError,
-  NotFound,
-}
-
-export interface HasErrorType {
-  type: ApiErrorType;
-}
-
-export class ApiError extends Error {
-  public readonly type: ApiErrorType;
-
-  constructor(message: string, type: ApiErrorType) {
-    super(message);
-    this.type = type;
-  }
-}
-
-export interface Api {
-  getSearchResults(q: string): Promise<Character[]>;
-  getCharacter(literal: string): Promise<Character>;
-}
+import { Api, ApiError, ApiErrorType } from "./api";
 
 async function mapResponse<T>(response: Response, cb: (response: Response) => Promise<T>): Promise<T> {
   if (!response.ok) {
@@ -33,7 +10,7 @@ async function mapResponse<T>(response: Response, cb: (response: Response) => Pr
   return await cb(response);
 }
 
-const restApi: Api = {
+export const restApi: Api = {
 
   async getSearchResults(q: string): Promise<Character[]> {
     return await mapResponse(await fetch(`/api/character?${qsStringify({q})}`), (result) => result.json());
@@ -47,8 +24,3 @@ const restApi: Api = {
   },
 
 };
-
-export function getApi(): Api {
-  // todo: non-web api
-  return restApi;
-}
