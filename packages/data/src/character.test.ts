@@ -17,7 +17,7 @@ jest.mock("./db", () => ({
   },
 }));
 
-import { getCharacter, searchForCharacters, getUpdateCharactersSql } from "./character";
+import { getCharacter, getUpdateCharactersSql, searchForCharacters } from "./character";
 
 describe("search for characters", () => {
 
