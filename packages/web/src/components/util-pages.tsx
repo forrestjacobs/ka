@@ -7,7 +7,13 @@ import { AsyncState, AsyncStatus } from "../async";
 export function mapAsyncStateToEl<V>(state: AsyncState<V> | undefined, cb: (value: V) => JSX.Element): JSX.Element {
   return mapAsyncState(
     state,
-    <Localized id="loading"/>,
+    (
+      <div className="loading-row">
+        <Localized id="loading">
+          <span className="sr-only" />
+        </Localized>
+      </div>
+    ),
     <Localized id="error"/>,
     <Localized id="not-found"/>,
     cb,
@@ -17,12 +23,22 @@ export function mapAsyncStateToEl<V>(state: AsyncState<V> | undefined, cb: (valu
 export function mapAsyncStateToPage<V>(state: AsyncState<V> | undefined, cb: (value: V) => JSX.Element): JSX.Element {
   return mapAsyncState(
     state,
-    <Localized id="loading">
-      <Page />
-    </Localized>,
-    <Localized id="error" attrs={{title: true}}>
-      <Page status={500} title="" />
-    </Localized>,
+    (
+      <Page>
+        <div className="text-center">
+          <div className="spinner-border text-secondary" role="status">
+            <Localized id="loading">
+              <span className="sr-only" />
+            </Localized>
+          </div>
+        </div>
+      </Page>
+    ),
+    (
+      <Localized id="error" attrs={{title: true}}>
+        <Page status={500} title="" />
+      </Localized>
+    ),
     <NotFoundPage/>,
     cb,
   );

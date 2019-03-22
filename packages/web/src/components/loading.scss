@@ -1,0 +1,28 @@
+.loading-row {
+
+  &::before, &::after {
+    content: "";
+    display: block;
+    height: 1rem;
+    margin-bottom: map-get($spacers, 2);
+    border-radius: $border-radius;
+
+    background: linear-gradient(270deg, gray("400"), gray("200"), gray("400"), gray("200"), gray("400"));
+    background-size: 200% 200%;
+    animation: loading-pulse 3s linear infinite;
+  }
+
+  &::before {
+    width: map-get($sizes, 50);
+  }
+
+  &::after {
+    width: map-get($sizes, 75);
+  }
+
+}
+
+@keyframes loading-pulse {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
