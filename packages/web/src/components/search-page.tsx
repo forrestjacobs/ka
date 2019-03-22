@@ -91,6 +91,10 @@ export const SearchForm = withRouter(({ history, location }) => {
 });
 
 function getQ(search: string): string | undefined {
-  const q: string | string[] | undefined = qsParse(search).q;
-  return Array.isArray(q) ? q.join(" ") : q;
+  const q = qsParse(search).q;
+  if (Array.isArray(q)) {
+    return q.join(" ");
+  } else if (q !== null) {
+    return q;
+  }
 }

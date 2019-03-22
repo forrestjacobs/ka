@@ -5,6 +5,7 @@
   "author": "Forrest Jacobs <forrestjacobs@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@epeli/redux-hooks": "^0.6.2",
     "@ka/base": "^0.0.0",
     "bootstrap": "^4.3.1",
     "fluent": "^0.10.0",
@@ -14,13 +15,12 @@
     "query-string": "^6.3.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "serve": "^10.1.1"
   },
   "devDependencies": {
-    "@epeli/redux-hooks": "^0.5.2",
     "@types/fluent": "^0.10.0",
     "@types/fluent-react": "^0.8.0",
     "@types/react-dom": "^16.0.10",
@@ -36,7 +36,7 @@
     "postcss-loader": "^3.0.0",
     "purify-css": "^1.2.5",
     "purifycss-webpack": "^0.7.0",
-    "raw-loader": "^1.0.0",
+    "raw-loader": "^2.0.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.2.3",
