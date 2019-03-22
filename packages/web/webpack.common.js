@@ -1,10 +1,13 @@
 const path = require('path');
+
 const webpack = require('webpack');
+const glob = require('glob');
 
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const template = require('html-webpack-template');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const PurifyCSSPlugin = require("purifycss-webpack");
 
 module.exports = function (isProd) {
   const plugins = [
@@ -20,7 +23,12 @@ module.exports = function (isProd) {
   ];
 
   if (isProd) {
-    plugins.push(new MiniCssExtractPlugin());
+    plugins.push(
+      new MiniCssExtractPlugin(),
+      new PurifyCSSPlugin({
+        paths: glob.sync(path.join(__dirname, "src/**/*.{ts,tsx}")),
+      }),
+    );
   }
 
   return {

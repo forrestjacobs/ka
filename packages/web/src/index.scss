@@ -2,29 +2,4 @@ $theme-colors: (
   "primary": #bc002d
 );
 
-// Bootstrap
-
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-
-@import "~bootstrap/scss/reboot";
-@import "~bootstrap/scss/type";
-@import "~bootstrap/scss/images";
-@import "~bootstrap/scss/code";
-@import "~bootstrap/scss/grid";
-@import "~bootstrap/scss/tables";
-@import "~bootstrap/scss/forms";
-@import "~bootstrap/scss/buttons";
-
-// Used by SearchForm
-@import "~bootstrap/scss/input-group";
-
-// Used by SearchForm
-@import "~bootstrap/scss/navbar";
-
-// Used by SearchPage
-@import "~bootstrap/scss/list-group";
-
-@import "~bootstrap/scss/utilities";
-@import "~bootstrap/scss/print";
+@import "~bootstrap/scss/bootstrap";
