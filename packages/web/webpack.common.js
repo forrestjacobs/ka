@@ -19,7 +19,10 @@ module.exports = function (isProd) {
       baseHref: '/',
       appMountId: 'root',
     }),
-    new webpack.DefinePlugin({'process.env.TARGET': JSON.stringify('web')}),
+    new webpack.DefinePlugin({
+      'process.env.TARGET': JSON.stringify('web'),
+      'process.env.API_URL': JSON.stringify(process.env.API_URL || 'http://localhost:3000'),
+    }),
   ];
 
   if (isProd) {

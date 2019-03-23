@@ -2,7 +2,7 @@
 
 ## Set up
 
- 1. Install [Git], [Node.js], [Yarn], [PostgreSQL], and [HAProxy].
+ 1. Install [Git], [Node.js], [Yarn], [PostgreSQL].
  2. [Clone] this repo.
  3. In the cloned directory, run:
     ```
@@ -19,7 +19,6 @@
 [node.js]: https://nodejs.org/
 [yarn]: https://yarnpkg.com/
 [postgresql]: https://www.postgresql.org/
-[haproxy]: http://www.haproxy.org/
 [clone]: https://help.github.com/articles/cloning-a-repository/
 
 ## Development cycle
