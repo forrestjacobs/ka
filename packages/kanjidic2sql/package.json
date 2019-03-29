@@ -8,15 +8,13 @@
   "dependencies": {
     "@ka/base": "^0.0.0",
     "@ka/data": "^0.0.0",
-    "request": "^2.88.0",
     "sax": "^1.2.4"
   },
   "devDependencies": {
-    "@types/request": "^2.48.1",
     "@types/sax": "^1.0.1"
   },
   "scripts": {
-    "clean": "rimraf coverage lib",
+    "clean": "rm -rf coverage lib",
     "lint": "tslint -c ../tslint.yaml -p tsconfig.json",
     "test": "jest"
   }

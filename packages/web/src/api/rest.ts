@@ -15,14 +15,14 @@ const url = process.env.API_URL;
 export const restApi: Api = {
 
   async getSearchResults(q: string): Promise<Character[]> {
-    return await mapResponse(await fetch(`${url}/api/character?${qsStringify({q})}`), (result) => result.json());
+    return await mapResponse(await fetch(`${url}/character?${qsStringify({q})}`), (result) => result.json());
   },
 
   async getCharacter(literal: string): Promise<Character> {
     if (!isKanji(literal)) {
       throw new ApiError(`Invalid kanji: ${literal}`, ApiErrorType.NotFound);
     }
-    return await mapResponse(await fetch(`${url}/api/character/${literal}`), (result) => result.json());
+    return await mapResponse(await fetch(`${url}/character/${literal}`), (result) => result.json());
   },
 
 };

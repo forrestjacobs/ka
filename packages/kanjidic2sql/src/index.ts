@@ -1,15 +1,15 @@
 import { end } from "@ka/data";
 import { createReadStream } from "fs";
-import { get } from "request";
-import { createGunzip } from "zlib";
 import { KanjiDic2Parser } from "./kanjidic2parser";
 import { UpdateCharacterStream } from "./update-character-stream";
 
-const kanjiDic2Stream = (process.argv.length > 2) ?
-  createReadStream(process.argv[3], "utf8") :
-  get("http://www.edrdg.org/kanjidic/kanjidic2.xml.gz").pipe(createGunzip());
+if (process.argv.length < 3) {
+  // tslint:disable-next-line: no-console
+  console.error("Must pass path to kanjidic2.xml file");
+  process.exit(1);
+}
 
-kanjiDic2Stream
+createReadStream(process.argv[2], "utf8")
   .pipe(new KanjiDic2Parser())
   .pipe(new UpdateCharacterStream(250))
   .pipe(process.stdout)

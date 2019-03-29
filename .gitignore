@@ -1,4 +1,3 @@
-.env
 .rpt2_cache
 coverage
 dict.pgsql

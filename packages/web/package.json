@@ -47,7 +47,7 @@
     "webpack-merge": "^4.2.1"
   },
   "scripts": {
-    "clean": "rimraf coverage dist",
+    "clean": "rm -rf coverage dist",
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack-dev-server --config webpack.dev.js",
     "lint": "tslint -c ../tslint.yaml -p tsconfig.json",
