@@ -1,7 +1,6 @@
 import { HooksProvider } from "@epeli/redux-hooks";
-import { FluentBundle } from "fluent";
-import { LocalizationProvider, Localized } from "fluent-react";
 import React from "react";
+import { IntlProvider, FormattedMessage } from "react-intl";
 import { BrowserRouter as Router, NavLink, Route, Switch } from "react-router-dom";
 import { AnyAction, Store } from "redux";
 import { CharacterPage } from "./character-page";
@@ -9,17 +8,18 @@ import { HomePage } from "./home-page";
 import { SearchForm, SearchPage } from "./search-page";
 import { NotFoundPage } from "./util-pages";
 
-export function Root(store: Store<any, AnyAction>, languageBundles: IterableIterator<FluentBundle>): JSX.Element {
+export function Root(store: Store<any, AnyAction>, messages: {[locale: string]: any}): JSX.Element {
+  const locale = "en-US";
   return (
-    <LocalizationProvider bundles={languageBundles}>
+    <IntlProvider locale={locale} messages={messages[locale]}>
       <HooksProvider store={store}>
         <Router>
           <div className="container">
             <nav className="pt-3 pb-5 d-print-none">
               <div className="navbar navbar-light">
-                <Localized id="title">
-                  <NavLink className="navbar-brand" exact to="/"/>
-                </Localized>
+                <NavLink className="navbar-brand" exact to="/">
+                  <FormattedMessage id="title" />
+                </NavLink>
               </div>
               <SearchForm />
             </nav>
@@ -32,6 +32,6 @@ export function Root(store: Store<any, AnyAction>, languageBundles: IterableIter
           </div>
         </Router>
       </HooksProvider>
-    </LocalizationProvider>
+    </IntlProvider>
   );
 }

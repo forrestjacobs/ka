@@ -1,6 +1,6 @@
-import { Localized } from "fluent-react";
 import { parse as qsParse, stringify as qsStringify } from "query-string";
 import React, { useEffect, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { map } from "../async";
 import { CharacterComponent } from "./character";
@@ -33,9 +33,12 @@ export function SearchPage({ location }: RouteComponentProps): JSX.Element {
     ));
     return (
       <Page title={q}>
-        <Localized id="search-results" results={<strong/>} $results={searchResults.length} terms={<strong/>} $terms={q}>
-          <h1/>
-        </Localized>
+        <h1>
+          <FormattedMessage
+            id="search.results"
+            values={{ results: searchResults.length, terms: <strong>{q}</strong> }}
+          />
+        </h1>
         <ol className="list-group list-group-flush">{searchResultsEls}</ol>
       </Page>
     );
@@ -66,24 +69,30 @@ export const SearchForm = withRouter(({ history, location }) => {
     setQ(e.target.value);
   }
 
+  function input(label: string): JSX.Element {
+    return (
+      <input
+        value={q}
+        onChange={onQChange}
+        type="search"
+        name="q"
+        id="q"
+        aria-label={label}
+        className="form-control"
+      />
+    );
+  }
+
   return (
     <form method="get" action="/search" onSubmit={onSearchSubmit}>
       <div className="input-group">
-        <Localized id="search-field" attrs={{"aria-label": true}}>
-          <input
-            value={q}
-            onChange={onQChange}
-            type="search"
-            name="q"
-            id="q"
-            aria-label=""
-            className="form-control"
-          />
-        </Localized>
+        <FormattedMessage id="search.field">
+          {(label) => input(label as string)}
+        </FormattedMessage>
         <div className="input-group-append">
-          <Localized id="search-button">
-            <button className="btn btn-outline-primary" type="submit" />
-          </Localized>
+          <FormattedMessage id="search.button">
+            {(text) => <button className="btn btn-outline-primary" type="submit">{text}</button>}
+          </FormattedMessage>
         </div>
       </div>
     </form>

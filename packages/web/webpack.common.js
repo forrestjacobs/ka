@@ -60,8 +60,11 @@ module.exports = function (isProd) {
           include: path.resolve(__dirname, "src"),
         },
         {
-          test: /\.ftl$/i,
-          use: 'raw-loader',
+          test: /\.yaml$/i,
+          use: [
+            'json-loader',
+            'yaml-loader'
+          ],
           include: path.resolve(__dirname, "src"),
         },
       ],

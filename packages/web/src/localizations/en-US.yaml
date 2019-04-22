@@ -1,0 +1,16 @@
+title: Kanji Dictionary
+
+loading.message: Loading...
+
+error.message: Error
+error.title: Error
+
+not-found.message: Not found
+not-found.title: Not found
+
+search.field: Search
+search.button: Search
+search.results: "{results, plural, one {# result} other {# results}} for “{terms}”"
+
+character.on: "On"
+character.kun: Kun

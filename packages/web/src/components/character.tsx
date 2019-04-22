@@ -1,6 +1,6 @@
 import { Character } from "@ka/base";
-import { Localized } from "fluent-react";
 import React, { PureComponent, ReactNode, ReactNodeArray } from "react";
+import { FormattedMessage } from "react-intl";
 import { NavLink } from "react-router-dom";
 
 interface CharacterProps {
@@ -24,9 +24,9 @@ export class CharacterComponent extends PureComponent<CharacterProps> {
       readingElements.push(
         (
           <div className="row mb-3" key="kun">
-            <Localized id="character-kun">
-              <h2 className="h6 col-2 col-md-1 mb-0" />
-            </Localized>
+            <h2 className="h6 col-2 col-md-1 mb-0">
+              <FormattedMessage id="character.kun" />
+            </h2>
             <ol className="col list-inline mb-0">{toList(character.kun, `${literal}-kun`, "ja")}</ol>
           </div>
         ),
@@ -37,9 +37,9 @@ export class CharacterComponent extends PureComponent<CharacterProps> {
       readingElements.push(
         (
           <div className="row mb-3" key="on">
-            <Localized id="character-on">
-              <h2 className="h6 col-2 col-md-1 mb-0" />
-            </Localized>
+            <h2 className="h6 col-2 col-md-1 mb-0">
+              <FormattedMessage id="character.on" />
+            </h2>
             <ol className="col list-inline mb-0">{toList(character.on, `${literal}-on`, "ja")}</ol>
           </div>
         ),
