@@ -4,7 +4,6 @@ import thunk from "redux-thunk";
 import { getApi } from "./api";
 import { Root } from "./components/root";
 import "./index.scss";
-import { messages } from "./localizations";
 import { rootReducer } from "./reducers";
 
 const isProd = process.env.NODE_ENV === "production";
@@ -15,4 +14,4 @@ const store = createStore(
   compose(applyMiddleware(thunk.withExtraArgument({ api: getApi() }))),
 );
 
-render(Root(store, messages), document.getElementById("root"));
+render(Root(store), document.getElementById("root"));

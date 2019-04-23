@@ -60,11 +60,12 @@ module.exports = function (isProd) {
           include: path.resolve(__dirname, "src"),
         },
         {
-          test: /\.yaml$/i,
-          use: [
-            'json-loader',
-            'yaml-loader'
-          ],
+          test: /\.messages\.yaml$/,
+          type: 'javascript/auto',
+          loader: 'messageformat-loader',
+          options: {
+            disablePluralKeyChecks: isProd,
+          },
           include: path.resolve(__dirname, "src"),
         },
       ],

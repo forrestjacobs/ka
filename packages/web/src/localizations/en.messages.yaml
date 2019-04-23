@@ -1,0 +1,21 @@
+title: Kanji Dictionary
+
+loading:
+  message: Loading...
+
+error:
+  message: Error
+  title: Error
+
+notFound:
+  message: Not found
+  title: Not found
+
+search:
+  field: Search
+  button: Search
+  results: "{results, plural, one {# result} other {# results}} for “{terms}”"
+
+character:
+  on: "On"
+  kun: Kun

@@ -1,8 +1,8 @@
 import { parse as qsParse, stringify as qsStringify } from "query-string";
 import React, { useEffect, useState } from "react";
-import { FormattedMessage } from "react-intl";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { map } from "../async";
+import { useIntl } from "../localizations";
 import { CharacterComponent } from "./character";
 import { useActions, useMapState } from "./use-redux";
 import { mapAsyncStateToEl, mapAsyncStateToPage, NotFoundPage, Page } from "./util-pages";
@@ -12,6 +12,8 @@ export function SearchPage({ location }: RouteComponentProps): JSX.Element {
   if (q === undefined) {
     return <NotFoundPage />;
   }
+
+  const messages = useIntl();
 
   const asyncResults = useMapState(({ entities }) => {
     const results = entities.searchResults[q];
@@ -34,10 +36,7 @@ export function SearchPage({ location }: RouteComponentProps): JSX.Element {
     return (
       <Page title={q}>
         <h1>
-          <FormattedMessage
-            id="search.results"
-            values={{ results: searchResults.length, terms: <strong>{q}</strong> }}
-          />
+          {messages.search.results({ results: searchResults.length, terms: q })}
         </h1>
         <ol className="list-group list-group-flush">{searchResultsEls}</ol>
       </Page>
@@ -57,6 +56,8 @@ export const SearchForm = withRouter(({ history, location }) => {
     }
   }, [location.pathname, location.search]);
 
+  const messages = useIntl();
+
   function onSearchSubmit(e: React.FormEvent<any>): void {
     e.preventDefault();
     history.push({
@@ -69,30 +70,22 @@ export const SearchForm = withRouter(({ history, location }) => {
     setQ(e.target.value);
   }
 
-  function input(label: string): JSX.Element {
-    return (
-      <input
-        value={q}
-        onChange={onQChange}
-        type="search"
-        name="q"
-        id="q"
-        aria-label={label}
-        className="form-control"
-      />
-    );
-  }
-
   return (
     <form method="get" action="/search" onSubmit={onSearchSubmit}>
       <div className="input-group">
-        <FormattedMessage id="search.field">
-          {(label) => input(label as string)}
-        </FormattedMessage>
+        <input
+          value={q}
+          onChange={onQChange}
+          type="search"
+          name="q"
+          id="q"
+          aria-label={messages.search.field()}
+          className="form-control"
+        />
         <div className="input-group-append">
-          <FormattedMessage id="search.button">
-            {(text) => <button className="btn btn-outline-primary" type="submit">{text}</button>}
-          </FormattedMessage>
+          <button className="btn btn-outline-primary" type="submit">
+            {messages.search.button()}
+          </button>
         </div>
       </div>
     </form>
