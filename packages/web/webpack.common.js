@@ -73,6 +73,7 @@ module.exports = function (isProd) {
     resolve: {
       extensions: [ '.tsx', '.ts', '.js' ],
       alias: {
+        "./messages-loader": path.resolve(__dirname, "src/messages/web-messages-loader.ts"),
         "@ka/base": path.resolve(__dirname, "../base/src/index.ts"),
       },
     },

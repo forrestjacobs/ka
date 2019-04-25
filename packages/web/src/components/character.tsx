@@ -1,7 +1,7 @@
 import { Character } from "@ka/base";
 import React, { ReactNode, ReactNodeArray } from "react";
 import { NavLink } from "react-router-dom";
-import { useIntl } from "../localizations";
+import { useMessages } from "../messages";
 
 function toList(items: ReactNodeArray, keyPrefix: string, lang?: string): ReactNode {
   return items.map((item) =>
@@ -12,7 +12,7 @@ export function CharacterComponent(props: { character: Character }): JSX.Element
   const { character } = props;
   const { literal } = character;
 
-  const messages = useIntl();
+  const messages = useMessages();
 
   const readingElements: JSX.Element[] = [];
 

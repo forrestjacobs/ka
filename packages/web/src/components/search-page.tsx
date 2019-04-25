@@ -2,7 +2,7 @@ import { parse as qsParse, stringify as qsStringify } from "query-string";
 import React, { useEffect, useState } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { map } from "../async";
-import { useIntl } from "../localizations";
+import { useMessages } from "../messages";
 import { CharacterComponent } from "./character";
 import { useActions, useMapState } from "./use-redux";
 import { mapAsyncStateToEl, mapAsyncStateToPage, NotFoundPage, Page } from "./util-pages";
@@ -13,7 +13,7 @@ export function SearchPage({ location }: RouteComponentProps): JSX.Element {
     return <NotFoundPage />;
   }
 
-  const messages = useIntl();
+  const messages = useMessages();
 
   const asyncResults = useMapState(({ entities }) => {
     const results = entities.searchResults[q];
@@ -56,7 +56,7 @@ export const SearchForm = withRouter(({ history, location }) => {
     }
   }, [location.pathname, location.search]);
 
-  const messages = useIntl();
+  const messages = useMessages();
 
   function onSearchSubmit(e: React.FormEvent<any>): void {
     e.preventDefault();

@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import { Route, RouteComponentProps, StaticContext } from "react-router";
 import { ApiErrorType } from "../api";
 import { AsyncState, AsyncStatus } from "../async";
-import { useIntl } from "../localizations";
+import { useMessages } from "../messages";
 
 export function mapAsyncStateToEl<V>(state: AsyncState<V> | undefined, cb: (value: V) => JSX.Element): JSX.Element {
   return mapAsyncState(state, <Loading/>, <Error/>, <NotFound/>, cb);
@@ -13,7 +13,7 @@ export function mapAsyncStateToPage<V>(state: AsyncState<V> | undefined, cb: (va
 }
 
 export function Loading(): JSX.Element {
-  const messages = useIntl();
+  const messages = useMessages();
   return (
     <div className="loading-row">
       <span className="sr-only">
@@ -24,7 +24,7 @@ export function Loading(): JSX.Element {
 }
 
 export function LoadingPage(): JSX.Element {
-  const messages = useIntl();
+  const messages = useMessages();
   return (
     <Page>
       <div className="text-center">
@@ -39,12 +39,12 @@ export function LoadingPage(): JSX.Element {
 }
 
 export function Error(): JSX.Element {
-  const messages = useIntl();
+  const messages = useMessages();
   return <>{messages.error.message()}</>;
 }
 
 export function ErrorPage(): JSX.Element {
-  const messages = useIntl();
+  const messages = useMessages();
   return (
     <Page status={500} title={messages.error.title()}>
       <Error/>
@@ -53,12 +53,12 @@ export function ErrorPage(): JSX.Element {
 }
 
 export function NotFound(): JSX.Element {
-  const messages = useIntl();
+  const messages = useMessages();
   return <>{messages.notFound.message()}</>;
 }
 
 export function NotFoundPage(): JSX.Element {
-  const messages = useIntl();
+  const messages = useMessages();
   return (
     <Page status={404} title={messages.notFound.title()}>
       <NotFound/>
@@ -67,7 +67,7 @@ export function NotFoundPage(): JSX.Element {
 }
 
 export function Page(props: {title?: string, status?: number, children?: ReactNode}): JSX.Element {
-  const messages = useIntl();
+  const messages = useMessages();
   const defaultTitle = messages.title();
   const title = props.title === undefined ? defaultTitle : `${props.title} - ${defaultTitle}`;
 

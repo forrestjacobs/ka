@@ -2,7 +2,7 @@ import { HooksProvider } from "@epeli/redux-hooks";
 import React from "react";
 import { BrowserRouter as Router, NavLink, Route, Switch } from "react-router-dom";
 import { AnyAction, Store } from "redux";
-import { IntlProvider, useIntl } from "../localizations";
+import { MessagesProvider, useMessages } from "../messages";
 import { CharacterPage } from "./character-page";
 import { HomePage } from "./home-page";
 import { SearchForm, SearchPage } from "./search-page";
@@ -10,7 +10,7 @@ import { NotFoundPage } from "./util-pages";
 
 export function Root(store: Store<any, AnyAction>): JSX.Element {
   return (
-    <IntlProvider value="en">
+    <MessagesProvider value="en">
       <HooksProvider store={store}>
         <Router>
           <div className="container">
@@ -24,12 +24,12 @@ export function Root(store: Store<any, AnyAction>): JSX.Element {
           </div>
         </Router>
       </HooksProvider>
-    </IntlProvider>
+    </MessagesProvider>
   );
 }
 
 function Nav(): JSX.Element {
-  const messages = useIntl();
+  const messages = useMessages();
   return (
     <nav className="pt-3 pb-5 d-print-none">
       <div className="navbar navbar-light">
