@@ -1,85 +1,67 @@
-import { Character } from "@ka/base";
-import { fetchCharacter, fetchSearchResults } from ".";
 import { Api } from "../api";
-import { AsyncStatus } from "../async";
 import { RootState } from "../state";
 
-function makeCharacter(literal: string): Character {
-  return { literal } as unknown as Character;
+const innerAsyncDispatchMock = jest.fn(async () => undefined);
+const asyncDispatchMock = jest.fn(() => innerAsyncDispatchMock);
+
+jest.mock("./async", () => ({
+  asyncDispatch: asyncDispatchMock,
+}));
+
+const dispatch = jest.fn();
+
+import { fetchCharacter, fetchSearchResults } from ".";
+
+const api = {
+  getSearchResults: jest.fn(),
+  getCharacter: jest.fn(),
+} as any as Api;
+
+function stateGetter(state: any): () => RootState {
+  return () => state as RootState;
 }
-
-function forbiddenCallback(): never {
-  throw new Error("Should not be called");
-}
-
-const searchResults = [makeCharacter("試")];
-
-const api: Api = {
-  getSearchResults: () => Promise.resolve(searchResults),
-  getCharacter: (literal: string) => Promise.resolve(makeCharacter(literal)),
-};
 
 describe("fetch search results action", () => {
-  const request = "test";
-  const action = fetchSearchResults(request);
 
-  it("does not fetch 'undefined' query", async () => {
-    const dispatch = jest.fn();
-    await fetchSearchResults(undefined)(dispatch, forbiddenCallback, { api });
-    expect(dispatch).toBeCalledTimes(0);
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it("dispatches search results", async () => {
-    const dispatch = jest.fn();
-    const getState = () => ({entities: {searchResults: {}}} as any as RootState);
+  it("does not fetch 'undefined' query", async () => {
+    await fetchSearchResults(undefined)(dispatch, stateGetter(undefined), { api });
+    expect(asyncDispatchMock).toBeCalledTimes(0);
+    expect(innerAsyncDispatchMock).toBeCalledTimes(0);
+  });
 
-    const result = action(dispatch, getState, { api });
-    expect(dispatch).toBeCalledWith({
-      type: "FETCH_SEARCH_RESULTS", request,
-      state: { status: AsyncStatus.IN_PROGRESS },
-    });
-    await result;
-
-    expect(dispatch).toBeCalledWith({
-      type: "FETCH_SEARCH_RESULTS", request,
-      state: { status: AsyncStatus.RESOLVED, response: searchResults },
-    });
+  it("pipes search API to asyncDispatch", async () => {
+    await fetchSearchResults("test")(dispatch, stateGetter({entities: {searchResults: {}}}), { api });
+    expect(asyncDispatchMock).toBeCalledWith("FETCH_SEARCH_RESULTS", "test", api.getSearchResults);
+    expect(innerAsyncDispatchMock).toBeCalledWith(dispatch);
   });
 
   it("does not refetch search queries", async () => {
-    const dispatch = jest.fn();
-    const getState = () => ({entities: {searchResults: { [request]: {} }}} as any as RootState);
-    await action(dispatch, getState, { api });
-    expect(dispatch).toBeCalledTimes(0);
+    await fetchSearchResults("test")(dispatch, stateGetter({entities: {searchResults: { test: {} }}}), { api });
+    expect(asyncDispatchMock).toBeCalledTimes(0);
+    expect(innerAsyncDispatchMock).toBeCalledTimes(0);
   });
 });
 
 describe("fetch character action", () => {
-  const request = "亜";
-  const action = fetchCharacter(request);
 
-  it("dispatchs character fetch results", async () => {
-    const dispatch = jest.fn();
-    const getState = () => ({entities: {characters: {}}} as any as RootState);
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-    const result = action(dispatch, getState, { api });
-    expect(dispatch).toBeCalledWith({
-      type: "FETCH_CHARACTER", request,
-      state: { status: AsyncStatus.IN_PROGRESS },
-    });
-    await result;
-
-    expect(dispatch).toBeCalledWith({
-      type: "FETCH_CHARACTER", request,
-      state: { status: AsyncStatus.RESOLVED, response: makeCharacter(request) },
-    });
+  it("pipes character fetch API to asyncDispatch", async () => {
+    await fetchCharacter("亜")(dispatch, stateGetter({entities: {characters: {}}}), { api });
+    expect(asyncDispatchMock).toBeCalledWith("FETCH_CHARACTER", "亜", api.getCharacter);
+    expect(innerAsyncDispatchMock).toBeCalledWith(dispatch);
   });
 
   it("does not refetch characters", async () => {
-    const dispatch = jest.fn();
-    const getState = () => ({entities: {characters: { [request]: {} }}} as any as RootState);
-    await action(dispatch, getState, { api });
-    expect(dispatch).toBeCalledTimes(0);
+    await fetchCharacter("亜")(dispatch, stateGetter({entities: {characters: { 亜: {} }}}), { api });
+    expect(asyncDispatchMock).toBeCalledTimes(0);
+    expect(innerAsyncDispatchMock).toBeCalledTimes(0);
   });
 
 });
