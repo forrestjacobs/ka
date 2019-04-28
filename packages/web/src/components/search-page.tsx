@@ -30,7 +30,7 @@ export function SearchPage({ location }: RouteComponentProps): JSX.Element {
   return mapAsyncStateToPage(asyncResults, (searchResults) => {
     const searchResultsEls = searchResults.map((searchResult) => (
       <li className="list-group-item" key={searchResult.literal}>
-        {mapAsyncStateToEl(searchResult.character, (character) => <CharacterComponent {...{character}} />)}
+        {mapAsyncStateToEl(searchResult.character, (character) => <CharacterComponent character={character} />)}
       </li>
     ));
     return (
