@@ -22,6 +22,7 @@
   "devDependencies": {
     "@types/react-dom": "^16.0.10",
     "@types/react-router-dom": "^4.3.1",
+    "@types/react-test-renderer": "^16.8.1",
     "@types/yaml": "^1.0.2",
     "autoprefixer": "^9.4.8",
     "css-loader": "^2.1.0",
@@ -38,6 +39,7 @@
     "purify-css": "^1.2.5",
     "purifycss-webpack": "^0.7.0",
     "raw-loader": "^2.0.0",
+    "react-test-renderer": "^16.8.6",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.2.3",
