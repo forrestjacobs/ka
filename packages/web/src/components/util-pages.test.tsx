@@ -59,6 +59,25 @@ describe("page element", () => {
     process.env.TARGET = undefined;
   });
 
+  it("renders children on the web", () => {
+    process.env.TARGET = "web";
+    expect(create((
+      <Page>
+        <span>child</span>
+      </Page>
+    )).toJSON()).toEqual(create(<span>child</span>).toJSON());
+  });
+
+  it("renders children in node", () => {
+    expect(create((
+      <StaticRouter>
+        <Page>
+          <span>child</span>
+        </Page>
+      </StaticRouter>
+    )).toJSON()).toEqual(create(<span>child</span>).toJSON());
+  });
+
   it("sets the document title on the web", () => {
     process.env.TARGET = "web";
     create(<Page title="test" />);
