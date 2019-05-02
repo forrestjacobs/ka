@@ -1,4 +1,6 @@
+.editorconfig
 .rpt2_cache
+.vscode
 coverage
 dict.pgsql
 dist
