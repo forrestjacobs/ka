@@ -1,0 +1,59 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "dev",
+      "dependsOn": ["dev build project", "dev serve rest", "dev serve web"],
+      "group": {
+        "kind": "build",
+        "isDefault": true,
+      },
+    },
+    {
+      "label": "dev build project",
+      "type": "npm",
+      "script": "dev:build:project",
+      "problemMatcher": ["$tsc-watch"],
+      "isBackground": true,
+      "group": "build",
+    },
+    {
+      "label": "dev serve rest",
+      "type": "npm",
+      "script": "dev:serve:rest",
+      "problemMatcher": [],
+      "isBackground": true,
+      "group": "build",
+    },
+    {
+      "label": "dev serve web",
+      "type": "npm",
+      "script": "dev:serve:web",
+      "problemMatcher": ["$ts-webpack-watch"],
+      "isBackground": true,
+      "group": "build",
+    },
+    {
+      "label": "check",
+      "dependsOn": ["check test", "check lint"],
+      "group": {
+        "kind": "test",
+        "isDefault": true,
+      },
+    },
+    {
+      "label": "check test",
+      "type": "npm",
+      "script": "test",
+      "problemMatcher": [],
+      "group": "test",
+    },
+    {
+      "label": "check lint",
+      "type": "npm",
+      "script": "lint",
+      "problemMatcher": ["$tslint5"],
+      "group": "test",
+    },
+  ]
+}

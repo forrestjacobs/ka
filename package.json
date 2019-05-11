@@ -16,11 +16,12 @@
   "scripts": {
     "build": "yarn run build:project && yarn run build:web",
     "build:project": "tsc -b packages",
-    "build:web": "lerna run --scope @ka/web build",
+    "build:web": "yarn workspace @ka/web run build",
     "clean": "lerna run clean",
-    "dev": "concurrently \"yarn run dev:build:project\" \"yarn run dev:serve\"",
+    "dev": "concurrently \"yarn run dev:build:project\" \"yarn run dev:serve:rest\" \"yarn run dev:serve:web\"",
     "dev:build:project": "tsc -b packages -w --preserveWatchOutput",
-    "dev:serve": "dotenv -- lerna run dev --stream",
+    "dev:serve:rest": "dotenv -- yarn workspace @ka/rest run dev",
+    "dev:serve:web": "dotenv -- yarn workspace @ka/web run dev",
     "lint": "lerna run lint",
     "test": "lerna run test"
   },

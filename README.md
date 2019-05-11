@@ -50,9 +50,9 @@ Dependencies: Git, PostgreSQL, Node.js, Yarn.
   * `yarn run dev` starts the following three commands concurrently. Press
     **Ctrl-C** to stop.
       * `yarn run dev:build:project` compiles the project in watch mode.
-      * `yarn run dev:rest` starts an auto-reloading rest server at
+      * `yarn run dev:serve:rest` starts an auto-reloading rest server at
         localhost:3000.
-      * `yarn run dev:web` starts an auto-reloading web server at
+      * `yarn run dev:serve:web` starts an auto-reloading web server at
         localhost:8080.
   * `yarn run lint` lints each package. Make sure this passes before committing.
   * `yarn run test` runs each package's tests, and ensures each project
