@@ -1,4 +1,6 @@
+.env
 .rpt2_cache
+character.sql
 coverage
 dict.pgsql
 dist

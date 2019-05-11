@@ -1,18 +1,59 @@
 # Ka
 
-## Set up
+## Development setup
 
- 1. Install [Git], [Docker], and [Docker Compose].
- 2. [Clone] this repo.
+Dependencies: Git, PostgreSQL, Node.js, Yarn.
 
-[git]: https://help.github.com/articles/set-up-git/#setting-up-git
-[docker]: https://docs.docker.com/install/
-[docker compose]: https://docs.docker.com/compose/install/
-[clone]: https://help.github.com/articles/cloning-a-repository/
+ 1. Clone this repo.
+
+ 2. Install dependencies:
+    ```
+    yarn
+    ```
+
+ 3. Generate the character SQL:
+    ```
+    yarn run tsc -b packages/kanjidic2sql
+    node packages/kanjidic2sql kanjidic2var.xml >> character.sql
+    ```
+
+ 4. Create the PostgreSQL database:
+    ```
+    psql
+    CREATE DATABASE ka;
+    \c ka
+    \i schema.sql
+    \i character.sql
+    exit
+    ```
+
+ 5. Create a `.env` file in the root of the project to specify environment
+    variables. It should look like the example below. You can omit variables
+    if the default is fine.
+    ```
+    # PostgreSQL - See https://www.postgresql.org/docs/9.1/libpq-envars.html
+    PGHOST=[defaults to localhost]
+    PGPORT=[defaults to 5432]
+    PGUSER=
+    PGDATABASE=ka
+    PGPASSWORD=
+
+    # @ka/web config
+    ## The API's URL. The default is correct for local development.
+    API_URL=[defaults to http://localhost:3000]
+    ```
+
+ 6. Run `yarn run dev` (described below) and make sure you can hit localhost:8080.
 
 ## Development cycle
 
-  * `docker-compose up` serves the webapp on http://localhost:8080 and recompiles on code change.
-  * Attach to the container with `docker-compose exec web sh` to run these commands:
-     * `yarn run lint` runs the linter
-     * `yarn run test` runs the tests
+  * `yarn run dev` starts the following three commands concurrently. Press
+    **Ctrl-C** to stop.
+      * `yarn run dev:build:project` compiles the project in watch mode.
+      * `yarn run dev:rest` starts an auto-reloading rest server at
+        localhost:3000.
+      * `yarn run dev:web` starts an auto-reloading web server at
+        localhost:8080.
+  * `yarn run lint` lints each package. Make sure this passes before committing.
+  * `yarn run test` runs each package's tests, and ensures each project
+    maintains 80% coverage. Make sure this passes before committing.
