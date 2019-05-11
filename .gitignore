@@ -1,11 +1,7 @@
-.env
-.rpt2_cache
-character.sql
-coverage
-dict.pgsql
+/.env
+/character.sql
+/coverage
 dist
-kanjidic2.xml
-lerna-debug.log
 lib
 node_modules
 tsconfig.tsbuildinfo

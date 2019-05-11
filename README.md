@@ -43,7 +43,8 @@ Dependencies: Git, PostgreSQL, Node.js, Yarn.
     API_URL=[defaults to http://localhost:3000]
     ```
 
- 6. Run `yarn run dev` (described below) and make sure you can hit localhost:8080.
+ 6. Run `yarn run dev` (described below) and make sure you can hit
+    localhost:8080.
 
 ## Development cycle
 
@@ -54,6 +55,8 @@ Dependencies: Git, PostgreSQL, Node.js, Yarn.
         localhost:3000.
       * `yarn run dev:serve:web` starts an auto-reloading web server at
         localhost:8080.
+  * `yarn run format` formats js, json, ts, and tsx files. Run before
+    committing.
   * `yarn run lint` lints each package. Make sure this passes before committing.
   * `yarn run test` runs each package's tests, and ensures each project
     maintains 80% coverage. Make sure this passes before committing.

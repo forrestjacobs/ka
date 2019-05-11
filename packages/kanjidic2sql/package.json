@@ -12,9 +12,5 @@
   },
   "devDependencies": {
     "@types/sax": "^1.0.1"
-  },
-  "scripts": {
-    "clean": "rm -rf coverage lib",
-    "test": "jest"
   }
 }

@@ -9,9 +9,5 @@
   "dependencies": {
     "@ka/base": "^0.0.0",
     "pg-promise": "^8.5.2"
-  },
-  "scripts": {
-    "clean": "rm -rf coverage lib",
-    "test": "jest"
   }
 }

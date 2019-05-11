@@ -18,9 +18,7 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "clean": "rm -rf coverage lib",
-    "dev": "yarn run serve",
-    "serve": "nodemon --inspect ./lib/server.js",
-    "test": "jest"
+    "dev": "nodemon --inspect ./lib/server.js",
+    "serve": "node ./lib/server.js"
   }
 }
