@@ -3,14 +3,19 @@
   "private": true,
   "devDependencies": {
     "@types/jest": "^24.0.0",
+    "@typescript-eslint/eslint-plugin": "^1.8.0",
+    "@typescript-eslint/parser": "^1.8.0",
     "concurrently": "^4.1.0",
     "dotenv-cli": "^2.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-react": "^7.13.0",
+    "eslint-plugin-react-hooks": "^1.6.0",
+    "eslint-plugin-sonarjs": "^0.3.0",
     "jest": "^24.4.0",
     "lerna": "^3.4.3",
+    "prettier": "^1.17.0",
     "ts-jest": "^24.0.0",
-    "tslint": "^5.11.0",
-    "tslint-react": "^4.0.0",
-    "tslint-sonarts": "^1.8.0",
     "typescript": "^3.3.3"
   },
   "scripts": {
@@ -22,7 +27,8 @@
     "dev:build:project": "tsc -b packages -w --preserveWatchOutput",
     "dev:serve:rest": "dotenv -- yarn workspace @ka/rest run dev",
     "dev:serve:web": "dotenv -- yarn workspace @ka/web run dev",
-    "lint": "lerna run lint",
+    "format": "prettier --write \"packages/*/src/**/*.{js,json,ts,tsx}\" \"packages/*/*.{js,json,ts,tsx}\" \"packages/*.{js,json,ts,tsx}\" \"*.{js,json,ts,tsx}\"",
+    "lint": "eslint . --ext .ts,.tsx",
     "test": "lerna run test"
   },
   "workspaces": [

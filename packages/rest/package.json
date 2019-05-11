@@ -20,7 +20,6 @@
   "scripts": {
     "clean": "rm -rf coverage lib",
     "dev": "yarn run serve",
-    "lint": "tslint -c ../tslint.yaml -p tsconfig.json",
     "serve": "nodemon --inspect ./lib/server.js",
     "test": "jest"
   }

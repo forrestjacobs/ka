@@ -6,13 +6,13 @@ jest.mock("react", () => ({
     setLocale = locale;
     return { Provider: providerMock };
   },
-  useContext: () => setLocale,
+  useContext: () => setLocale
 }));
 
 jest.mock("./messages-loader", () => ({
   data: {
-    en: { title: () => "Test title" },
-  },
+    en: { title: () => "Test title" }
+  }
 }));
 
 import { useMessages } from ".";

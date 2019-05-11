@@ -14,7 +14,7 @@ export type Messages = HasTitle & {
   search: {
     field(): string;
     button(): string;
-    results(args: {results: number, terms: string}): string;
+    results(args: { results: number; terms: string }): string;
   };
 
   character: {

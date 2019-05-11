@@ -3,7 +3,7 @@ import { Character } from "@ka/base";
 export enum ApiErrorType {
   FetchError,
   ParseError,
-  NotFound,
+  NotFound
 }
 
 export interface HasErrorType {
@@ -13,7 +13,7 @@ export interface HasErrorType {
 export class ApiError extends Error {
   public readonly type: ApiErrorType;
 
-  constructor(message: string, type: ApiErrorType) {
+  public constructor(message: string, type: ApiErrorType) {
     super(message);
     this.type = type;
   }

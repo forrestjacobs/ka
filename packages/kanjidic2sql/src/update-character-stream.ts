@@ -3,18 +3,21 @@ import { getUpdateCharactersSql } from "@ka/data";
 import { Transform } from "stream";
 
 export class UpdateCharacterStream extends Transform {
-
   private readonly bufferSize: number;
 
   private buffer: Character[];
 
-  constructor(bufferSize: number) {
-    super({writableObjectMode: true});
+  public constructor(bufferSize: number) {
+    super({ writableObjectMode: true });
     this.bufferSize = bufferSize;
     this.buffer = [];
   }
 
-  public _transform(chunk: any, encoding: string, callback: (error?: Error, data?: any) => void): void {
+  public _transform(
+    chunk: Character,
+    encoding: string,
+    callback: (error?: Error, data?: string) => void
+  ): void {
     this.buffer.push(chunk);
     if (this.buffer.length < this.bufferSize) {
       callback();
@@ -23,7 +26,7 @@ export class UpdateCharacterStream extends Transform {
     }
   }
 
-  public _flush(callback: (error?: Error, data?: any) => void): void {
+  public _flush(callback: (error?: Error, data?: unknown) => void): void {
     if (this.buffer.length === 0) {
       callback();
     } else {
@@ -31,7 +34,9 @@ export class UpdateCharacterStream extends Transform {
     }
   }
 
-  private updateCharacters(callback: (error?: Error, data?: any) => void): void {
+  private updateCharacters(
+    callback: (error?: Error, data?: string) => void
+  ): void {
     try {
       const sql = `${getUpdateCharactersSql(this.buffer)};\n`;
       this.buffer = [];
@@ -40,5 +45,4 @@ export class UpdateCharacterStream extends Transform {
       callback(error);
     }
   }
-
 }

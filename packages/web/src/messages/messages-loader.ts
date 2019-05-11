@@ -8,9 +8,9 @@ const mf = new MessageFormat();
 
 function loadMessages(path: string, locale: string): Messages {
   const json = parse(readFileSync(join(__dirname, path), "utf8"));
-  return mf.compile(json, locale) as any as Messages;
+  return (mf.compile(json, locale) as unknown) as Messages;
 }
 
-export const data: {[locale: string]: Messages} = {
-  en: loadMessages("en.messages.yaml", "en"),
+export const data: { [locale: string]: Messages } = {
+  en: loadMessages("en.messages.yaml", "en")
 };

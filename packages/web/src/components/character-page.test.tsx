@@ -5,58 +5,55 @@ import { resolved } from "../async";
 
 const fetchCharacterMock = jest.fn();
 const useActionsMock = jest.fn(() => ({
-  fetchCharacter: fetchCharacterMock,
+  fetchCharacter: fetchCharacterMock
 }));
 const useMapStateMock = jest.fn();
 jest.mock("./use-redux", () => ({
   useActions: useActionsMock,
-  useMapState: useMapStateMock,
+  useMapState: useMapStateMock
 }));
 
-const characterComponentMock = jest.fn(({character}) => character);
+const characterComponentMock = jest.fn(({ character }) => character);
 jest.mock("./character", () => ({
-  CharacterComponent: characterComponentMock,
+  CharacterComponent: characterComponentMock
 }));
 
 import { CharacterPage } from "./character-page";
 
 describe("search page", () => {
-
   it("calls the 'fetch character' action", () => {
-    create((
+    create(
       <StaticRouter location="/character/日">
         <Route exact path="/character/:literal" component={CharacterPage} />
       </StaticRouter>
-    ));
+    );
 
     // ensure hooks are called
-    // tslint:disable-next-line: no-empty
     act(() => {});
 
     expect(fetchCharacterMock).toBeCalledWith("日");
   });
 
   it("shows the character", () => {
-    useMapStateMock.mockImplementation((cb) => cb({
-      entities: {
-        characters: {
-          日: resolved("day"),
-        },
-      },
-    }));
+    useMapStateMock.mockImplementation(cb =>
+      cb({
+        entities: {
+          characters: {
+            日: resolved("day")
+          }
+        }
+      })
+    );
 
-    const page = create((
+    const page = create(
       <StaticRouter location="/character/日">
         <Route exact path="/character/:literal" component={CharacterPage} />
       </StaticRouter>
-    ));
+    );
 
     // ensure hooks are called
-    // tslint:disable-next-line: no-empty
     act(() => {});
 
     expect(page.toJSON()).toEqual(create(<>day</>).toJSON());
-
   });
-
 });

@@ -1,0 +1,4 @@
+*.test.*
+coverage
+dist
+lib

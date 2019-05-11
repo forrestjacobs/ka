@@ -8,12 +8,22 @@ export interface AsyncAction<Type extends string, Request, Response> {
   state: AsyncState<Response>;
 }
 
-export function asyncDispatch(type: string, request: any, apiCall: (request: any) => Promise<any>):
-    (dispatch: ThunkDispatch<any, any, AnyAction>) => Promise<void> {
-  return async (dispatch) => {
+export function asyncDispatch<Req, Res>(
+  type: string,
+  request: Req,
+  apiCall: (request: Req) => Promise<Res>
+): (dispatch: ThunkDispatch<unknown, unknown, AnyAction>) => Promise<void> {
+  return async (dispatch): Promise<void> => {
     dispatch({ type, request, state: { status: AsyncStatus.IN_PROGRESS } });
     try {
-      dispatch({ type, request, state: { status: AsyncStatus.RESOLVED, response: await apiCall(request) } });
+      dispatch({
+        type,
+        request,
+        state: {
+          status: AsyncStatus.RESOLVED,
+          response: await apiCall(request)
+        }
+      });
     } catch (error) {
       dispatch({ type, request, state: { status: AsyncStatus.ERROR, error } });
     }

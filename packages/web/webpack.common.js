@@ -1,86 +1,91 @@
-const path = require('path');
+const path = require("path");
 
-const webpack = require('webpack');
-const glob = require('glob');
+const webpack = require("webpack");
+const glob = require("glob");
 
-const autoprefixer = require('autoprefixer');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const template = require('html-webpack-template');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const autoprefixer = require("autoprefixer");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const template = require("html-webpack-template");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PurifyCSSPlugin = require("purifycss-webpack");
 
-module.exports = function (isProd) {
+module.exports = function(isProd) {
   const plugins = [
     new HtmlWebpackPlugin({
       template,
       inject: false,
       mobile: true,
-      title: 'Kanji Dictionary',
-      baseHref: '/',
-      appMountId: 'root',
+      title: "Kanji Dictionary",
+      baseHref: "/",
+      appMountId: "root"
     }),
     new webpack.DefinePlugin({
-      'process.env.TARGET': JSON.stringify('web'),
-      'process.env.API_URL': JSON.stringify(process.env.API_URL || 'http://localhost:3000'),
-    }),
+      "process.env.TARGET": JSON.stringify("web"),
+      "process.env.API_URL": JSON.stringify(
+        process.env.API_URL || "http://localhost:3000"
+      )
+    })
   ];
 
   if (isProd) {
     plugins.push(
       new MiniCssExtractPlugin(),
       new PurifyCSSPlugin({
-        paths: glob.sync(path.join(__dirname, "src/**/*.{ts,tsx}")),
-      }),
+        paths: glob.sync(path.join(__dirname, "src/**/*.{ts,tsx}"))
+      })
     );
   }
 
   return {
-    entry: './src/index.ts',
+    entry: "./src/index.ts",
     module: {
       rules: [
         {
           test: /\.tsx?$/,
-          use: 'ts-loader',
+          use: "ts-loader",
           include: [
             path.resolve(__dirname, "../base/src"),
-            path.resolve(__dirname, "src"),
-          ],
+            path.resolve(__dirname, "src")
+          ]
         },
         {
           test: /\.scss$/,
           use: [
-            isProd ? MiniCssExtractPlugin.loader : 'style-loader',
-            'css-loader',
+            isProd ? MiniCssExtractPlugin.loader : "style-loader",
+            "css-loader",
             {
-              loader: 'postcss-loader',
-              options: { plugins: () => [autoprefixer] },
+              loader: "postcss-loader",
+              options: { plugins: () => [autoprefixer] }
             },
-            'sass-loader',
+            "sass-loader"
           ],
-          include: path.resolve(__dirname, "src"),
+          include: path.resolve(__dirname, "src")
         },
         {
           test: /\.messages\.yaml$/,
-          type: 'javascript/auto',
-          loader: 'messageformat-loader',
+          type: "javascript/auto",
+          loader: "messageformat-loader",
           options: {
-            disablePluralKeyChecks: isProd,
+            disablePluralKeyChecks: isProd
           },
-          include: path.resolve(__dirname, "src"),
-        },
-      ],
+          include: path.resolve(__dirname, "src")
+        }
+      ]
     },
     resolve: {
-      extensions: [ '.tsx', '.ts', '.js' ],
+      extensions: [".tsx", ".ts", ".js"],
       alias: {
-        "./messages-loader": path.resolve(__dirname, "src/messages/web-messages-loader.ts"),
-        "@ka/base": path.resolve(__dirname, "../base/src/index.ts"),
-      },
+        "./messages-loader": path.resolve(
+          __dirname,
+          "src/messages/web-messages-loader.ts"
+        ),
+        "@ka/base": path.resolve(__dirname, "../base/src/index.ts")
+      }
     },
     optimization: {
-      splitChunks: {chunks: 'all'},
+      splitChunks: { chunks: "all" }
     },
-    watchOptions: {poll: true},
-    plugins,
+    watchOptions: { poll: true },
+    plugins
   };
 };

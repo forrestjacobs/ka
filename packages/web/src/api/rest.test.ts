@@ -10,7 +10,6 @@ import { ApiError, ApiErrorType } from "./api";
 import { restApi } from "./rest";
 
 describe("get search results", () => {
-
   afterEach(() => {
     fetch.resetMocks();
   });
@@ -23,14 +22,15 @@ describe("get search results", () => {
 
   it("handles errors", async () => {
     fetch.once("Error", { status: 500 });
-    const asymmetricMatch = (error: ApiError) => error.type === ApiErrorType.FetchError;
-    await expect(restApi.getSearchResults("test")).rejects.toEqual({ asymmetricMatch });
+    const asymmetricMatch = (error: ApiError) =>
+      error.type === ApiErrorType.FetchError;
+    await expect(restApi.getSearchResults("test")).rejects.toEqual({
+      asymmetricMatch
+    });
   });
-
 });
 
 describe("get character", () => {
-
   function errorOfType(type: ApiErrorType): any {
     return { asymmetricMatch: (error: ApiError) => error.type === type };
   }
@@ -51,7 +51,9 @@ describe("get character", () => {
   it("validates kanji before calling the API", async () => {
     isKanjiMock.mockReturnValueOnce(false);
 
-    await expect(restApi.getCharacter("a")).rejects.toEqual(errorOfType(ApiErrorType.NotFound));
+    await expect(restApi.getCharacter("a")).rejects.toEqual(
+      errorOfType(ApiErrorType.NotFound)
+    );
     expect(fetch).toBeCalledTimes(0);
   });
 
@@ -59,14 +61,17 @@ describe("get character", () => {
     isKanjiMock.mockReturnValueOnce(true);
     fetch.once("", { status: 404 });
 
-    await expect(restApi.getCharacter("空")).rejects.toEqual(errorOfType(ApiErrorType.NotFound));
+    await expect(restApi.getCharacter("空")).rejects.toEqual(
+      errorOfType(ApiErrorType.NotFound)
+    );
   });
 
   it("handles other errors", async () => {
     isKanjiMock.mockReturnValueOnce(true);
     fetch.once("", { status: 500 });
 
-    await expect(restApi.getCharacter("例")).rejects.toEqual(errorOfType(ApiErrorType.FetchError));
+    await expect(restApi.getCharacter("例")).rejects.toEqual(
+      errorOfType(ApiErrorType.FetchError)
+    );
   });
-
 });

@@ -1,38 +1,53 @@
+import { QualifiedTag, SAXParser, Tag, parser } from "sax";
 import { Character } from "@ka/base";
-import { parser, QualifiedTag, SAXParser, Tag } from "sax";
 import { Transform } from "stream";
 
-// tslint:disable-next-line:max-union-size
-type BaseCharacter = Pick<Character, "strokeCount" | "radicalNames" | "on" | "kun" | "meaning" | "nanori">;
+type BaseCharacter = Pick<
+  Character,
+  "strokeCount" | "radicalNames" | "on" | "kun" | "meaning" | "nanori"
+>;
 
 const START_TEXT = "<kanjidic2>";
 
 function makeBaseCharacter(): BaseCharacter {
-  return { strokeCount: [], radicalNames: [], on: [], kun: [], meaning: [], nanori: [] };
+  return {
+    strokeCount: [],
+    radicalNames: [],
+    on: [],
+    kun: [],
+    meaning: [],
+    nanori: []
+  };
 }
 
 export class KanjiDic2Parser extends Transform {
-
   private readonly saxParser: SAXParser;
-  private currentCharacter: Partial<Character> & BaseCharacter = makeBaseCharacter();
+  private currentCharacter: Partial<Character> &
+    BaseCharacter = makeBaseCharacter();
   private startBuffer?: string = "";
 
-  constructor() {
-    super({readableObjectMode: true});
+  public constructor() {
+    super({ readableObjectMode: true });
 
     const saxParser = parser(false, { trim: true, lowercase: true });
     this.saxParser = saxParser;
 
     let currentNode: Tag | QualifiedTag;
 
-    saxParser.onerror = (error) => this.emit("error", error);
-    saxParser.onopentag = (node) => {
+    saxParser.onerror = (error): void => {
+      this.emit("error", error);
+    };
+    saxParser.onopentag = (node): void => {
       currentNode = node;
     };
-    saxParser.ontext = (text) => {
-      this.updateCharacterFromElement(currentNode.name, currentNode.attributes, text);
+    saxParser.ontext = (text): void => {
+      this.updateCharacterFromElement(
+        currentNode.name,
+        currentNode.attributes,
+        text
+      );
     };
-    saxParser.onclosetag = (tagName) => {
+    saxParser.onclosetag = (tagName): void => {
       if (tagName === "character") {
         if (this.currentCharacter.nelsonRadical === undefined) {
           this.currentCharacter.nelsonRadical = this.currentCharacter.radical;
@@ -43,7 +58,11 @@ export class KanjiDic2Parser extends Transform {
     };
   }
 
-  public _transform(chunk: any, encoding: string, callback: (error?: Error, data?: any) => void): void {
+  public _transform(
+    chunk: string,
+    encoding: string,
+    callback: () => void
+  ): void {
     // Ignore everything up until "<kanjidic2>"
     if (this.startBuffer !== undefined) {
       const buf: string = this.startBuffer + chunk;
@@ -60,12 +79,16 @@ export class KanjiDic2Parser extends Transform {
     callback();
   }
 
-  public _flush(callback: (error?: Error, data?: any) => void): void {
+  public _flush(callback: (error?: Error, data?: unknown) => void): void {
     this.saxParser.close();
     callback();
   }
 
-  private updateCharacterFromElement(name: string, attr: any, text: string): void {
+  private updateCharacterFromElement(
+    name: string,
+    attr: unknown,
+    text: string
+  ): void {
     switch (name) {
       case "literal":
         this.currentCharacter.literal = text;
@@ -89,21 +112,24 @@ export class KanjiDic2Parser extends Transform {
         this.currentCharacter.nanori.push(text);
         break;
       case "rad_value":
-        this.updateCharacterFromRadValue(attr, text);
+        this.updateCharacterFromRadValue(attr as { rad_type: string }, text);
         break;
       case "reading":
-        this.updateCharacterFromReading(attr, text);
+        this.updateCharacterFromReading(attr as { r_type: string }, text);
         break;
       case "meaning":
-        if (attr.m_lang === undefined) {
+        if ((attr as { m_lang?: string }).m_lang === undefined) {
           this.currentCharacter.meaning.push(text);
         }
         break;
     }
   }
 
-  private updateCharacterFromRadValue({ rad_type }: { rad_type: string }, text: string): void {
-    switch (rad_type) {
+  private updateCharacterFromRadValue(
+    attr: { rad_type: string },
+    text: string
+  ): void {
+    switch (attr.rad_type) {
       case "classical":
         this.currentCharacter.radical = +text;
         break;
@@ -113,8 +139,11 @@ export class KanjiDic2Parser extends Transform {
     }
   }
 
-  private updateCharacterFromReading({ r_type }: { r_type: string }, text: string): void {
-    switch (r_type) {
+  private updateCharacterFromReading(
+    attr: { r_type: string },
+    text: string
+  ): void {
+    switch (attr.r_type) {
       case "ja_on":
         this.currentCharacter.on.push(text);
         break;
@@ -123,5 +152,4 @@ export class KanjiDic2Parser extends Transform {
         break;
     }
   }
-
 }

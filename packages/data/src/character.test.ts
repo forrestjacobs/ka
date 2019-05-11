@@ -7,20 +7,23 @@ const helpersInsertMock: jest.Mock<string> = jest.fn();
 jest.mock("./db", () => ({
   db: {
     manyOrNone: manyOrNoneMock,
-    oneOrNone: oneOrNoneMock,
+    oneOrNone: oneOrNoneMock
   },
   pgp: {
     helpers: {
       ColumnSet: jest.fn(() => CHARACTER_CS),
-      insert: helpersInsertMock,
-    },
-  },
+      insert: helpersInsertMock
+    }
+  }
 }));
 
-import { getCharacter, getUpdateCharactersSql, searchForCharacters } from "./character";
+import {
+  getCharacter,
+  getUpdateCharactersSql,
+  searchForCharacters
+} from "./character";
 
 describe("search for characters", () => {
-
   afterEach(() => {
     manyOrNoneMock.mockReset();
   });
@@ -31,22 +34,21 @@ describe("search for characters", () => {
   });
 
   test("can search for one term", async () => {
-    manyOrNoneMock.mockResolvedValueOnce([{literal: "猫"}]);
-    expect(await searchForCharacters("  cat  ")).toEqual([{literal: "猫"}]);
+    manyOrNoneMock.mockResolvedValueOnce([{ literal: "猫" }]);
+    expect(await searchForCharacters("  cat  ")).toEqual([{ literal: "猫" }]);
     expect(manyOrNoneMock.mock.calls[0][1]).toEqual("cat");
   });
 
-  // tslint:disable-next-line: no-identical-functions
   test("can search for multiple terms", async () => {
-    manyOrNoneMock.mockResolvedValueOnce([{literal: "橙"}]);
-    expect(await searchForCharacters("bitter orange")).toEqual([{literal: "橙"}]);
+    manyOrNoneMock.mockResolvedValueOnce([{ literal: "橙" }]);
+    expect(await searchForCharacters("bitter orange")).toEqual([
+      { literal: "橙" }
+    ]);
     expect(manyOrNoneMock.mock.calls[0][1]).toEqual("bitter & orange");
   });
-
 });
 
 describe("get character", () => {
-
   afterEach(() => {
     oneOrNoneMock.mockReset();
   });
@@ -72,15 +74,33 @@ describe("get character", () => {
     const jlpt = 4;
 
     oneOrNoneMock.mockResolvedValueOnce({
-      literal, radical, on, kun, meaning, nanori, grade, freq, jlpt,
+      literal,
+      radical,
+      on,
+      kun,
+      meaning,
+      nanori,
+      grade,
+      freq,
+      jlpt,
       nelson_radical: radical,
       stroke_count: strokeCount,
-      radical_names: radicalNames,
+      radical_names: radicalNames
     });
 
     expect(await getCharacter(literal)).toEqual({
-      literal, radical, strokeCount, radicalNames, on, kun, meaning, nanori, grade, freq, jlpt,
-      nelsonRadical: radical,
+      literal,
+      radical,
+      strokeCount,
+      radicalNames,
+      on,
+      kun,
+      meaning,
+      nanori,
+      grade,
+      freq,
+      jlpt,
+      nelsonRadical: radical
     });
 
     expect(oneOrNoneMock.mock.calls[0][1]).toEqual(literal);
@@ -97,18 +117,30 @@ describe("get character", () => {
     const nanori: string[] = [];
 
     oneOrNoneMock.mockResolvedValueOnce({
-      literal, radical, on, kun, meaning, nanori,
+      literal,
+      radical,
+      on,
+      kun,
+      meaning,
+      nanori,
       nelson_radical: radical,
       stroke_count: strokeCount,
       radical_names: radicalNames,
       grade: null,
       freq: null,
-      jlpt: null,
+      jlpt: null
     });
 
     expect(await getCharacter(literal)).toEqual({
-      literal, radical, strokeCount, radicalNames, on, kun, meaning, nanori,
-      nelsonRadical: radical,
+      literal,
+      radical,
+      strokeCount,
+      radicalNames,
+      on,
+      kun,
+      meaning,
+      nanori,
+      nelsonRadical: radical
     });
 
     expect(oneOrNoneMock.mock.calls[0][1]).toEqual(literal);
@@ -116,7 +148,6 @@ describe("get character", () => {
 });
 
 describe("get update characters sql", () => {
-
   afterEach(() => {
     helpersInsertMock.mockReset();
   });
@@ -131,15 +162,27 @@ describe("get update characters sql", () => {
     const meaning: string[] = [];
     const nanori: string[] = [];
 
-    const characters = [{
-      literal, radical, strokeCount, radicalNames, on, kun, meaning, nanori,
-      nelsonRadical: radical,
-    }];
+    const characters = [
+      {
+        literal,
+        radical,
+        strokeCount,
+        radicalNames,
+        on,
+        kun,
+        meaning,
+        nanori,
+        nelsonRadical: radical
+      }
+    ];
 
-    helpersInsertMock.mockImplementationOnce(() => "INSERT INTO table VALUES x");
+    helpersInsertMock.mockImplementationOnce(
+      () => "INSERT INTO table VALUES x"
+    );
 
-    expect(getUpdateCharactersSql(characters)).toMatch(/^INSERT INTO table VALUES x/);
+    expect(getUpdateCharactersSql(characters)).toMatch(
+      /^INSERT INTO table VALUES x/
+    );
     expect(helpersInsertMock).toBeCalledWith(characters, CHARACTER_CS);
   });
-
 });

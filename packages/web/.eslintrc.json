@@ -1,0 +1,20 @@
+{
+  "plugins": ["react-hooks", "sonarjs"],
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:sonarjs/recommended",
+    "prettier/react"
+  ],
+  "env": {
+    "browser": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "linkComponents": [
+      { "name": "Link", "linkAttribute": "to" },
+      { "name": "NavLink", "linkAttribute": "to" }
+    ]
+  }
+}

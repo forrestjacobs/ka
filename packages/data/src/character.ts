@@ -1,23 +1,27 @@
-import { Character } from "@ka/base";
 import { db, pgp } from "./db";
+import { Character } from "@ka/base";
 
-const CHARACTER_CS = new pgp.helpers.ColumnSet([
-  "literal",
-  "radical",
-  { name: "nelson_radical", prop: "nelsonRadical" },
-  { name: "grade", def: null },
-  { name: "stroke_count", prop: "strokeCount" },
-  { name: "freq", def: null },
-  { name: "radical_names", prop: "radicalNames" },
-  { name: "jlpt", def: null },
-  "on",
-  "kun",
-  "meaning",
-  "nanori",
-], {
-  table: "character",
-});
+const CHARACTER_CS = new pgp.helpers.ColumnSet(
+  [
+    "literal",
+    "radical",
+    { name: "nelson_radical", prop: "nelsonRadical" },
+    { name: "grade", def: null },
+    { name: "stroke_count", prop: "strokeCount" },
+    { name: "freq", def: null },
+    { name: "radical_names", prop: "radicalNames" },
+    { name: "jlpt", def: null },
+    "on",
+    "kun",
+    "meaning",
+    "nanori"
+  ],
+  {
+    table: "character"
+  }
+);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function characterFromRow(row: any): Character {
   const character: Character = {
     literal: row.literal,
@@ -28,7 +32,7 @@ function characterFromRow(row: any): Character {
     on: row.on,
     kun: row.kun,
     meaning: row.meaning,
-    nanori: row.nanori,
+    nanori: row.nanori
   };
   if (row.grade !== null) {
     character.grade = row.grade;
@@ -43,23 +47,31 @@ function characterFromRow(row: any): Character {
 }
 
 export async function searchForCharacters(query: string): Promise<Character[]> {
-  const terms = query.split(" ").filter((term) => term.length);
+  const terms = query.split(" ").filter((term): number => term.length);
   if (terms.length === 0) {
     return [];
   }
 
-  const rows = await db.manyOrNone(`
+  const rows = await db.manyOrNone(
+    `
     SELECT *
     FROM (SELECT *,
           to_tsvector('simple', array_to_string(meaning, ' ')) as meaning_vector
           FROM character) character_search
     WHERE meaning_vector @@ to_tsquery('simple', $1)
-  `, terms.join(" & "));
+  `,
+    terms.join(" & ")
+  );
   return rows.map(characterFromRow);
 }
 
-export async function getCharacter(literal: string): Promise<Character | undefined> {
-  const row = await db.oneOrNone("SELECT * FROM character WHERE literal = $1", literal);
+export async function getCharacter(
+  literal: string
+): Promise<Character | undefined> {
+  const row = await db.oneOrNone(
+    "SELECT * FROM character WHERE literal = $1",
+    literal
+  );
   if (row === null) {
     return undefined;
   }

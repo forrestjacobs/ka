@@ -35,7 +35,7 @@
     },
     {
       "label": "check",
-      "dependsOn": ["check test", "check lint"],
+      "dependsOn": ["check lint", "check test"],
       "group": {
         "kind": "test",
         "isDefault": true,
@@ -52,8 +52,14 @@
       "label": "check lint",
       "type": "npm",
       "script": "lint",
-      "problemMatcher": ["$tslint5"],
+      "problemMatcher": ["$eslint-stylish"],
       "group": "test",
+    },
+    {
+      "label": "format",
+      "type": "npm",
+      "script": "format",
+      "problemMatcher": [],
     },
   ]
 }

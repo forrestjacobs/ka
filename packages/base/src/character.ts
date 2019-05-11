@@ -14,10 +14,18 @@ export interface Character {
 }
 
 export function isKanji(literal: string): boolean {
+  if (literal.length !== 1) {
+    return false;
+  }
+
   const val = literal.codePointAt(0);
-  return val !== undefined && literal.length === 1 && (
-    (val >= 0x3400 && val <= 0x4DB5) || // CJK Unified Ideographs Extension A
-    (val >= 0x4E00 && val <= 0x9FFF) || // CJK Unified Ideographs
-    (val >= 0xF900 && val <= 0xFAFF) // CJK Compatibility Ideographs
+  if (val === undefined) {
+    return false;
+  }
+
+  return (
+    (val >= 0x3400 && val <= 0x4db5) || // CJK Unified Ideographs Extension A
+    (val >= 0x4e00 && val <= 0x9fff) || // CJK Unified Ideographs
+    (val >= 0xf900 && val <= 0xfaff) // CJK Compatibility Ideographs
   );
 }

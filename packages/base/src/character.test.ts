@@ -1,7 +1,6 @@
 import { isKanji } from "./character";
 
 describe("kanji validation", () => {
-
   test("accepts characters in CJK Unified Ideographs Extension A", () => {
     expect(isKanji("㐀")).toBe(true);
     expect(isKanji("䶵")).toBe(true);
@@ -20,7 +19,6 @@ describe("kanji validation", () => {
     expect(isKanji("\u9FFF")).toBe(true);
   });
 
-  // tslint:disable-next-line: no-identical-functions
   test("accepts characters in CJK Compatibility Ideographs", () => {
     expect(isKanji("豈")).toBe(true);
     expect(isKanji("舘")).toBe(true);
@@ -45,5 +43,4 @@ describe("kanji validation", () => {
     expect(isKanji("\uF8FF")).toBe(false);
     expect(isKanji("\uFB00")).toBe(false);
   });
-
 });

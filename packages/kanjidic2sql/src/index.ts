@@ -1,10 +1,10 @@
-import { end } from "@ka/data";
-import { createReadStream } from "fs";
 import { KanjiDic2Parser } from "./kanjidic2parser";
 import { UpdateCharacterStream } from "./update-character-stream";
+import { createReadStream } from "fs";
+import { end } from "@ka/data";
 
 if (process.argv.length < 3) {
-  // tslint:disable-next-line: no-console
+  // eslint-disable-next-line no-console
   console.error("Must pass path to kanjidic2.xml file");
   process.exit(1);
 }
@@ -13,5 +13,5 @@ createReadStream(process.argv[2], "utf8")
   .pipe(new KanjiDic2Parser())
   .pipe(new UpdateCharacterStream(250))
   .pipe(process.stdout)
-  .on("finish", () => end())
-  .on("error", () => process.exit(1));
+  .on("finish", (): void => end())
+  .on("error", (): void => process.exit(1));

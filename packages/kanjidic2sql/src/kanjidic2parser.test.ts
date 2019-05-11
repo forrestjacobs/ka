@@ -6,10 +6,9 @@ const BASE_CHARACTER = {
   on: [],
   kun: [],
   meaning: [],
-  nanori: [],
+  nanori: []
 };
 
-// tslint:disable-next-line:no-big-function
 describe("KanjiDic2Parser", () => {
   const dataHandler = jest.fn();
   const errorHandler = jest.fn();
@@ -27,7 +26,10 @@ describe("KanjiDic2Parser", () => {
 
     parser.write("<character><literal>日</literal></character>");
     expect(dataHandler).toBeCalledTimes(1);
-    expect(dataHandler).toHaveBeenNthCalledWith(1, { ...BASE_CHARACTER, literal: "日" });
+    expect(dataHandler).toHaveBeenNthCalledWith(1, {
+      ...BASE_CHARACTER,
+      literal: "日"
+    });
 
     parser.end("</kanjidic2>");
     expect(errorHandler).toHaveBeenCalledTimes(0);
@@ -38,7 +40,10 @@ describe("KanjiDic2Parser", () => {
     parser.write("njidi");
     parser.end("c2><character><literal>日</literal></character></kanjidic2>");
 
-    expect(dataHandler).toHaveBeenCalledWith({ ...BASE_CHARACTER, literal: "日" });
+    expect(dataHandler).toHaveBeenCalledWith({
+      ...BASE_CHARACTER,
+      literal: "日"
+    });
   });
 
   test("parses multiple characters", () => {
@@ -46,11 +51,17 @@ describe("KanjiDic2Parser", () => {
 
     parser.write("<character><literal>一</literal></character>");
     expect(dataHandler).toBeCalledTimes(1);
-    expect(dataHandler).toHaveBeenNthCalledWith(1, { ...BASE_CHARACTER, literal: "一" });
+    expect(dataHandler).toHaveBeenNthCalledWith(1, {
+      ...BASE_CHARACTER,
+      literal: "一"
+    });
 
     parser.write("<character><literal>二</literal></character>");
     expect(dataHandler).toBeCalledTimes(2);
-    expect(dataHandler).toHaveBeenNthCalledWith(2, { ...BASE_CHARACTER, literal: "二" });
+    expect(dataHandler).toHaveBeenNthCalledWith(2, {
+      ...BASE_CHARACTER,
+      literal: "二"
+    });
 
     parser.end("</kanjidic2>");
     expect(errorHandler).toHaveBeenCalledTimes(0);
@@ -72,7 +83,7 @@ describe("KanjiDic2Parser", () => {
       ...BASE_CHARACTER,
       literal: "亜",
       radical: 7,
-      nelsonRadical: 7,
+      nelsonRadical: 7
     });
   });
 
@@ -93,7 +104,7 @@ describe("KanjiDic2Parser", () => {
       ...BASE_CHARACTER,
       literal: "応",
       radical: 61,
-      nelsonRadical: 53,
+      nelsonRadical: 53
     });
   });
 
@@ -118,7 +129,7 @@ describe("KanjiDic2Parser", () => {
       grade: 8,
       strokeCount: [9],
       freq: 1715,
-      jlpt: 1,
+      jlpt: 1
     });
   });
 
@@ -138,7 +149,7 @@ describe("KanjiDic2Parser", () => {
     expect(dataHandler).toHaveBeenCalledWith({
       ...BASE_CHARACTER,
       literal: "飴",
-      strokeCount: [13, 14],
+      strokeCount: [13, 14]
     });
   });
 
@@ -162,7 +173,7 @@ describe("KanjiDic2Parser", () => {
       ...BASE_CHARACTER,
       literal: "冂",
       strokeCount: [2],
-      radicalNames: ["まきがまえ", "えながまえ", "どうがまえ", "けいがまえ"],
+      radicalNames: ["まきがまえ", "えながまえ", "どうがまえ", "けいがまえ"]
     });
   });
 
@@ -192,7 +203,7 @@ describe("KanjiDic2Parser", () => {
       literal: "决",
       on: ["ケチ", "ケツ"],
       kun: ["き.める", "き.まる", "さ.く"],
-      meaning: ["decide", "determine", "judge"],
+      meaning: ["decide", "determine", "judge"]
     });
   });
 
@@ -212,8 +223,7 @@ describe("KanjiDic2Parser", () => {
     expect(dataHandler).toHaveBeenCalledWith({
       ...BASE_CHARACTER,
       literal: "咸",
-      nanori: ["みな", "しげ"],
+      nanori: ["みな", "しげ"]
     });
   });
-
 });

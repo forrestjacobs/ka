@@ -8,7 +8,6 @@
   "typings": "./lib/index.d.ts",
   "scripts": {
     "clean": "rm -rf coverage lib",
-    "lint": "tslint -c ../tslint.yaml -p tsconfig.json",
     "test": "jest"
   }
 }
