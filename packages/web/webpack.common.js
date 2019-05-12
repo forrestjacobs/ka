@@ -37,7 +37,10 @@ module.exports = function(isProd) {
   }
 
   return {
-    entry: "./src/index.ts",
+    entry: {
+      main: "./src/index.ts",
+      styles: "./styles/index.scss"
+    },
     module: {
       rules: [
         {
@@ -59,7 +62,7 @@ module.exports = function(isProd) {
             },
             "sass-loader"
           ],
-          include: path.resolve(__dirname, "src")
+          include: path.resolve(__dirname, "styles")
         },
         {
           test: /\.messages\.yaml$/,

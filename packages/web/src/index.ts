@@ -3,7 +3,6 @@ import { applyMiddleware, createStore, compose as reduxCompose } from "redux";
 import thunk from "redux-thunk";
 import { getApi } from "./api";
 import { Root } from "./components/root";
-import "./index.scss";
 import { rootReducer } from "./reducers";
 
 interface WindowWithReduxDevtools {

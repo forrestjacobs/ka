@@ -14,5 +14,3 @@ export const useMapState = createUseMapState<RootState>();
 export function useActions(): RemoveReturnTypes<typeof allActions> {
   return useActionCreators(allActions);
 }
-
-export const abc = useActions();
