@@ -45,12 +45,12 @@
     "ts-loader": "5.3.3",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.1.14",
-    "webpack-merge": "^4.2.1"
+    "webpack-config-utils": "^2.3.1",
+    "webpack-dev-server": "^3.1.14"
   },
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
-    "dev": "webpack-dev-server --config webpack.dev.js",
+    "build": "webpack --env.production",
+    "dev": "webpack-dev-server",
     "serve": "serve -l 8080 -n"
   }
 }
