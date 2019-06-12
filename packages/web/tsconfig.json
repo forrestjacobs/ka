@@ -1,9 +1,10 @@
 {
   "extends": "../tsconfig.settings.json",
   "compilerOptions": {
-    "composite": false,
-    "declaration": false,
-    "declarationMap": false,
-    "module": "es6"
-  }
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "references": [{ "path": "../base" }, { "path": "../data" }],
+  "include": ["src/**/*"],
+  "exclude": ["**/web-messages-loader.ts"]
 }

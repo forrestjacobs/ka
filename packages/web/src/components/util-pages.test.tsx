@@ -1,7 +1,7 @@
 import React from "react";
 import { StaticContext, StaticRouter } from "react-router";
 import { create } from "react-test-renderer";
-import { ApiError, ApiErrorType } from "../api/api";
+import { ApiError, ApiErrorType } from "../api";
 import { AsyncState, AsyncStatus, resolved } from "../async";
 
 jest.mock("../messages", () => ({

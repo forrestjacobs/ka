@@ -1,6 +1,6 @@
 import { Character, isKanji } from "@ka/base";
 import { stringify as qsStringify } from "query-string";
-import { Api, ApiError, ApiErrorType } from "./api";
+import { Api, ApiError, ApiErrorType } from ".";
 
 const url = process.env.API_URL;
 
@@ -14,7 +14,7 @@ async function apiFetch(path: string): Promise<Response> {
   return response;
 }
 
-export const restApi: Api = {
+export const api: Api = {
   async getSearchResults(q: string): Promise<Character[]> {
     const response = await apiFetch(`/character?${qsStringify({ q })}`);
     return await response.json();

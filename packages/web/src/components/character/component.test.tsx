@@ -1,7 +1,7 @@
 import { Character } from "@ka/base";
 import React from "react";
 import { create } from "react-test-renderer";
-import { CharacterComponent } from "./character";
+import { CharacterComponent } from "./component";
 
 // NavLink creates a reference to a function, which makes it difficult to check
 jest.mock("react-router-dom", () => ({

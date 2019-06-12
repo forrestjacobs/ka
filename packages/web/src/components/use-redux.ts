@@ -9,7 +9,11 @@ type RemoveReturnTypes<T> = {
     : never
 };
 
-export const useMapState = createUseMapState<RootState>();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const useMapState: <Deps extends any[] | [any], Result = any>(
+  mapState?: ((s: RootState) => Result) | undefined,
+  deps?: Deps | undefined
+) => Result = createUseMapState<RootState>();
 
 export function useActions(): RemoveReturnTypes<typeof allActions> {
   return useActionCreators(allActions);

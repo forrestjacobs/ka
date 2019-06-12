@@ -1,7 +1,7 @@
 import { Character } from "@ka/base";
 import React, { ReactNode, ReactNodeArray } from "react";
 import { NavLink } from "react-router-dom";
-import { useMessages } from "../messages";
+import { useMessages } from "../../messages";
 
 function toList(
   items: ReactNodeArray,

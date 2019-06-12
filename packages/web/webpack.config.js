@@ -5,8 +5,6 @@ const glob = require("glob");
 const webpack = require("webpack");
 
 const autoprefixer = require("autoprefixer");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const template = require("html-webpack-template");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PurifyCSSPlugin = require("purifycss-webpack");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -18,15 +16,19 @@ module.exports = function(env) {
 
   return {
     mode,
+    context: __dirname,
     entry: {
-      main: "./src/index.ts",
+      main: "./src/index.tsx",
       styles: "./styles/index.scss"
     },
     module: {
       rules: [
         {
           test: /\.tsx?$/,
-          use: "ts-loader",
+          loader: "ts-loader",
+          options: {
+            configFile: "tsconfig.webpack.json"
+          },
           include: [
             path.resolve(__dirname, "../base/src"),
             path.resolve(__dirname, "src")
@@ -70,11 +72,6 @@ module.exports = function(env) {
       path: path.resolve(__dirname, "dist")
     }),
     devtool: ifDevelopment("inline-source-map"),
-    devServer: ifDevelopment({
-      host: "0.0.0.0",
-      port: 8080,
-      historyApiFallback: true
-    }),
     optimization: {
       splitChunks: { chunks: "all" },
       minimizer: ifProduction([
@@ -84,14 +81,6 @@ module.exports = function(env) {
     },
     watchOptions: { poll: true },
     plugins: removeEmpty([
-      new HtmlWebpackPlugin({
-        template,
-        inject: false,
-        mobile: true,
-        title: "Kanji Dictionary",
-        baseHref: "/",
-        appMountId: "root"
-      }),
       new webpack.DefinePlugin({
         "process.env.TARGET": JSON.stringify("web"),
         "process.env.API_URL": JSON.stringify(

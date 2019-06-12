@@ -1,12 +1,25 @@
-import { Api } from "./api";
-import { restApi } from "./rest";
+import { Character } from "@ka/base";
 
-export { Api, ApiErrorType, HasErrorType } from "./api";
+export enum ApiErrorType {
+  FetchError,
+  ParseError,
+  NotFound
+}
 
-export function getApi(): Api {
-  if (process.env.TARGET === "web") {
-    return restApi;
+export interface HasErrorType {
+  type: ApiErrorType;
+}
+
+export class ApiError extends Error {
+  public readonly type: ApiErrorType;
+
+  public constructor(message: string, type: ApiErrorType) {
+    super(message);
+    this.type = type;
   }
+}
 
-  throw new Error("No API available for the target");
+export interface Api {
+  getSearchResults(q: string): Promise<Character[]>;
+  getCharacter(literal: string): Promise<Character>;
 }

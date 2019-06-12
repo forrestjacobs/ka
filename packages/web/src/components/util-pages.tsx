@@ -4,49 +4,26 @@ import { ApiErrorType } from "../api";
 import { AsyncState, AsyncStatus } from "../async";
 import { useMessages } from "../messages";
 
-function mapAsyncState<V, U>(
+export function mapAsyncStateToEl<V>(
   state: AsyncState<V> | undefined,
-  loading: U,
-  error: U,
-  notFound: U,
-  cb: (value: V) => U
-): U {
+  cb: (value: V) => JSX.Element
+): JSX.Element {
   if (state === undefined || state.status === AsyncStatus.IN_PROGRESS) {
-    return loading;
+    return <Loading />;
   }
 
   if (
     state.status === AsyncStatus.ERROR &&
     state.error.type === ApiErrorType.NotFound
   ) {
-    return notFound;
+    return <NotFound />;
   }
 
   if (state.status === AsyncStatus.ERROR) {
-    return error;
+    return <ErrorEl />;
   }
 
   return cb(state.response);
-}
-
-export function mapAsyncStateToEl<V>(
-  state: AsyncState<V> | undefined,
-  cb: (value: V) => JSX.Element
-): JSX.Element {
-  return mapAsyncState(state, <Loading />, <ErrorEl />, <NotFound />, cb);
-}
-
-export function mapAsyncStateToPage<V>(
-  state: AsyncState<V> | undefined,
-  cb: (value: V) => JSX.Element
-): JSX.Element {
-  return mapAsyncState(
-    state,
-    <LoadingPage />,
-    <ErrorPage />,
-    <NotFoundPage />,
-    cb
-  );
 }
 
 export function Loading(): JSX.Element {

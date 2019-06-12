@@ -26,14 +26,6 @@ describe("fetch search results action", () => {
     jest.clearAllMocks();
   });
 
-  it("does not fetch 'undefined' query", async () => {
-    await fetchSearchResults(undefined)(dispatch, stateGetter(undefined), {
-      api
-    });
-    expect(asyncDispatchMock).toBeCalledTimes(0);
-    expect(innerAsyncDispatchMock).toBeCalledTimes(0);
-  });
-
   it("pipes search API to asyncDispatch", async () => {
     await fetchSearchResults("test")(
       dispatch,

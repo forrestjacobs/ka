@@ -1,52 +1,62 @@
-import { HooksProvider } from "@epeli/redux-hooks";
-import React from "react";
-import {
-  NavLink,
-  Route,
-  BrowserRouter as Router,
-  Switch
-} from "react-router-dom";
-import { AnyAction, Store } from "redux";
-import { MessagesProvider, useMessages } from "../messages";
-import { CharacterPage } from "./character-page";
-import { HomePage } from "./home-page";
-import { SearchForm, SearchPage } from "./search-page";
-import { NotFoundPage } from "./util-pages";
+import { HooksProvider, useDispatch } from "@epeli/redux-hooks";
+import React, { useState, useEffect } from "react";
+import { withRouter, RouteComponentProps, Route } from "react-router";
+import { Store } from "redux";
+import { MessagesProvider } from "../messages";
+import { routes, loadData } from "./routes";
+import { Nav } from "./nav/component";
+import { renderRoutes } from "react-router-config";
+import { LoadingPage, ErrorPage } from "./util-pages";
+import { AsyncStatus } from "../async";
 
-export function Root(store: Store<unknown, AnyAction>): JSX.Element {
+const LoadingSwitch = withRouter(
+  ({
+    location,
+    status
+  }: RouteComponentProps & { status: AsyncStatus }): JSX.Element => {
+    const [renderedStatus, setRenderedStatus] = useState(status);
+    const [renderedLocation, setRenderedLocation] = useState(location);
+    const dispatch = useDispatch();
+
+    useEffect((): void => {
+      loadData(
+        location,
+        dispatch,
+        (error?: Error): void => {
+          setRenderedStatus(error ? AsyncStatus.ERROR : AsyncStatus.RESOLVED);
+          setRenderedLocation(location);
+        }
+      );
+    }, [location]);
+
+    return renderedStatus === AsyncStatus.IN_PROGRESS ? (
+      <LoadingPage />
+    ) : renderedStatus === AsyncStatus.ERROR ? (
+      <ErrorPage />
+    ) : (
+      <Route
+        location={renderedLocation}
+        render={(): JSX.Element => renderRoutes(routes)}
+      />
+    );
+  }
+);
+
+export function Root({
+  store,
+  status
+}: {
+  store: Store;
+  status: AsyncStatus;
+}): JSX.Element {
   return (
     <MessagesProvider value="en">
       <HooksProvider store={store}>
-        <Router>
-          <div className="container">
-            <Nav />
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route
-                exact
-                path="/character/:literal"
-                component={CharacterPage}
-              />
-              <Route exact path="/search" component={SearchPage} />
-              <Route component={NotFoundPage} />
-            </Switch>
-          </div>
-        </Router>
+        <div className="container">
+          <Nav />
+          <LoadingSwitch status={status} />
+        </div>
       </HooksProvider>
     </MessagesProvider>
-  );
-}
-
-function Nav(): JSX.Element {
-  const messages = useMessages();
-  return (
-    <nav className="pt-3 pb-5 d-print-none">
-      <div className="navbar navbar-light">
-        <NavLink className="navbar-brand" exact to="/">
-          {messages.title()}
-        </NavLink>
-      </div>
-      <SearchForm />
-    </nav>
   );
 }

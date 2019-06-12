@@ -15,6 +15,13 @@ export function resolved<T>(response: T): AsyncState<T> {
   return { status: AsyncStatus.RESOLVED, response };
 }
 
+export function unwrap<T>(state: AsyncState<T>): T {
+  if (state.status !== AsyncStatus.RESOLVED) {
+    throw new Error("Tried to unwrap unresolved state");
+  }
+  return state.response;
+}
+
 export function map<T, U>(
   state: AsyncState<T>,
   cb: (response: T) => U
