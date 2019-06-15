@@ -15,7 +15,9 @@ function SearchResult({ literal }: { literal: string }): JSX.Element {
 
   return (
     <MapAsyncState state={characterState}>
-      {(character): JSX.Element => <CharacterComponent character={character} />}
+      {(character): JSX.Element => (
+        <CharacterComponent link character={character} />
+      )}
     </MapAsyncState>
   );
 }

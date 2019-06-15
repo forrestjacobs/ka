@@ -21,10 +21,13 @@ function toList(
   );
 }
 
-export function CharacterComponent(props: {
+export function CharacterComponent({
+  character,
+  link
+}: {
   character: Character;
+  link?: boolean;
 }): JSX.Element {
-  const { character } = props;
   const { literal } = character;
 
   const messages = useMessages();
@@ -56,14 +59,18 @@ export function CharacterComponent(props: {
   return (
     <div className="row position-relative">
       <div className="col-auto h1 position-static">
-        <NavLink
-          exact
-          to={`/character/${literal}`}
-          lang="ja"
-          className="stretched-link text-decoration-none"
-        >
-          {literal}
-        </NavLink>
+        {link ? (
+          <NavLink
+            exact
+            to={`/character/${literal}`}
+            lang="ja"
+            className="stretched-link text-decoration-none"
+          >
+            {literal}
+          </NavLink>
+        ) : (
+          literal
+        )}
       </div>
       <div className="col">
         <ol className="list-inline mb-3">
