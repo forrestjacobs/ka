@@ -17,9 +17,7 @@ const LoadingSwitch = withRouter(
       let canceled = false;
 
       setIsLoading(true);
-      loadData(
-        location,
-        dispatch,
+      loadData(location, dispatch).then(
         (): void => {
           setIsLoading(false);
           if (!canceled) {

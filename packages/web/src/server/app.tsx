@@ -37,21 +37,10 @@ app.use(
       applyMiddleware(thunk.withExtraArgument({ api }))
     );
 
-    await new Promise(
-      (resolve, reject): void => {
-        loadData(
-          location,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (action: any): Promise<void> => store.dispatch(action),
-          (error): void => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve();
-            }
-          }
-        );
-      }
+    await loadData(
+      location,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (action: any): Promise<void> => store.dispatch(action)
     );
 
     const context: StaticRouterContext & { title?: string } = {};

@@ -18,15 +18,14 @@ const asyncRoutes = routes.filter(
   (route): route is AsyncRoute => "loadData" in route
 );
 
-export function loadData(
+export async function loadData(
   location: Location,
-  dispatch: Dispatch,
-  callback: (error?: Error) => void
-): void {
-  Promise.all(
+  dispatch: Dispatch
+): Promise<void> {
+  await Promise.all(
     matchRoutes(asyncRoutes, location.pathname).map(
       ({ route, match }): Promise<void> =>
         (route as AsyncRoute).loadData({ location, match, dispatch })
     )
-  ).then((): void => callback(), (error): void => callback(error));
+  );
 }
