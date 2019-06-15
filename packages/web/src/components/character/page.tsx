@@ -2,22 +2,27 @@ import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { CharacterComponent } from "./component";
 import { useMapState } from "../use-redux";
-import { Page } from "../util-pages";
-import { unwrap } from "../../async";
+import { Page, MapAsyncState } from "../util-pages";
 import { Character } from "@ka/base";
+import { AsyncState } from "../../async";
 
 export function CharacterPage({
   match
 }: RouteComponentProps<{ literal: string }>): JSX.Element {
   const literal = match.params.literal;
 
-  const character = useMapState(
-    (state): Character => unwrap(state.entities.characters[literal])
+  const characterState = useMapState(
+    (state): AsyncState<Character> | undefined =>
+      state.entities.characters[literal]
   );
 
   return (
-    <Page title={literal}>
-      <CharacterComponent character={character} />
-    </Page>
+    <MapAsyncState page state={characterState}>
+      {(character): JSX.Element => (
+        <Page title={literal}>
+          <CharacterComponent character={character} />
+        </Page>
+      )}
+    </MapAsyncState>
   );
 }

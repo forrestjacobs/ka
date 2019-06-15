@@ -9,7 +9,6 @@ import { rootReducer } from "./reducers";
 import { createBrowserHistory } from "history";
 import { stringify, parse } from "query-string";
 import qhistory from "qhistory";
-import { AsyncStatus } from "./async";
 
 const enhancedCompose =
   (process.env.NODE_ENV !== "production" &&
@@ -24,14 +23,9 @@ const store = createStore(
 
 const history = qhistory(createBrowserHistory(), stringify, parse);
 
-const status =
-  window.__PRELOADED_STATUS__ !== undefined
-    ? window.__PRELOADED_STATUS__
-    : AsyncStatus.IN_PROGRESS;
-
 hydrate(
   <Router history={history}>
-    <Root store={store} status={status} />
+    <Root store={store} />
   </Router>,
   document.getElementById("root")
 );

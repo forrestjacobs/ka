@@ -13,7 +13,6 @@ import { parse } from "query-string";
 import webpack, { Stats } from "webpack";
 import middleware from "webpack-dev-middleware";
 import serialize from "serialize-javascript";
-import { AsyncStatus } from "../async";
 
 export const app = express();
 
@@ -58,7 +57,7 @@ app.use(
     const context: StaticRouterContext & { title?: string } = {};
     const html = renderToString(
       <StaticRouter location={location} context={context}>
-        <Root store={store} status={AsyncStatus.RESOLVED} />
+        <Root store={store} />
       </StaticRouter>
     );
 
@@ -85,9 +84,6 @@ app.use(
     <div id="root">${html}</div>
     <script>
       window.__PRELOADED_STATE__ = ${serialize(store.getState(), {
-        isJSON: true
-      })};
-      window.__PRELOADED_STATUS__ = ${serialize(AsyncStatus.RESOLVED, {
         isJSON: true
       })};
     </script>

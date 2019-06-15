@@ -4,19 +4,7 @@ import { create } from "react-test-renderer";
 import { ApiError, ApiErrorType } from "../api";
 import { AsyncState, AsyncStatus, resolved } from "../async";
 
-jest.mock("../messages", () => ({
-  useMessages: () => ({
-    title: () => "Kanji Dictionary"
-  })
-}));
-
-import {
-  ErrorEl,
-  Loading,
-  mapAsyncStateToEl,
-  NotFound,
-  Page
-} from "./util-pages";
+import { ErrorEl, Loading, NotFound, Page, MapAsyncState } from "./util-pages";
 
 describe("map async state", () => {
   function forbiddenCallback(): never {
@@ -24,14 +12,18 @@ describe("map async state", () => {
   }
 
   it("shows 'loading' when state is not defined", () => {
-    const el = mapAsyncStateToEl(undefined, forbiddenCallback);
-    expect(el).toEqual(<Loading />);
+    const el = create(
+      <MapAsyncState state={undefined}>{forbiddenCallback}</MapAsyncState>
+    );
+    expect(el.toJSON()).toEqual(create(<Loading />).toJSON());
   });
 
   it("shows 'loading' when state is loading", () => {
     const state: AsyncState<any> = { status: AsyncStatus.IN_PROGRESS };
-    const el = mapAsyncStateToEl(state, forbiddenCallback);
-    expect(el).toEqual(<Loading />);
+    const el = create(
+      <MapAsyncState state={state}>{forbiddenCallback}</MapAsyncState>
+    );
+    expect(el.toJSON()).toEqual(create(<Loading />).toJSON());
   });
 
   it("shows 'not found' when state is not found", () => {
@@ -39,8 +31,10 @@ describe("map async state", () => {
       status: AsyncStatus.ERROR,
       error: new ApiError("Test", ApiErrorType.NotFound)
     };
-    const el = mapAsyncStateToEl(state, forbiddenCallback);
-    expect(el).toEqual(<NotFound />);
+    const el = create(
+      <MapAsyncState state={state}>{forbiddenCallback}</MapAsyncState>
+    );
+    expect(el.toJSON()).toEqual(create(<NotFound />).toJSON());
   });
 
   it("shows 'error' when there is any other type of error", () => {
@@ -48,14 +42,18 @@ describe("map async state", () => {
       status: AsyncStatus.ERROR,
       error: new Error("Test")
     };
-    const el = mapAsyncStateToEl(state, forbiddenCallback);
-    expect(el).toEqual(<ErrorEl />);
+    const el = create(
+      <MapAsyncState state={state}>{forbiddenCallback}</MapAsyncState>
+    );
+    expect(el.toJSON()).toEqual(create(<ErrorEl />).toJSON());
   });
 
   it("shows the result of the callback when state is resolved", () => {
     const state: AsyncState<string> = resolved("test");
-    const el = mapAsyncStateToEl(state, text => <>{text}</>);
-    expect(el).toEqual(<>test</>);
+    const el = create(
+      <MapAsyncState state={state}>{text => <>{text}</>}</MapAsyncState>
+    );
+    expect(el.toJSON()).toEqual(create(<>test</>).toJSON());
   });
 });
 
