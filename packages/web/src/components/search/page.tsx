@@ -7,40 +7,16 @@ import { CharacterComponent } from "../character/component";
 import { useMapState } from "../use-redux";
 import { NotFoundPage, Page, MapAsyncState } from "../util-pages";
 
-interface SearchResult {
-  literal: string;
-  character: AsyncState<Character>;
-}
-
-function SearchResults({
-  resultLiterals
-}: {
-  resultLiterals: string[];
-}): JSX.Element {
-  const results = useMapState(
-    ({ entities }): SearchResult[] =>
-      resultLiterals.map(
-        (literal): SearchResult => ({
-          literal,
-          character: entities.characters[literal]
-        })
-      )
+function SearchResult({ literal }: { literal: string }): JSX.Element {
+  const characterState = useMapState(
+    ({ entities }): AsyncState<Character> => entities.characters[literal],
+    [literal]
   );
 
   return (
-    <ol className="list-group list-group-flush">
-      {results.map(
-        (result): JSX.Element => (
-          <li className="list-group-item" key={result.literal}>
-            <MapAsyncState state={result.character}>
-              {(character): JSX.Element => (
-                <CharacterComponent character={character} />
-              )}
-            </MapAsyncState>
-          </li>
-        )
-      )}
-    </ol>
+    <MapAsyncState state={characterState}>
+      {(character): JSX.Element => <CharacterComponent character={character} />}
+    </MapAsyncState>
   );
 }
 
@@ -52,21 +28,30 @@ export function SearchPage({ location }: RouteComponentProps): JSX.Element {
     return <NotFoundPage />;
   }
 
-  const resultsState = useMapState(
-    ({ entities }): AsyncState<string[]> => entities.searchResults[q]
+  const literalsState = useMapState(
+    ({ entities }): AsyncState<string[]> => entities.searchResults[q],
+    [q]
   );
 
   return (
-    <MapAsyncState page state={resultsState}>
-      {(results): JSX.Element => (
+    <MapAsyncState page state={literalsState}>
+      {(literals): JSX.Element => (
         <Page title={q}>
           <h1>
             {messages.search.results({
-              results: results.length,
+              results: literals.length,
               terms: q
             })}
           </h1>
-          <SearchResults resultLiterals={results} />
+          <ol className="list-group list-group-flush">
+            {literals.map(
+              (literal): JSX.Element => (
+                <li className="list-group-item" key={literal}>
+                  <SearchResult literal={literal} />
+                </li>
+              )
+            )}
+          </ol>
         </Page>
       )}
     </MapAsyncState>

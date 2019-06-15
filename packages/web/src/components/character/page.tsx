@@ -13,7 +13,8 @@ export function CharacterPage({
 
   const characterState = useMapState(
     (state): AsyncState<Character> | undefined =>
-      state.entities.characters[literal]
+      state.entities.characters[literal],
+    [literal]
   );
 
   return (
