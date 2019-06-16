@@ -6,6 +6,7 @@ import { useMessages } from "../../messages";
 import { CharacterComponent } from "../character/component";
 import { useMapState } from "../use-redux";
 import { NotFoundPage, Page, MapAsyncState } from "../util-pages";
+import { Section, Heading } from "../section";
 
 function SearchResult({ literal }: { literal: string }): JSX.Element {
   const characterState = useMapState(
@@ -39,21 +40,23 @@ export function SearchPage({ location }: RouteComponentProps): JSX.Element {
     <MapAsyncState page state={literalsState}>
       {(literals): JSX.Element => (
         <Page title={q}>
-          <h1>
-            {messages.search.results({
-              results: literals.length,
-              terms: q
-            })}
-          </h1>
-          <ol className="list-group list-group-flush">
-            {literals.map(
-              (literal): JSX.Element => (
-                <li className="list-group-item" key={literal}>
-                  <SearchResult literal={literal} />
-                </li>
-              )
-            )}
-          </ol>
+          <Section>
+            <Heading>
+              {messages.search.results({
+                results: literals.length,
+                terms: q
+              })}
+            </Heading>
+            <ol className="list-group list-group-flush">
+              {literals.map(
+                (literal): JSX.Element => (
+                  <li className="list-group-item" key={literal}>
+                    <SearchResult literal={literal} />
+                  </li>
+                )
+              )}
+            </ol>
+          </Section>
         </Page>
       )}
     </MapAsyncState>

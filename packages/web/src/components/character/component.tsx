@@ -2,6 +2,7 @@ import { Character } from "@ka/base";
 import React, { ReactNode, ReactNodeArray } from "react";
 import { NavLink } from "react-router-dom";
 import { useMessages } from "../../messages";
+import { Section, Heading } from "../section";
 
 function toList(
   items: ReactNodeArray,
@@ -57,20 +58,21 @@ export function CharacterComponent({
   }
 
   return (
-    <div className="row position-relative">
-      <div className="col-auto h1 position-static">
-        {link ? (
-          <NavLink
-            exact
-            to={`/character/${literal}`}
-            lang="ja"
-            className="stretched-link text-decoration-none"
-          >
-            {literal}
-          </NavLink>
-        ) : (
-          literal
-        )}
+    <Section className="row position-relative">
+      <div className="col-auto position-static">
+        <Heading className="h1" lang="ja">
+          {link ? (
+            <NavLink
+              exact
+              to={`/character/${literal}`}
+              className="stretched-link text-decoration-none"
+            >
+              {literal}
+            </NavLink>
+          ) : (
+            literal
+          )}
+        </Heading>
       </div>
       <div className="col">
         <ol className="list-inline mb-3">
@@ -78,6 +80,6 @@ export function CharacterComponent({
         </ol>
         {readingElements}
       </div>
-    </div>
+    </Section>
   );
 }
