@@ -2,7 +2,7 @@ import { Character } from "@ka/base";
 import React, { ReactNode, ReactNodeArray } from "react";
 import { NavLink } from "react-router-dom";
 import { useMessages } from "../../messages";
-import { Section, Heading } from "../section";
+import { Section, Heading, Article } from "../section";
 
 function toList(
   items: ReactNodeArray,
@@ -37,28 +37,32 @@ export function CharacterComponent({
 
   if (character.kun.length !== 0) {
     readingElements.push(
-      <div className="row mb-3" key="kun">
-        <h2 className="h6 col-2 col-md-1 mb-0">{messages.character.kun()}</h2>
+      <Section className="row mb-3" key="kun">
+        <Heading className="h6 col-2 col-md-1 mb-0">
+          {messages.character.kun()}
+        </Heading>
         <ol className="col list-inline mb-0">
           {toList(character.kun, `${literal}-kun`, "ja")}
         </ol>
-      </div>
+      </Section>
     );
   }
 
   if (character.on.length !== 0) {
     readingElements.push(
-      <div className="row mb-3" key="on">
-        <h2 className="h6 col-2 col-md-1 mb-0">{messages.character.on()}</h2>
+      <Section className="row mb-3" key="on">
+        <Heading className="h6 col-2 col-md-1 mb-0">
+          {messages.character.on()}
+        </Heading>
         <ol className="col list-inline mb-0">
           {toList(character.on, `${literal}-on`, "ja")}
         </ol>
-      </div>
+      </Section>
     );
   }
 
   return (
-    <Section className="row position-relative">
+    <Article className="row position-relative">
       <div className="col-auto position-static">
         <Heading className="h1" lang="ja">
           {link ? (
@@ -80,6 +84,6 @@ export function CharacterComponent({
         </ol>
         {readingElements}
       </div>
-    </Section>
+    </Article>
   );
 }

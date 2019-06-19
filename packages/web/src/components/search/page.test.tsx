@@ -67,13 +67,13 @@ describe("search page", () => {
 
     expect(page.toJSON()).toEqual(
       create(
-        <>
-          <h1>2 results for “numbers”</h1>
+        <section>
+          <h2>2 results for “numbers”</h2>
           <ol className="list-group list-group-flush">
             <li className="list-group-item">Result 1</li>
             <li className="list-group-item">Result 2</li>
           </ol>
-        </>
+        </section>
       ).toJSON()
     );
   });
