@@ -5,8 +5,10 @@ import { AsyncState } from "../../async";
 import { useMessages } from "../../messages";
 import { CharacterComponent } from "../character/component";
 import { useMapState } from "../use-redux";
-import { NotFoundPage, Page, MapAsyncState } from "../util-pages";
+import { MapAsyncState } from "../map-async-state";
+import { Page } from "../page";
 import { Section, Heading } from "../section";
+import { NotFoundPage } from "../not-found/page";
 
 function SearchResult({ literal }: { literal: string }): JSX.Element {
   const characterState = useMapState(

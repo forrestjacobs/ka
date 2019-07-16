@@ -1,0 +1,12 @@
+.character-component {
+  @extend .row, .position-relative;
+
+  > .literal { @extend .h1, .col-auto, .position-static; }
+  > .literal > a { @extend .stretched-link, .text-decoration-none; }
+
+  .vlist { @extend .row, .mb-3; }
+  .vlist > .heading { @extend .h6, .col-2, .col-md-1, .mb-0; }
+  .vlist > ol { @extend .col, .list-inline, .mb-0; }
+  .vlist > ol > li { @extend .list-inline-item, .mr-4; }
+
+}

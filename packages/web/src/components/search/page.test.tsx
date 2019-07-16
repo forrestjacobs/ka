@@ -2,7 +2,6 @@ import React from "react";
 import { Route, StaticRouter } from "react-router";
 import { act, create } from "react-test-renderer";
 import { resolved } from "../../async";
-import { NotFoundPage } from "../util-pages";
 import { parsePath } from "history";
 
 const useMapStateMock = jest.fn();
@@ -16,6 +15,7 @@ jest.mock("../character/component", () => ({
 }));
 
 import { SearchPage } from "./page";
+import { NotFoundPage } from "../not-found/page";
 
 beforeEach(() => {
   useMapStateMock.mockReset();

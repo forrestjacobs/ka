@@ -1,10 +1,11 @@
 import React from "react";
-import { StaticContext, StaticRouter } from "react-router";
 import { create } from "react-test-renderer";
 import { ApiError, ApiErrorType } from "../api";
 import { AsyncState, AsyncStatus, resolved } from "../async";
-
-import { ErrorEl, Loading, NotFound, Page, MapAsyncState } from "./util-pages";
+import { MapAsyncState } from "./map-async-state";
+import { Loading } from "./loading/component";
+import { NotFound } from "./not-found/component";
+import { ErrorComponent } from "./error/component";
 
 describe("map async state", () => {
   function forbiddenCallback(): never {
@@ -45,7 +46,7 @@ describe("map async state", () => {
     const el = create(
       <MapAsyncState state={state}>{forbiddenCallback}</MapAsyncState>
     );
-    expect(el.toJSON()).toEqual(create(<ErrorEl />).toJSON());
+    expect(el.toJSON()).toEqual(create(<ErrorComponent />).toJSON());
   });
 
   it("shows the result of the callback when state is resolved", () => {
@@ -54,60 +55,5 @@ describe("map async state", () => {
       <MapAsyncState state={state}>{text => <>{text}</>}</MapAsyncState>
     );
     expect(el.toJSON()).toEqual(create(<>test</>).toJSON());
-  });
-});
-
-describe("page element", () => {
-  beforeEach(() => {
-    process.env.TARGET = undefined;
-  });
-
-  it("renders children on the web", () => {
-    process.env.TARGET = "web";
-    expect(
-      create(
-        <Page>
-          <span>child</span>
-        </Page>
-      ).toJSON()
-    ).toEqual(create(<span>child</span>).toJSON());
-  });
-
-  it("renders children in node", () => {
-    expect(
-      create(
-        <StaticRouter>
-          <Page>
-            <span>child</span>
-          </Page>
-        </StaticRouter>
-      ).toJSON()
-    ).toEqual(create(<span>child</span>).toJSON());
-  });
-
-  it("sets the document title on the web", () => {
-    process.env.TARGET = "web";
-    create(<Page title="test" />);
-    expect(document.title).toBe("test - Kanji Dictionary");
-  });
-
-  it("sets title context property in node", () => {
-    const context: { title?: string } & StaticContext = {};
-    create(
-      <StaticRouter context={context}>
-        <Page title="test" />
-      </StaticRouter>
-    );
-    expect(context.title).toBe("test - Kanji Dictionary");
-  });
-
-  it("sets status code context property in node", () => {
-    const context: { title?: string } & StaticContext = {};
-    create(
-      <StaticRouter context={context}>
-        <Page status={404} />
-      </StaticRouter>
-    );
-    expect(context.statusCode).toBe(404);
   });
 });

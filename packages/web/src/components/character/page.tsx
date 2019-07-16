@@ -2,7 +2,8 @@ import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { CharacterComponent } from "./component";
 import { useMapState } from "../use-redux";
-import { Page, MapAsyncState } from "../util-pages";
+import { MapAsyncState } from "../map-async-state";
+import { Page } from "../page";
 import { Character } from "@ka/base";
 import { AsyncState } from "../../async";
 

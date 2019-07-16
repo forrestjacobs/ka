@@ -1,0 +1,7 @@
+.nav-component {
+  @extend .pt-3, .pb-5, .d-print-none;
+
+  > h1 { @extend .navbar, .navbar-light; }
+  > h1 > a { @extend .navbar-brand; }
+
+}

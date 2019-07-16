@@ -19,7 +19,7 @@ module.exports = function(env) {
     context: __dirname,
     entry: {
       main: "./src/index.tsx",
-      styles: "./styles/index.scss"
+      styles: "./src/index.scss"
     },
     module: {
       rules: [
@@ -45,7 +45,7 @@ module.exports = function(env) {
             },
             "sass-loader"
           ],
-          include: path.resolve(__dirname, "styles")
+          include: path.resolve(__dirname, "src")
         },
         {
           test: /\.messages\.yaml$/,

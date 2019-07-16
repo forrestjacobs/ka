@@ -1,24 +1,39 @@
 import { Character } from "@ka/base";
-import React, { ReactNode, ReactNodeArray } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { useMessages } from "../../messages";
 import { Section, Heading, Article } from "../section";
 
-function toList(
-  items: ReactNodeArray,
-  keyPrefix: string,
-  lang?: string
-): ReactNode {
-  return items.map(
-    (item): JSX.Element => (
-      <li
-        className="list-inline-item mr-4"
-        key={`${keyPrefix}-${item}`}
-        lang={lang}
-      >
-        {item}
-      </li>
-    )
+function ListItems({ items }: { items: string[] }): JSX.Element {
+  return (
+    <>
+      {items.map(
+        (item): JSX.Element => (
+          <li key={item}>{item}</li>
+        )
+      )}
+    </>
+  );
+}
+
+function Reading({
+  heading,
+  readings
+}: {
+  heading: string;
+  readings: string[];
+}): JSX.Element | null {
+  if (readings.length === 0) {
+    return null;
+  }
+
+  return (
+    <Section className="vlist">
+      <Heading className="heading">{heading}</Heading>
+      <ol lang="ja">
+        <ListItems items={readings} />
+      </ol>
+    </Section>
   );
 }
 
@@ -30,59 +45,27 @@ export function CharacterComponent({
   link?: boolean;
 }): JSX.Element {
   const { literal } = character;
-
   const messages = useMessages();
 
-  const readingElements: JSX.Element[] = [];
-
-  if (character.kun.length !== 0) {
-    readingElements.push(
-      <Section className="row mb-3" key="kun">
-        <Heading className="h6 col-2 col-md-1 mb-0">
-          {messages.character.kun()}
-        </Heading>
-        <ol className="col list-inline mb-0">
-          {toList(character.kun, `${literal}-kun`, "ja")}
-        </ol>
-      </Section>
-    );
-  }
-
-  if (character.on.length !== 0) {
-    readingElements.push(
-      <Section className="row mb-3" key="on">
-        <Heading className="h6 col-2 col-md-1 mb-0">
-          {messages.character.on()}
-        </Heading>
-        <ol className="col list-inline mb-0">
-          {toList(character.on, `${literal}-on`, "ja")}
-        </ol>
-      </Section>
-    );
-  }
-
   return (
-    <Article className="row position-relative">
-      <div className="col-auto position-static">
-        <Heading className="h1" lang="ja">
-          {link ? (
-            <NavLink
-              exact
-              to={`/character/${literal}`}
-              className="stretched-link text-decoration-none"
-            >
-              {literal}
-            </NavLink>
-          ) : (
-            literal
-          )}
-        </Heading>
-      </div>
+    <Article className="character-component">
+      <Heading className="literal" lang="ja">
+        {link ? (
+          <NavLink exact to={`/character/${literal}`}>
+            {literal}
+          </NavLink>
+        ) : (
+          literal
+        )}
+      </Heading>
       <div className="col">
-        <ol className="list-inline mb-3">
-          {toList(character.meaning, `${literal}-meaning`)}
-        </ol>
-        {readingElements}
+        <Section className="vlist">
+          <ol>
+            <ListItems items={character.meaning} />
+          </ol>
+        </Section>
+        <Reading heading={messages.character.kun()} readings={character.kun} />
+        <Reading heading={messages.character.on()} readings={character.on} />
       </div>
     </Article>
   );

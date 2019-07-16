@@ -28,43 +28,67 @@ describe("character component", () => {
   it("displays a character's readings and meanings", () => {
     const character = ({
       literal: "日",
-      on: ["ニチ"],
+      meaning: ["day"],
       kun: ["ひ"],
-      meaning: ["day"]
+      on: ["ニチ"]
     } as Partial<Character>) as Character;
 
     expect(
       create(<CharacterComponent character={character} />).toJSON()
     ).toEqual(
       create(
-        <div className="row position-relative">
-          <div className="col-auto h1 position-static">
-            <a href="/character/日" lang="ja">
-              日
-            </a>
-          </div>
+        <article className="character-component">
+          <h2 className="literal" lang="ja">
+            日
+          </h2>
           <div className="col">
-            <ol className="list-inline mb-3">
-              <li className="list-inline-item mr-4">day</li>
-            </ol>
-            <div className="row mb-3">
-              <h2 className="h6 col-2 col-md-1 mb-0">Kun</h2>
-              <ol className="col list-inline mb-0">
-                <li className="list-inline-item mr-4" lang="ja">
-                  ひ
-                </li>
+            <section className="vlist">
+              <ol>
+                <li>day</li>
               </ol>
-            </div>
-            <div className="row mb-3">
-              <h2 className="h6 col-2 col-md-1 mb-0">On</h2>
-              <ol className="col list-inline mb-0">
-                <li className="list-inline-item mr-4" lang="ja">
-                  ニチ
-                </li>
+            </section>
+            <section className="vlist">
+              <h3 className="heading">Kun</h3>
+              <ol lang="ja">
+                <li>ひ</li>
               </ol>
-            </div>
+            </section>
+            <section className="vlist">
+              <h3 className="heading">On</h3>
+              <ol lang="ja">
+                <li>ニチ</li>
+              </ol>
+            </section>
           </div>
-        </div>
+        </article>
+      ).toJSON()
+    );
+  });
+
+  it("omits sections that aren't applicable", () => {
+    const character = ({
+      literal: "日",
+      meaning: ["day"],
+      kun: [],
+      on: []
+    } as Partial<Character>) as Character;
+
+    expect(
+      create(<CharacterComponent character={character} />).toJSON()
+    ).toEqual(
+      create(
+        <article className="character-component">
+          <h2 className="literal" lang="ja">
+            日
+          </h2>
+          <div className="col">
+            <section className="vlist">
+              <ol>
+                <li>day</li>
+              </ol>
+            </section>
+          </div>
+        </article>
       ).toJSON()
     );
   });
