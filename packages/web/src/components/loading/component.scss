@@ -9,7 +9,7 @@
 
     background: linear-gradient(270deg, gray("400"), gray("200"), gray("400"), gray("200"), gray("400"));
     background-size: 200% 200%;
-    animation: loading-pulse 3s linear infinite;
+    animation: loading-component-animation 3s linear infinite;
   }
 
   &::before {
@@ -22,7 +22,7 @@
 
 }
 
-@keyframes loading-pulse {
+@keyframes loading-component-animation {
   0%   { background-position: 0% 50%; }
   100% { background-position: 100% 50%; }
 }

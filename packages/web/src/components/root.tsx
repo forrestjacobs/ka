@@ -4,23 +4,24 @@ import { withRouter, RouteComponentProps, Route } from "react-router";
 import { Store } from "redux";
 import { MessagesProvider } from "../messages";
 import { routes, loadData } from "./routes";
+import { LoadingBar } from "./loading/bar";
 import { Nav } from "./nav/component";
 import { renderRoutes } from "react-router-config";
 
 const LoadingSwitch = withRouter(
   ({ location }: RouteComponentProps): JSX.Element => {
-    const [, setIsLoading] = useState(false);
+    const [loadingStart, setLoadingStart] = useState<number | undefined>();
     const [renderedLocation, setRenderedLocation] = useState(location);
     const dispatch = useDispatch();
 
     useEffect((): (() => void) => {
       let canceled = false;
 
-      setIsLoading(true);
+      setLoadingStart(Date.now());
       loadData(location, dispatch).then(
         (): void => {
-          setIsLoading(false);
           if (!canceled) {
+            setLoadingStart(undefined);
             setRenderedLocation(location);
           }
         }
@@ -32,10 +33,13 @@ const LoadingSwitch = withRouter(
     }, [location]);
 
     return (
-      <Route
-        location={renderedLocation}
-        render={(): JSX.Element => renderRoutes(routes)}
-      />
+      <>
+        <LoadingBar start={loadingStart} />
+        <Route
+          location={renderedLocation}
+          render={(): JSX.Element => renderRoutes(routes)}
+        />
+      </>
     );
   }
 );
