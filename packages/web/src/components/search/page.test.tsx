@@ -24,8 +24,10 @@ beforeEach(() => {
 
 describe("search page", () => {
   it("shows the not found page if the query is missing", () => {
+    const location = parsePath("/");
+    location.query = {};
     const page = create(
-      <StaticRouter location={{ ...parsePath("/"), query: {} }}>
+      <StaticRouter location={location}>
         <Route component={SearchPage} />
       </StaticRouter>
     );
@@ -56,8 +58,10 @@ describe("search page", () => {
       })
     );
 
+    const location = parsePath("/");
+    location.query = { q: "numbers" };
     const page = create(
-      <StaticRouter location={{ ...parsePath("/"), query: { q: "numbers" } }}>
+      <StaticRouter location={location}>
         <Route component={SearchPage} />
       </StaticRouter>
     );

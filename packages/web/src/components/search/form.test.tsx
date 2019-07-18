@@ -15,10 +15,11 @@ describe("search form", () => {
   }
 
   it("uses the URL's query", () => {
+    const location = parsePath("/search");
+    location.query = { q: "url query" };
+
     const form = create(
-      <StaticRouter
-        location={{ ...parsePath("/search"), query: { q: "url query" } }}
-      >
+      <StaticRouter location={location}>
         <SearchForm />
       </StaticRouter>
     );
