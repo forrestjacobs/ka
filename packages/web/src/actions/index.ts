@@ -21,9 +21,11 @@ type KaThunkAction<ReturnType> = ThunkAction<
   Action
 >;
 
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+
 export function fetchSearchResults(q: string): KaThunkAction<Promise<void>> {
   return async (dispatch, getState, { api }): Promise<void> => {
-    if (!getState().entities.searchResults.hasOwnProperty(q)) {
+    if (!hasOwnProperty.call(getState().entities.searchResults, q)) {
       return asyncDispatch("FETCH_SEARCH_RESULTS", q, api.getSearchResults)(
         dispatch
       );
@@ -33,7 +35,7 @@ export function fetchSearchResults(q: string): KaThunkAction<Promise<void>> {
 
 export function fetchCharacter(literal: string): KaThunkAction<Promise<void>> {
   return async (dispatch, getState, { api }): Promise<void> => {
-    if (!getState().entities.characters.hasOwnProperty(literal)) {
+    if (!hasOwnProperty.call(getState().entities.characters, literal)) {
       return asyncDispatch("FETCH_CHARACTER", literal, api.getCharacter)(
         dispatch
       );
