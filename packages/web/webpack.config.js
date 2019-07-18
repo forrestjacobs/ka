@@ -30,7 +30,8 @@ module.exports = function(env) {
           test: /\.tsx?$/,
           loader: "ts-loader",
           options: {
-            configFile: "tsconfig.webpack.json"
+            configFile: "tsconfig.webpack.json",
+            onlyCompileBundledFiles: true
           },
           include: [
             path.resolve(__dirname, "../base/src"),
