@@ -8,11 +8,12 @@ export function LoadingBar({
   const [modifier, setModifier] = useState("complete");
   useEffect((): void => {
     setModifier(
-      start === undefined
-        ? "complete"
-        : modifier === "loadinga"
-        ? "loadingb"
-        : "loadinga"
+      (m): string =>
+        start === undefined
+          ? "complete"
+          : m === "loadinga"
+          ? "loadingb"
+          : "loadinga"
     );
   }, [start]);
 

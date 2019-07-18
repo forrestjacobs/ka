@@ -1,4 +1,4 @@
-import { HasErrorType } from "./api";
+import { HasErrorType, ApiError, ApiErrorType } from "./api";
 
 export enum AsyncStatus {
   IN_PROGRESS,
@@ -10,6 +10,12 @@ export type AsyncState<Response> =
   | { status: AsyncStatus.IN_PROGRESS }
   | { status: AsyncStatus.RESOLVED; response: Response }
   | { status: AsyncStatus.ERROR; error: Error & Partial<HasErrorType> };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const notFound: AsyncState<any> = {
+  status: AsyncStatus.ERROR,
+  error: new ApiError("Not found", ApiErrorType.NotFound)
+};
 
 export function resolved<T>(response: T): AsyncState<T> {
   return { status: AsyncStatus.RESOLVED, response };

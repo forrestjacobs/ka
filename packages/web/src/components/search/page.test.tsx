@@ -4,7 +4,19 @@ import { act, create } from "react-test-renderer";
 import { resolved } from "../../async";
 import { parsePath } from "history";
 
-const useMapStateMock = jest.fn();
+const useMapStateMock = jest.fn(cb =>
+  cb({
+    entities: {
+      searchResults: {
+        numbers: resolved(["一", "二"])
+      },
+      characters: {
+        一: resolved("Result 1"),
+        二: resolved("Result 2")
+      }
+    }
+  })
+);
 jest.mock("../use-redux", () => ({
   useMapState: useMapStateMock
 }));
@@ -18,7 +30,7 @@ import { SearchPage } from "./page";
 import { NotFoundPage } from "../not-found/page";
 
 beforeEach(() => {
-  useMapStateMock.mockReset();
+  useMapStateMock.mockClear();
   characterComponentMock.mockClear();
 });
 
@@ -32,6 +44,9 @@ describe("search page", () => {
       </StaticRouter>
     );
 
+    // ensure hooks are called
+    act(() => {});
+
     expect(page.toJSON()).toEqual(
       create(
         <StaticRouter>
@@ -44,20 +59,6 @@ describe("search page", () => {
   // todo: this should not test class names or translated strings,
   // but that might require switching to a different testing library
   it("shows the search results", () => {
-    useMapStateMock.mockImplementation(cb =>
-      cb({
-        entities: {
-          searchResults: {
-            numbers: resolved(["一", "二"])
-          },
-          characters: {
-            一: resolved("Result 1"),
-            二: resolved("Result 2")
-          }
-        }
-      })
-    );
-
     const location = parsePath("/");
     location.query = { q: "numbers" };
     const page = create(

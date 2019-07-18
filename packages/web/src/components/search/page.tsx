@@ -1,14 +1,13 @@
 import { Character } from "@ka/base";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { AsyncState } from "../../async";
+import { AsyncState, notFound } from "../../async";
 import { useMessages } from "../../messages";
 import { CharacterComponent } from "../character/component";
 import { useMapState } from "../use-redux";
 import { MapAsyncState } from "../map-async-state";
 import { Page } from "../page";
 import { Section, Heading } from "../section";
-import { NotFoundPage } from "../not-found/page";
 
 function SearchResult({ literal }: { literal: string }): JSX.Element {
   const characterState = useMapState(
@@ -29,12 +28,11 @@ export function SearchPage({ location }: RouteComponentProps): JSX.Element {
   const messages = useMessages();
 
   const q = location.query.q;
-  if (q === undefined || typeof q !== "string") {
-    return <NotFoundPage />;
-  }
-
   const literalsState = useMapState(
-    ({ entities }): AsyncState<string[]> => entities.searchResults[q],
+    ({ entities }): AsyncState<string[]> =>
+      q === undefined || typeof q !== "string"
+        ? notFound
+        : entities.searchResults[q],
     [q]
   );
 

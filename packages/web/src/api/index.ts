@@ -2,7 +2,6 @@ import { Character } from "@ka/base";
 
 export enum ApiErrorType {
   FetchError,
-  ParseError,
   NotFound
 }
 
