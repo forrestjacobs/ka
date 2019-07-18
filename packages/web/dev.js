@@ -57,7 +57,8 @@ app.use(async (req, res) => {
   ).filter(path => path.endsWith(".js"));
 
   res.status(result.statusCode).send(
-    `<html lang="en">
+    `<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta content="ie=edge" http-equiv="x-ua-compatible">
