@@ -4,35 +4,43 @@ import { withRouter, RouteComponentProps, Route } from "react-router";
 import { Store } from "redux";
 import { MessagesProvider } from "../messages";
 import { routes, loadData } from "./routes";
-import { LoadingBar } from "./loading/bar";
+import { LoadingBar, LoadingBarStatus } from "./loading/bar";
 import { Nav } from "./nav/component";
 import { renderRoutes } from "react-router-config";
 
 const LoadingSwitch = withRouter(
   ({ location }: RouteComponentProps): JSX.Element => {
-    const [loadingStart, setLoadingStart] = useState<number | undefined>();
+    const [loadingBarStatus, setLoadingBarStatus] = useState(
+      LoadingBarStatus.Complete
+    );
     const [renderedLocation, setRenderedLocation] = useState(location);
     const dispatch = useDispatch();
 
     useEffect((): (() => void) => {
       let canceled = false;
 
-      setLoadingStart(Date.now());
+      const cancelLoadingStart = setTimeout((): void => {
+        setLoadingBarStatus(LoadingBarStatus.Loading);
+      }, 20);
+
       loadData(location, dispatch).then((): void => {
         if (!canceled) {
-          setLoadingStart(undefined);
+          clearTimeout(cancelLoadingStart);
+          setLoadingBarStatus(LoadingBarStatus.Complete);
           setRenderedLocation(location);
         }
       });
 
       return (): void => {
         canceled = true;
+        clearTimeout(cancelLoadingStart);
+        setLoadingBarStatus(LoadingBarStatus.Canceled);
       };
     }, [location]);
 
     return (
       <>
-        <LoadingBar start={loadingStart} />
+        <LoadingBar status={loadingBarStatus} />
         <Route
           location={renderedLocation}
           render={(): JSX.Element => renderRoutes(routes)}

@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+
+export enum LoadingBarStatus {
+  Loading = "loading",
+  Canceled = "canceled",
+  Complete = "complete"
+}
 
 export function LoadingBar({
-  start
+  status
 }: {
-  start: number | undefined;
+  status: LoadingBarStatus;
 }): JSX.Element {
-  const [modifier, setModifier] = useState("complete");
-  useEffect((): void => {
-    setModifier(
-      (m): string =>
-        start === undefined
-          ? "complete"
-          : m === "loadinga"
-          ? "loadingb"
-          : "loadinga"
-    );
-  }, [start]);
-
   return (
     <div className="loading-bar">
-      <div className={`track -${modifier}`} />
+      <div className={`track -${status}`} />
     </div>
   );
 }

@@ -4,13 +4,12 @@
   height: .25rem;
 
   > .track { @extend .bg-primary, .h-100, .border-top, .border-white; }
-  > .track.-loadinga {
-    animation: loading-bar-a 99s cubic-bezier(0, 1, 0, 1);
+  > .track.-loading {
+    animation: loading-bar-loading 99s cubic-bezier(0, 1, 0, 1);
     width: 60%;
   }
-  > .track.-loadingb {
-    animation: loading-bar-b 99s cubic-bezier(0, 1, 0, 1);
-    width: 60%;
+  > .canceled {
+    width: 0%;
   }
   > .track.-complete {
     transition: all 200ms;
@@ -20,12 +19,7 @@
 
 }
 
-@keyframes loading-bar-a {
-  0%   { width:  0%; }
-  100% { width: 90%; }
-}
-
-@keyframes loading-bar-b {
+@keyframes loading-bar-loading {
   0%   { width:  0%; }
   100% { width: 90%; }
 }
