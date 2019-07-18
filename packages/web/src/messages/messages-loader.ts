@@ -8,7 +8,7 @@ const mf = new MessageFormat();
 
 function loadMessages(path: string, locale: string): Messages {
   const json = parse(
-    readFileSync(join(__dirname, "../../src/messages", path), "utf8")
+    readFileSync(join(__dirname, "../../messages", path), "utf8")
   );
   return (mf.compile(json, locale) as unknown) as Messages;
 }

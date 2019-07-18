@@ -18,8 +18,8 @@ module.exports = function(env) {
     mode,
     context: __dirname,
     entry: {
-      main: "./src/index.tsx",
-      styles: "./src/index.scss"
+      main: ["./src/index.tsx", "webpack-hot-middleware/client?reload=true"],
+      styles: ["./src/index.scss", "webpack-hot-middleware/client?reload=true"]
     },
     module: {
       rules: [
@@ -54,7 +54,7 @@ module.exports = function(env) {
           options: {
             disablePluralKeyChecks: ifProduction()
           },
-          include: path.resolve(__dirname, "src")
+          include: path.resolve(__dirname, "messages")
         }
       ]
     },
@@ -79,7 +79,6 @@ module.exports = function(env) {
         new OptimizeCSSAssetsPlugin()
       ])
     },
-    watchOptions: { poll: true },
     plugins: removeEmpty([
       new webpack.DefinePlugin({
         "process.env.TARGET": JSON.stringify("web"),
@@ -87,6 +86,8 @@ module.exports = function(env) {
           process.env.API_URL || "http://localhost:3000"
         )
       }),
+      ifDevelopment(new webpack.HotModuleReplacementPlugin()),
+      ifDevelopment(new webpack.NoEmitOnErrorsPlugin()),
       ifProduction(new MiniCssExtractPlugin()),
       ifProduction(
         PurifyCSSPlugin({
