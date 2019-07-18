@@ -18,8 +18,11 @@ module.exports = function(env) {
     mode,
     context: __dirname,
     entry: {
-      main: ["./src/index.tsx", "webpack-hot-middleware/client?reload=true"],
-      styles: ["./src/index.scss", "webpack-hot-middleware/client?reload=true"]
+      main: removeEmpty([
+        "./src/index.tsx",
+        "./src/index.scss",
+        ifDevelopment("webpack-hot-middleware/client?reload=true")
+      ])
     },
     module: {
       rules: [
