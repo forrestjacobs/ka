@@ -13,7 +13,12 @@ import { RootState } from "./state";
 
 export async function render(
   url: string
-): Promise<{ statusCode: number; title: string; root: string; state: RootState }> {
+): Promise<{
+  statusCode: number;
+  title: string;
+  root: string;
+  state: RootState;
+}> {
   const location = parsePath(decodeURIComponent(url));
   location.query = location.search ? parse(location.search) : {};
 
@@ -40,5 +45,5 @@ export async function render(
     title: context.title || "Kanji Dictionary",
     root: root,
     state: store.getState()
-  }
+  };
 }

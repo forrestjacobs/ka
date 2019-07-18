@@ -47,5 +47,4 @@ describe("loading bar", () => {
       ).toJSON()
     );
   });
-
 });

@@ -73,7 +73,8 @@ app.use(async (req, res) => {
 ${jsPaths.map(path => `    <script src="${path}"></script>`).join("\n")}
   </body>
 </html>
-`);
+`
+  );
 });
 
 app.listen(8080);
