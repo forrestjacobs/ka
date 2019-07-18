@@ -18,14 +18,12 @@ const LoadingSwitch = withRouter(
       let canceled = false;
 
       setLoadingStart(Date.now());
-      loadData(location, dispatch).then(
-        (): void => {
-          if (!canceled) {
-            setLoadingStart(undefined);
-            setRenderedLocation(location);
-          }
+      loadData(location, dispatch).then((): void => {
+        if (!canceled) {
+          setLoadingStart(undefined);
+          setRenderedLocation(location);
         }
-      );
+      });
 
       return (): void => {
         canceled = true;

@@ -8,14 +8,11 @@ function searchResults(
   action: Action
 ): SearchResultsState {
   if (action.type === "FETCH_SEARCH_RESULTS") {
-    const literals = map(
-      action.state,
-      (results): string[] | undefined => {
-        if (results !== undefined) {
-          return results.map((character): string => character.literal);
-        }
+    const literals = map(action.state, (results): string[] | undefined => {
+      if (results !== undefined) {
+        return results.map((character): string => character.literal);
       }
-    );
+    });
     return Object.assign({}, state, { [action.request]: literals });
   }
   return state;
