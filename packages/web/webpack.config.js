@@ -5,6 +5,7 @@ const glob = require("glob");
 const webpack = require("webpack");
 
 const autoprefixer = require("autoprefixer");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PurifyCSSPlugin = require("purifycss-webpack");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -85,6 +86,10 @@ module.exports = function(env) {
       ])
     },
     plugins: removeEmpty([
+      new HtmlWebpackPlugin({
+        template: "template.html",
+        filename: ".template.html"
+      }),
       new webpack.DefinePlugin({
         "process.env.TARGET": JSON.stringify("web"),
         "process.env.API_URL": JSON.stringify(
@@ -99,7 +104,11 @@ module.exports = function(env) {
           paths: glob.sync(path.join(__dirname, "src/**/*.{ts,tsx}"))
         })
       ),
-      ifProduction(new CompressionPlugin())
+      ifProduction(
+        new CompressionPlugin({
+          exclude: /\.html$/
+        })
+      )
     ])
   };
 };

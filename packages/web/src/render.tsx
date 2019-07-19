@@ -9,15 +9,14 @@ import { Root } from "./components/root";
 import { renderToString } from "react-dom/server";
 import { StaticRouter, StaticRouterContext } from "react-router";
 import { loadData } from "./components/routes";
-import { RootState } from "./state";
+import serialize from "serialize-javascript";
 
 export async function render(
-  url: string
+  url: string,
+  template: string
 ): Promise<{
   statusCode: number;
-  title: string;
-  root: string;
-  state: RootState;
+  html: string;
 }> {
   const location = parsePath(decodeURIComponent(url));
   location.query = location.search ? parse(location.search) : {};
@@ -42,8 +41,14 @@ export async function render(
 
   return {
     statusCode: context.statusCode || 200,
-    title: context.title || "Kanji Dictionary",
-    root: root,
-    state: store.getState()
+    html: template
+      .replace("<!-- title -->", context.title || "Kanji Dictionary")
+      .replace("<!-- root -->", root)
+      .replace(
+        '"-- state --"',
+        serialize(store.getState(), {
+          isJSON: true
+        })
+      )
   };
 }
