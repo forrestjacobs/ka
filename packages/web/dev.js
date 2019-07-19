@@ -35,15 +35,18 @@ app.use(
 
 app.use(webpackHotMiddleware(compiler));
 
-app.use(async (req, res) => {
+app.use((req, res, next) => {
   const { render } = require("./lib/render");
 
   const template = res.locals.fs.readFileSync(
     path.join(__dirname, "dist/.template.html"),
     "utf8"
   );
-  const result = await render(req.url, template);
-  res.status(result.statusCode).send(result.html);
+
+  render(req.url, template).then(
+    result => res.status(result.statusCode).send(result.html),
+    e => next(e)
+  );
 });
 
 app.listen(8080);

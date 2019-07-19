@@ -14,9 +14,11 @@ const app = express();
 app.use(preCompressedAssets(/\.(js|css)/, path.join(__dirname, "dist")));
 app.use(express.static("dist"));
 
-app.use(async (req, res) => {
-  const result = await render(req.url, template);
-  res.status(result.statusCode).send(result.html);
+app.use((req, res, next) => {
+  render(req.url, template).then(
+    result => res.status(result.statusCode).send(result.html),
+    e => next(e)
+  );
 });
 
 app.listen(8080);

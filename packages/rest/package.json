@@ -19,6 +19,6 @@
   },
   "scripts": {
     "dev": "nodemon --inspect ./lib/server.js",
-    "serve": "node ./lib/server.js"
+    "serve": "NODE_ENV=production node ./lib/server.js"
   }
 }

@@ -61,6 +61,6 @@
   "scripts": {
     "build": "webpack --env.production",
     "dev": "node --inspect=127.0.0.1:9230 ./dev.js",
-    "serve": "node ./server.js"
+    "serve": "NODE_ENV=production node ./server.js"
   }
 }
