@@ -28,7 +28,7 @@
     "dev:build:project": "tsc -b packages -w --preserveWatchOutput",
     "dev:serve:rest": "dotenv -- yarn workspace @ka/rest run dev",
     "dev:serve:web": "dotenv -- yarn workspace @ka/web run dev",
-    "format": "prettier --write \"packages/*/src/**/*.{js,json,ts,tsx}\" \"packages/*/*.{js,json}\" \"packages/*.{js,json}\" \"*.{js,json}\"",
+    "format": "prettier --loglevel warn --write \"packages/*/src/**/*.{js,json,ts,tsx}\" \"packages/*/*.{js,json}\" \"packages/*.{js,json}\" \"*.{js,json}\"",
     "lint": "eslint . --ext .ts,.tsx,.js",
     "serve": "concurrently \"yarn run serve:rest\" \"yarn run serve:web\"",
     "serve:rest": "dotenv -- yarn workspace @ka/rest run serve",
