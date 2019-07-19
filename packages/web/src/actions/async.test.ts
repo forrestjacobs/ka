@@ -1,4 +1,4 @@
-import { AsyncStatus } from "../async";
+import { inProgressState, errorState, resolvedState } from "../async";
 import { asyncDispatch } from "./async";
 
 describe("asyncDispatch", () => {
@@ -14,20 +14,19 @@ describe("asyncDispatch", () => {
     expect(dispatch).toBeCalledWith({
       type,
       request,
-      state: { status: AsyncStatus.IN_PROGRESS }
+      state: inProgressState
     });
 
     expect(dispatch).toBeCalledWith({
       type,
       request,
-      state: { status: AsyncStatus.RESOLVED, response: request.toUpperCase() }
+      state: resolvedState(request.toUpperCase())
     });
   });
 
   test("handles API errors", async () => {
-    const error = new Error("test");
     const apiCall = jest.fn(async () => {
-      throw error;
+      throw new Error("test");
     });
     const dispatch = jest.fn();
 
@@ -36,13 +35,13 @@ describe("asyncDispatch", () => {
     expect(dispatch).toBeCalledWith({
       type,
       request,
-      state: { status: AsyncStatus.IN_PROGRESS }
+      state: inProgressState
     });
 
     expect(dispatch).toBeCalledWith({
       type,
       request,
-      state: { status: AsyncStatus.ERROR, error }
+      state: errorState
     });
   });
 });

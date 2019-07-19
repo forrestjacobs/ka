@@ -1,5 +1,4 @@
 import React from "react";
-import { ApiErrorType } from "../api";
 import { AsyncState, AsyncStatus } from "../async";
 import { Loading } from "./loading/component";
 import { LoadingPage } from "./loading/page";
@@ -35,10 +34,7 @@ function mapAsyncState<V>(
     return <mapping.loading />;
   }
 
-  if (
-    state.status === AsyncStatus.ERROR &&
-    state.error.type === ApiErrorType.NotFound
-  ) {
+  if (state.status === AsyncStatus.NOT_FOUND) {
     return <mapping.notFound />;
   }
 

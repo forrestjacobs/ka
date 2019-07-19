@@ -1,7 +1,7 @@
 import { Character } from "@ka/base";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { AsyncState, notFound } from "../../async";
+import { AsyncState, notFoundState } from "../../async";
 import { useMessages } from "../../messages";
 import { CharacterComponent } from "../character/component";
 import { useMapState } from "../use-redux";
@@ -31,7 +31,7 @@ export function SearchPage({ location }: RouteComponentProps): JSX.Element {
   const literalsState = useMapState(
     ({ entities }): AsyncState<string[]> =>
       q === undefined || typeof q !== "string"
-        ? notFound
+        ? notFoundState
         : entities.searchResults[q],
     [q]
   );

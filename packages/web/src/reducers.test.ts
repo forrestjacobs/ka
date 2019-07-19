@@ -1,5 +1,5 @@
 import { Character } from "@ka/base";
-import { resolved } from "./async";
+import { resolvedState } from "./async";
 import { rootReducer } from "./reducers";
 import { RootState } from "./state";
 
@@ -18,7 +18,10 @@ describe("fetch search results action reducer", () => {
   const terms = "test";
   const ichi = makeCharacter("一");
   const ni = makeCharacter("二");
-  const resolvedResults = resolved([makeCharacter("一"), makeCharacter("二")]);
+  const resolvedResults = resolvedState([
+    makeCharacter("一"),
+    makeCharacter("二")
+  ]);
 
   it("stores result list from search", () => {
     const state = rootReducer(baseState, {
@@ -26,7 +29,9 @@ describe("fetch search results action reducer", () => {
       request: terms,
       state: resolvedResults
     });
-    expect(state.entities.searchResults[terms]).toEqual(resolved(["一", "二"]));
+    expect(state.entities.searchResults[terms]).toEqual(
+      resolvedState(["一", "二"])
+    );
   });
 
   it("stores characters from search", () => {
@@ -35,15 +40,17 @@ describe("fetch search results action reducer", () => {
       request: terms,
       state: resolvedResults
     });
-    expect(state.entities.characters[ichi.literal]).toEqual(resolved(ichi));
-    expect(state.entities.characters[ni.literal]).toEqual(resolved(ni));
+    expect(state.entities.characters[ichi.literal]).toEqual(
+      resolvedState(ichi)
+    );
+    expect(state.entities.characters[ni.literal]).toEqual(resolvedState(ni));
   });
 });
 
 describe("fetch character action reducer", () => {
   it("stores character from fetch", () => {
     const literal = "亜";
-    const resolvedChar = resolved(makeCharacter(literal));
+    const resolvedChar = resolvedState(makeCharacter(literal));
     const state = rootReducer(baseState, {
       type: "FETCH_CHARACTER",
       request: literal,

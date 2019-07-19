@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import { Action } from "./actions";
-import { AsyncStatus, map, resolved } from "./async";
+import { AsyncStatus, map, resolvedState } from "./async";
 import { CharactersState, RootState, SearchResultsState } from "./state";
 
 function searchResults(
@@ -31,7 +31,7 @@ function characters(
   ) {
     const newCharacters: CharactersState = {};
     for (const character of action.state.response) {
-      newCharacters[character.literal] = resolved(character);
+      newCharacters[character.literal] = resolvedState(character);
     }
     return Object.assign({}, state, newCharacters);
   }

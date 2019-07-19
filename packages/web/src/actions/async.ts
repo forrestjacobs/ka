@@ -1,6 +1,12 @@
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { AsyncState, AsyncStatus } from "../async";
+import {
+  AsyncState,
+  notFoundState,
+  resolvedState,
+  inProgressState,
+  errorState
+} from "../async";
 
 export interface AsyncAction<Type extends string, Request, Response> {
   type: Type;
@@ -14,18 +20,15 @@ export function asyncDispatch<Req, Res>(
   apiCall: (request: Req) => Promise<Res>
 ): (dispatch: ThunkDispatch<unknown, unknown, AnyAction>) => Promise<void> {
   return async (dispatch): Promise<void> => {
-    dispatch({ type, request, state: { status: AsyncStatus.IN_PROGRESS } });
+    dispatch({ type, request, state: inProgressState });
     try {
-      dispatch({
-        type,
-        request,
-        state: {
-          status: AsyncStatus.RESOLVED,
-          response: await apiCall(request)
-        }
-      });
+      const response = await apiCall(request);
+      const state =
+        response === undefined ? notFoundState : resolvedState(response);
+      dispatch({ type, request, state });
     } catch (error) {
-      dispatch({ type, request, state: { status: AsyncStatus.ERROR, error } });
+      // todo: log error
+      dispatch({ type, request, state: errorState });
     }
   };
 }

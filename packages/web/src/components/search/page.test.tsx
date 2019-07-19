@@ -1,18 +1,18 @@
 import React from "react";
 import { Route, StaticRouter } from "react-router";
 import { act, create } from "react-test-renderer";
-import { resolved } from "../../async";
+import { resolvedState } from "../../async";
 import { parsePath } from "history";
 
 const useMapStateMock = jest.fn(cb =>
   cb({
     entities: {
       searchResults: {
-        numbers: resolved(["一", "二"])
+        numbers: resolvedState(["一", "二"])
       },
       characters: {
-        一: resolved("Result 1"),
-        二: resolved("Result 2")
+        一: resolvedState("Result 1"),
+        二: resolvedState("Result 2")
       }
     }
   })

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, StaticRouter } from "react-router";
 import { act, create } from "react-test-renderer";
-import { resolved } from "../../async";
+import { resolvedState } from "../../async";
 
 const useMapStateMock = jest.fn();
 jest.mock("../use-redux", () => ({
@@ -21,7 +21,7 @@ describe("character page", () => {
       cb({
         entities: {
           characters: {
-            日: resolved("day")
+            日: resolvedState("day")
           }
         }
       })

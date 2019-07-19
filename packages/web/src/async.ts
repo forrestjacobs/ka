@@ -1,23 +1,31 @@
-import { HasErrorType, ApiError, ApiErrorType } from "./api";
-
 export enum AsyncStatus {
   IN_PROGRESS,
-  RESOLVED,
-  ERROR
+  NOT_FOUND,
+  ERROR,
+  RESOLVED
 }
 
 export type AsyncState<Response> =
   | { status: AsyncStatus.IN_PROGRESS }
-  | { status: AsyncStatus.RESOLVED; response: Response }
-  | { status: AsyncStatus.ERROR; error: Error & Partial<HasErrorType> };
+  | { status: AsyncStatus.NOT_FOUND }
+  | { status: AsyncStatus.ERROR }
+  | { status: AsyncStatus.RESOLVED; response: Response };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const notFound: AsyncState<any> = {
-  status: AsyncStatus.ERROR,
-  error: new ApiError("Not found", ApiErrorType.NotFound)
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const inProgressState: AsyncState<any> = {
+  status: AsyncStatus.IN_PROGRESS
 };
 
-export function resolved<T>(response: T): AsyncState<T> {
+export const notFoundState: AsyncState<any> = {
+  status: AsyncStatus.NOT_FOUND
+};
+
+export const errorState: AsyncState<any> = {
+  status: AsyncStatus.ERROR
+};
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+export function resolvedState<T>(response: T): AsyncState<T> {
   return { status: AsyncStatus.RESOLVED, response };
 }
 
@@ -26,6 +34,6 @@ export function map<T, U>(
   cb: (response: T) => U
 ): AsyncState<U> {
   return state.status === AsyncStatus.RESOLVED
-    ? resolved(cb(state.response))
+    ? resolvedState(cb(state.response))
     : state;
 }

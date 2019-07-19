@@ -6,7 +6,6 @@ jest.mock("@ka/base", () => ({ isKanji: isKanjiMock }));
 
 process.env.API_URL = "http://api";
 
-import { ApiError, ApiErrorType } from ".";
 import { api } from "./rest";
 
 describe("get search results", () => {
@@ -22,19 +21,11 @@ describe("get search results", () => {
 
   it("handles errors", async () => {
     fetch.once("Error", { status: 500 });
-    const asymmetricMatch = (error: ApiError) =>
-      error.type === ApiErrorType.FetchError;
-    await expect(api.getSearchResults("test")).rejects.toEqual({
-      asymmetricMatch
-    });
+    await expect(api.getSearchResults("test")).rejects.toThrowError();
   });
 });
 
 describe("get character", () => {
-  function errorOfType(type: ApiErrorType): any {
-    return { asymmetricMatch: (error: ApiError) => error.type === type };
-  }
-
   afterEach(() => {
     isKanjiMock.mockReset();
     fetch.resetMocks();
@@ -51,9 +42,7 @@ describe("get character", () => {
   it("validates kanji before calling the API", async () => {
     isKanjiMock.mockReturnValueOnce(false);
 
-    await expect(api.getCharacter("a")).rejects.toEqual(
-      errorOfType(ApiErrorType.NotFound)
-    );
+    await expect(api.getCharacter("a")).resolves.toBe(undefined);
     expect(fetch).toBeCalledTimes(0);
   });
 
@@ -61,17 +50,13 @@ describe("get character", () => {
     isKanjiMock.mockReturnValueOnce(true);
     fetch.once("", { status: 404 });
 
-    await expect(api.getCharacter("空")).rejects.toEqual(
-      errorOfType(ApiErrorType.NotFound)
-    );
+    await expect(api.getCharacter("空")).resolves.toBe(undefined);
   });
 
   it("handles other errors", async () => {
     isKanjiMock.mockReturnValueOnce(true);
     fetch.once("", { status: 500 });
 
-    await expect(api.getCharacter("例")).rejects.toEqual(
-      errorOfType(ApiErrorType.FetchError)
-    );
+    await expect(api.getCharacter("例")).rejects.toThrowError();
   });
 });
