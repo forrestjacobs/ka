@@ -1,8 +1,11 @@
+const path = require("path");
 const express = require("express");
+const preCompressedAssets = require("pre-compressed-assets");
 const serialize = require("serialize-javascript");
 
 const app = express();
 
+app.use(preCompressedAssets(/\.(js|css)/, path.join(__dirname, "dist")));
 app.use(express.static("dist"));
 
 app.use(async (req, res) => {

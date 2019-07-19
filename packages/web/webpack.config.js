@@ -9,6 +9,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PurifyCSSPlugin = require("purifycss-webpack");
 const TerserPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = function(env) {
   const mode = env && env.production ? "production" : "development";
@@ -97,7 +98,8 @@ module.exports = function(env) {
         PurifyCSSPlugin({
           paths: glob.sync(path.join(__dirname, "src/**/*.{ts,tsx}"))
         })
-      )
+      ),
+      ifProduction(new CompressionPlugin())
     ])
   };
 };
