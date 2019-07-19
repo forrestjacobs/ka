@@ -1,6 +1,6 @@
 import React from "react";
-import { create } from "react-test-renderer";
 import { StaticContext, StaticRouter } from "react-router";
+import { create } from "react-test-renderer";
 import { Page } from "./page";
 
 describe("page element", () => {

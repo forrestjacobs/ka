@@ -1,14 +1,14 @@
+import { createBrowserHistory } from "history";
+import qhistory from "qhistory";
+import { parse, stringify } from "query-string";
 import React from "react";
 import { hydrate } from "react-dom";
 import { Router } from "react-router-dom";
-import { applyMiddleware, createStore, compose } from "redux";
+import { applyMiddleware, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import { api } from "./api/rest";
 import { Root } from "./components/root";
 import { rootReducer } from "./reducers";
-import { createBrowserHistory } from "history";
-import { stringify, parse } from "query-string";
-import qhistory from "qhistory";
 
 const enhancedCompose =
   (process.env.NODE_ENV !== "production" &&

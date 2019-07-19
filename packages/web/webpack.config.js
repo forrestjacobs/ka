@@ -1,16 +1,14 @@
-const path = require("path");
-const { getIfUtils, removeEmpty } = require("webpack-config-utils");
-
-const glob = require("glob");
-const webpack = require("webpack");
-
 const autoprefixer = require("autoprefixer");
+const CompressionPlugin = require("compression-webpack-plugin");
+const glob = require("glob");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const path = require("path");
 const PurifyCSSPlugin = require("purifycss-webpack");
 const TerserPlugin = require("terser-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
+const webpack = require("webpack");
+const { getIfUtils, removeEmpty } = require("webpack-config-utils");
 
 module.exports = function(env) {
   const mode = env && env.production ? "production" : "development";

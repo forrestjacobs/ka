@@ -1,8 +1,7 @@
+import { parsePath } from "history";
 import React from "react";
 import { MemoryRouter, Route, StaticRouter, Switch } from "react-router";
 import { act, create, ReactTestRenderer } from "react-test-renderer";
-import { parsePath } from "history";
-
 import { SearchForm } from "./form";
 
 describe("search form", () => {

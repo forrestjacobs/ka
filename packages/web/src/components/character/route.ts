@@ -1,6 +1,6 @@
+import { fetchCharacter } from "../../actions";
 import { Route } from "../route";
 import { CharacterPage } from "./page";
-import { fetchCharacter } from "../../actions";
 
 export const characterRoute: Route = {
   exact: true,

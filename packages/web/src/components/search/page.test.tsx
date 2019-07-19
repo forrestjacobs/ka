@@ -1,8 +1,8 @@
+import { parsePath } from "history";
 import React from "react";
 import { Route, StaticRouter } from "react-router";
 import { act, create } from "react-test-renderer";
 import { resolvedState } from "../../async";
-import { parsePath } from "history";
 
 const useMapStateMock = jest.fn(cb =>
   cb({
@@ -26,8 +26,8 @@ jest.mock("../character/component", () => ({
   CharacterComponent: characterComponentMock
 }));
 
-import { SearchPage } from "./page";
 import { NotFoundPage } from "../not-found/page";
+import { SearchPage } from "./page";
 
 beforeEach(() => {
   useMapStateMock.mockClear();

@@ -1,11 +1,11 @@
-import { Route, AsyncRoute } from "./route";
-import { homeRoute } from "./home/route";
-import { characterRoute } from "./character/route";
-import { searchRoute } from "./search/route";
-import { matchRoutes } from "react-router-config";
 import { Location } from "history";
+import { matchRoutes } from "react-router-config";
 import { Dispatch } from "../actions";
+import { characterRoute } from "./character/route";
+import { homeRoute } from "./home/route";
 import { NotFoundPage } from "./not-found/page";
+import { AsyncRoute, Route } from "./route";
+import { searchRoute } from "./search/route";
 
 export const routes: Route[] = [
   homeRoute,

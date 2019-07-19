@@ -1,4 +1,4 @@
-import { inProgressState, errorState, resolvedState } from "../async";
+import { errorState, inProgressState, resolvedState } from "../async";
 import { asyncDispatch } from "./async";
 
 describe("asyncDispatch", () => {

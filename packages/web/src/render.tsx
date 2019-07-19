@@ -1,15 +1,15 @@
-import React from "react";
 import { parsePath } from "history";
 import { parse } from "query-string";
-import { applyMiddleware, createStore } from "redux";
-import { rootReducer } from "./reducers";
-import thunk from "redux-thunk";
-import { api } from "./api/data";
-import { Root } from "./components/root";
+import React from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter, StaticRouterContext } from "react-router";
-import { loadData } from "./components/routes";
+import { applyMiddleware, createStore } from "redux";
+import thunk from "redux-thunk";
 import serialize from "serialize-javascript";
+import { api } from "./api/data";
+import { Root } from "./components/root";
+import { loadData } from "./components/routes";
+import { rootReducer } from "./reducers";
 
 export async function render(
   url: string,

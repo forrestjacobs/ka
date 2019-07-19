@@ -2,10 +2,10 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import {
   AsyncState,
-  notFoundState,
-  resolvedState,
+  errorState,
   inProgressState,
-  errorState
+  notFoundState,
+  resolvedState
 } from "../async";
 
 export interface AsyncAction<Type extends string, Request, Response> {

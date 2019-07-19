@@ -2,7 +2,7 @@ import { Character } from "@ka/base";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useMessages } from "../../messages";
-import { Section, Heading, Article } from "../section";
+import { Article, Heading, Section } from "../section";
 
 function ListItems({ items }: { items: string[] }): JSX.Element {
   return (

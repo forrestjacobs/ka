@@ -4,10 +4,10 @@ import { RouteComponentProps } from "react-router-dom";
 import { AsyncState, notFoundState } from "../../async";
 import { useMessages } from "../../messages";
 import { CharacterComponent } from "../character/component";
-import { useMapState } from "../use-redux";
 import { MapAsyncState } from "../map-async-state";
 import { Page } from "../page";
-import { Section, Heading } from "../section";
+import { Heading, Section } from "../section";
+import { useMapState } from "../use-redux";
 
 function SearchResult({ literal }: { literal: string }): JSX.Element {
   const characterState = useMapState(

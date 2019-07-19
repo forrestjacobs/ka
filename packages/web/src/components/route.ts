@@ -1,7 +1,7 @@
-import { match } from "react-router";
-import { Dispatch } from "../actions";
-import { RouteConfig } from "react-router-config";
 import { Location } from "history";
+import { match } from "react-router";
+import { RouteConfig } from "react-router-config";
+import { Dispatch } from "../actions";
 
 export type AsyncRoute = RouteConfig & {
   loadData: (props: {

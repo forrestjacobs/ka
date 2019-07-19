@@ -1,5 +1,5 @@
-import { db, pgp } from "./db";
 import { Character } from "@ka/base";
+import { db, pgp } from "./db";
 
 const CHARACTER_CS = new pgp.helpers.ColumnSet(
   [

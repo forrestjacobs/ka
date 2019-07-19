@@ -1,5 +1,5 @@
-import { QualifiedTag, SAXParser, Tag, parser } from "sax";
 import { Character } from "@ka/base";
+import { parser, QualifiedTag, SAXParser, Tag } from "sax";
 import { Transform } from "stream";
 
 type BaseCharacter = Pick<

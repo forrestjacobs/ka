@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import { Route, RouteComponentProps, StaticContext } from "react-router";
 import { useMessages } from "../messages";
+
 export function Page(props: {
   title?: string;
   status?: number;

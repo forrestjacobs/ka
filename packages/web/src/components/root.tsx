@@ -1,12 +1,12 @@
 import { HooksProvider, useDispatch } from "@epeli/redux-hooks";
-import React, { useState, useEffect } from "react";
-import { withRouter, RouteComponentProps, Route } from "react-router";
+import React, { useEffect, useState } from "react";
+import { Route, RouteComponentProps, withRouter } from "react-router";
+import { renderRoutes } from "react-router-config";
 import { Store } from "redux";
 import { MessagesProvider } from "../messages";
-import { routes, loadData } from "./routes";
 import { LoadingBar, LoadingBarStatus } from "./loading/bar";
 import { Nav } from "./nav/component";
-import { renderRoutes } from "react-router-config";
+import { loadData, routes } from "./routes";
 
 const LoadingSwitch = withRouter(
   ({ location }: RouteComponentProps): JSX.Element => {

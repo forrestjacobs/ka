@@ -1,7 +1,7 @@
+import { end } from "@ka/data";
+import { createReadStream } from "fs";
 import { KanjiDic2Parser } from "./kanjidic2parser";
 import { UpdateCharacterStream } from "./update-character-stream";
-import { createReadStream } from "fs";
-import { end } from "@ka/data";
 
 if (process.argv.length < 3) {
   // eslint-disable-next-line no-console

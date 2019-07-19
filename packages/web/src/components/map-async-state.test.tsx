@@ -1,15 +1,15 @@
 import React from "react";
 import { create } from "react-test-renderer";
 import {
-  resolvedState,
+  errorState,
   inProgressState,
   notFoundState,
-  errorState
+  resolvedState
 } from "../async";
-import { MapAsyncState } from "./map-async-state";
-import { Loading } from "./loading/component";
-import { NotFound } from "./not-found/component";
 import { ErrorComponent } from "./error/component";
+import { Loading } from "./loading/component";
+import { MapAsyncState } from "./map-async-state";
+import { NotFound } from "./not-found/component";
 
 describe("map async state", () => {
   function forbiddenCallback(): never {

@@ -1,6 +1,6 @@
-import { SearchPage } from "./page";
 import { fetchSearchResults } from "../../actions";
 import { Route } from "../route";
+import { SearchPage } from "./page";
 
 export const searchRoute: Route = {
   exact: true,

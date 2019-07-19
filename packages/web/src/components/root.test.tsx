@@ -1,7 +1,7 @@
-import { createStore } from "redux";
-import { StaticRouter } from "react-router";
 import React from "react";
+import { StaticRouter } from "react-router";
 import { create } from "react-test-renderer";
+import { createStore } from "redux";
 import { Route } from "./route";
 
 const loadDataMock = jest.fn();

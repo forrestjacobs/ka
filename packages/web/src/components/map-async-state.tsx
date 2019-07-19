@@ -1,9 +1,9 @@
 import React from "react";
 import { AsyncState, AsyncStatus } from "../async";
-import { Loading } from "./loading/component";
-import { LoadingPage } from "./loading/page";
 import { ErrorComponent } from "./error/component";
 import { ErrorPage } from "./error/page";
+import { Loading } from "./loading/component";
+import { LoadingPage } from "./loading/page";
 import { NotFound } from "./not-found/component";
 import { NotFoundPage } from "./not-found/page";
 

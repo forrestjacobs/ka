@@ -1,6 +1,6 @@
 import React from "react";
-import { useMessages } from "../../messages";
 import { NavLink } from "react-router-dom";
+import { useMessages } from "../../messages";
 import { SearchForm } from "../search/form";
 
 export function Nav(): JSX.Element {
