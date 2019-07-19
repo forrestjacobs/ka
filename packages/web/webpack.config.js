@@ -75,7 +75,8 @@ module.exports = function(env) {
       }
     },
     output: ifProduction({
-      path: path.resolve(__dirname, "dist")
+      path: path.resolve(__dirname, "dist"),
+      filename: ifProduction("[name].[contenthash:8].js", "[name].js")
     }),
     devtool: ifDevelopment("inline-source-map"),
     optimization: {
@@ -98,7 +99,11 @@ module.exports = function(env) {
       }),
       ifDevelopment(new webpack.HotModuleReplacementPlugin()),
       ifDevelopment(new webpack.NoEmitOnErrorsPlugin()),
-      ifProduction(new MiniCssExtractPlugin()),
+      ifProduction(
+        new MiniCssExtractPlugin({
+          filename: "[name].[contenthash:8].css"
+        })
+      ),
       ifProduction(
         PurifyCSSPlugin({
           paths: glob.sync(path.join(__dirname, "src/**/*.{ts,tsx}"))
