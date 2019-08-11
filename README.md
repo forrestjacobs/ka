@@ -11,10 +11,12 @@ Dependencies: Git, PostgreSQL, Node.js, Yarn.
     yarn
     ```
 
- 3. Generate the character SQL:
+ 3. Download the kanjidic and generate the character SQL:
     ```
+    curl -O http://www.edrdg.org/kanjidic/kanjidic2.xml.gz
+    gunzip kanjidic2.xml.gz
     yarn run tsc -b packages/kanjidic2sql
-    node packages/kanjidic2sql kanjidic2var.xml >> character.sql
+    node packages/kanjidic2sql kanjidic2.xml >> character.sql
     ```
 
  4. Create the PostgreSQL database:

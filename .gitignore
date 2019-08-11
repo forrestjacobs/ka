@@ -2,6 +2,7 @@
 /character.sql
 /coverage
 dist
+kanjidic2.xml
 lib
 node_modules
 tsconfig.tsbuildinfo
