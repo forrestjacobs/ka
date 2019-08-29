@@ -1,31 +1,38 @@
-import { createBrowserHistory } from "history";
-import qhistory from "qhistory";
-import { parse, stringify } from "query-string";
-import React from "react";
+import { ApolloProvider } from "@apollo/react-hooks";
+import ApolloClient, { InMemoryCache } from "apollo-boost";
+import { createBrowserNavigation } from "navi";
+import React, { Suspense } from "react";
 import { hydrate } from "react-dom";
-import { Router } from "react-router-dom";
-import { applyMiddleware, compose, createStore } from "redux";
-import thunk from "redux-thunk";
-import { api } from "./api/rest";
+import { Router } from "react-navi";
+import { ErrorBoundedView } from "./components/error-bounded-view";
+import { LoadingPage } from "./components/loading/page";
 import { Root } from "./components/root";
-import { rootReducer } from "./reducers";
+import { routes } from "./components/routes";
 
-const enhancedCompose =
-  (process.env.NODE_ENV !== "production" &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
-  compose;
+const cache = new InMemoryCache({});
+if (window.__PRELOADED_STATE__) {
+  cache.restore(window.__PRELOADED_STATE__);
+}
 
-const store = createStore(
-  rootReducer,
-  window.__PRELOADED_STATE__,
-  enhancedCompose(applyMiddleware(thunk.withExtraArgument({ api })))
-);
+const client = new ApolloClient({
+  cache,
+  uri: process.env.GRAPHQL_SERVER_URL
+});
 
-const history = qhistory(createBrowserHistory(), stringify, parse);
+const navigation = createBrowserNavigation({
+  context: { client },
+  routes
+});
 
 hydrate(
-  <Router history={history}>
-    <Root store={store} />
-  </Router>,
+  <ApolloProvider client={client}>
+    <Router navigation={navigation}>
+      <Root>
+        <Suspense fallback={<LoadingPage />}>
+          <ErrorBoundedView />
+        </Suspense>
+      </Root>
+    </Router>
+  </ApolloProvider>,
   document.getElementById("root")
 );

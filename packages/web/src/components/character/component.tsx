@@ -1,8 +1,13 @@
-import { Character } from "@ka/base";
+import { Character as FullCharacter } from "@ka/base";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { useActive, Link } from "react-navi";
 import { useMessages } from "../../messages";
 import { Article, Heading, Section } from "../section";
+
+export type Character = Pick<
+  FullCharacter,
+  "literal" | "on" | "kun" | "meaning"
+>;
 
 function ListItems({ items }: { items: string[] }): JSX.Element {
   return (
@@ -38,24 +43,25 @@ function Reading({
 }
 
 export function CharacterComponent({
-  character,
-  link
+  character
 }: {
   character: Character;
-  link?: boolean;
 }): JSX.Element {
   const { literal } = character;
   const messages = useMessages();
 
+  const href = `/character/${literal}`;
+  const isOnCharacter = useActive(href);
+
   return (
     <Article className="character-component">
       <Heading className="literal" lang="ja">
-        {link ? (
-          <NavLink exact to={`/character/${literal}`}>
-            {literal}
-          </NavLink>
-        ) : (
+        {isOnCharacter ? (
           literal
+        ) : (
+          <Link active={false} href={`/character/${literal}`}>
+            {literal}
+          </Link>
         )}
       </Heading>
       <div className="col">

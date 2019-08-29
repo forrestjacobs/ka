@@ -4,7 +4,7 @@
     { "path": "base" },
     { "path": "data" },
     { "path": "kanjidic2sql" },
-    { "path": "rest" },
+    { "path": "server" },
     { "path": "web" }
   ]
 }

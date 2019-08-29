@@ -1,15 +1,17 @@
-import { parsePath } from "history";
-import { parse } from "query-string";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { schema } from "@ka/server";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloClient } from "apollo-client";
+import { SchemaLink } from "apollo-link-schema";
+import { createMemoryNavigation, NotFoundError } from "navi";
 import React from "react";
 import { renderToString } from "react-dom/server";
-import { StaticRouter, StaticRouterContext } from "react-router";
-import { applyMiddleware, createStore } from "redux";
-import thunk from "redux-thunk";
+import { Router, View } from "react-navi";
 import serialize from "serialize-javascript";
-import { api } from "./api/data";
+import { ErrorComponent } from "./components/error/component";
+import { NotFound } from "./components/not-found/component";
 import { Root } from "./components/root";
-import { loadData } from "./components/routes";
-import { rootReducer } from "./reducers";
+import { routes } from "./components/routes";
 
 export async function render(
   url: string,
@@ -18,37 +20,68 @@ export async function render(
   statusCode: number;
   html: string;
 }> {
-  const location = parsePath(decodeURIComponent(url));
-  location.query = location.search ? parse(location.search) : {};
+  const client = new ApolloClient({
+    ssrMode: true,
+    link: new SchemaLink({ schema }),
+    cache: new InMemoryCache()
+  });
 
-  const store = createStore(
-    rootReducer,
-    applyMiddleware(thunk.withExtraArgument({ api }))
-  );
-
-  await loadData(
-    location,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (action: any): Promise<void> => store.dispatch(action)
-  );
-
-  const context: StaticRouterContext & { title?: string } = {};
-  const root = renderToString(
-    <StaticRouter location={location} context={context}>
-      <Root store={store} />
-    </StaticRouter>
-  );
-
-  return {
-    statusCode: context.statusCode || 200,
-    html: template
-      .replace("<!-- title -->", context.title || "Kanji Dictionary")
-      .replace("<!-- root -->", root)
+  function getHtml(title: string, app: JSX.Element): string {
+    return template
+      .replace("<!-- title -->", title || "Kanji Dictionary")
+      .replace("<!-- root -->", renderToString(app))
       .replace(
         '"-- state --"',
-        serialize(store.getState(), {
+        serialize(client.extract(), {
           isJSON: true
         })
-      )
-  };
+      );
+  }
+
+  const navigation = createMemoryNavigation({
+    context: { client },
+    routes,
+    url
+  });
+
+  const app = (
+    <ApolloProvider client={client}>
+      <Router context={{ client }} navigation={navigation}>
+        <Root>
+          <View />
+        </Root>
+      </Router>
+    </ApolloProvider>
+  );
+
+  const route = await navigation.getRoute();
+
+  try {
+    return {
+      statusCode: route.status || 200,
+      html: getHtml(route.title || "Kanji Dictionary", app)
+    };
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return {
+        statusCode: 404,
+        html: getHtml(
+          "Not Found",
+          <Root>
+            <NotFound />
+          </Root>
+        )
+      };
+    } else {
+      return {
+        statusCode: 500,
+        html: getHtml(
+          "Error",
+          <Root>
+            <ErrorComponent />
+          </Root>
+        )
+      };
+    }
+  }
 }

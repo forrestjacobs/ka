@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-navi";
 import { useMessages } from "../../messages";
 import { SearchForm } from "../search/form";
 
@@ -8,9 +8,9 @@ export function Nav(): JSX.Element {
   return (
     <nav className="nav-component">
       <h1>
-        <NavLink exact to="/">
+        <Link exact href="/">
           {messages.title()}
-        </NavLink>
+        </Link>
       </h1>
       <SearchForm />
     </nav>

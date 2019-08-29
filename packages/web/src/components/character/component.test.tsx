@@ -3,25 +3,6 @@ import React from "react";
 import { create } from "react-test-renderer";
 import { CharacterComponent } from "./component";
 
-// NavLink creates a reference to a function, which makes it difficult to check
-jest.mock("react-router-dom", () => ({
-  NavLink({
-    to,
-    lang,
-    children
-  }: {
-    to: string;
-    lang: string;
-    children: JSX.Element | JSX.Element[];
-  }): JSX.Element {
-    return (
-      <a href={to} lang={lang}>
-        {children}
-      </a>
-    );
-  }
-}));
-
 describe("character component", () => {
   // todo: this should not test class names or translated strings,
   // but that might require switching to a different testing library
