@@ -17,7 +17,7 @@ module.exports = {
     "packages/base/src",
     "packages/data/src",
     "packages/kanjidic2sql/src",
-    "packages/rest/src",
+    "packages/server/src",
     "packages/web/src"
   ],
   setupFiles: ["./setupJest.js"],
