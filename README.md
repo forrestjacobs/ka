@@ -1,17 +1,25 @@
 # Ka
 
+## ⚠️ This project is abandoned
+
+This is the very early stages of a webapp for studying Kanji, but I abandoned it
+once I realized that [WaniKani] is basically what I had in mind and already
+exists!
+
+[WaniKani]: https://www.wanikani.com/
+
 ## Development setup
 
 Dependencies: Git, PostgreSQL, Node.js, Yarn.
 
  1. Clone this repo.
 
- 2. Install dependencies:
+ 2. `cd` to the project root and install dependencies:
     ```
     yarn
     ```
 
- 3. Download the kanjidic and generate the character SQL:
+ 3. Download the kanjidic2 XML file and generate the character SQL:
     ```
     curl -O http://www.edrdg.org/kanjidic/kanjidic2.xml.gz
     gunzip kanjidic2.xml.gz
@@ -41,8 +49,8 @@ Dependencies: Git, PostgreSQL, Node.js, Yarn.
     PGPASSWORD=
 
     # @ka/web config
-    ## The API's URL. The default is correct for local development.
-    API_URL=[defaults to http://localhost:3000]
+    ## The Apollo server's URL. The default is correct for local development.
+    GRAPHQL_SERVER_URL=[defaults to http://localhost:4000]
     ```
 
  6. Run `yarn run dev` (described below) and make sure you can hit
@@ -53,8 +61,8 @@ Dependencies: Git, PostgreSQL, Node.js, Yarn.
   * `yarn run dev` starts the following three commands concurrently. Press
     **Ctrl-C** to stop.
       * `yarn run dev:build:project` compiles the project in watch mode.
-      * `yarn run dev:serve:rest` starts an auto-reloading rest server at
-        localhost:3000.
+      * `yarn run dev:serve:server` starts an auto-reloading Apollo server at
+        localhost:4000.
       * `yarn run dev:serve:web` starts an auto-reloading web server at
         localhost:8080.
   * `yarn run format` formats js, json, ts, and tsx files. Run before
