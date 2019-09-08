@@ -10,7 +10,11 @@ export function Root({ children }: { children: ReactNode }): JSX.Element {
   return (
     <MessagesProvider value="en">
       <div className="container">
-        <LoadingBar status={ isLoading ? LoadingBarStatus.Loading : LoadingBarStatus.Complete } />
+        <LoadingBar
+          status={
+            isLoading ? LoadingBarStatus.Loading : LoadingBarStatus.Complete
+          }
+        />
         <Nav />
         {children}
       </div>
