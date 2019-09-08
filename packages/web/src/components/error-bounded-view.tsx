@@ -11,14 +11,25 @@ export function ErrorBoundedView(): JSX.Element {
   return <InnerErrorBoundedView href={url.href} />;
 }
 
+enum ErrorType {
+  None,
+  NotFound,
+  GenericError
+}
+
+const viewByErrorType = {
+  [ErrorType.None]: View,
+  [ErrorType.NotFound]: NotFound,
+  [ErrorType.GenericError]: ErrorComponent
+};
+
 interface InnerErrorBoundedViewProps {
   href: string;
 }
 
 interface InnerErrorBoundedViewState {
-  error?: Error;
-  isNotFound: boolean;
-  errorHref?: string;
+  type: ErrorType;
+  lastErrorHref?: string;
 }
 
 class InnerErrorBoundedView extends React.Component<
@@ -29,11 +40,10 @@ class InnerErrorBoundedView extends React.Component<
     props: InnerErrorBoundedViewProps,
     state: InnerErrorBoundedViewState
   ): Partial<InnerErrorBoundedViewState> | null {
-    if (state.error && props.href !== state.errorHref) {
+    if (state.type !== ErrorType.None && props.href !== state.lastErrorHref) {
       return {
-        error: undefined,
-        isNotFound: false,
-        errorHref: undefined
+        type: ErrorType.None,
+        lastErrorHref: undefined
       };
     }
     return null;
@@ -42,25 +52,20 @@ class InnerErrorBoundedView extends React.Component<
   public constructor(props: InnerErrorBoundedViewProps) {
     super(props);
     this.state = {
-      isNotFound: false
+      type: ErrorType.None
     };
   }
 
   public componentDidCatch(error: Error): void {
     this.setState({
-      error,
-      isNotFound: error instanceof NotFoundError,
-      errorHref: this.props.href
+      type:
+        error instanceof NotFoundError ? ErrorType.NotFound : ErrorType.None,
+      lastErrorHref: this.props.href
     });
   }
 
   public render(): JSX.Element {
-    if (this.state.error && this.state.isNotFound) {
-      return <NotFound />;
-    } else if (this.state.error) {
-      return <ErrorComponent />;
-    } else {
-      return <View />;
-    }
+    const V = viewByErrorType[ErrorType.None];
+    return <V />;
   }
 }
