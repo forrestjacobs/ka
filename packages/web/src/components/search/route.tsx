@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import { route } from "navi";
 import React from "react";
 import { Character } from "../character/component";
+import { NotFound } from "../not-found/component";
 import { SearchPage } from "./page";
 
 const GET_SEARCH_RESULTS = gql`
@@ -19,6 +20,15 @@ const GET_SEARCH_RESULTS = gql`
 export const searchRoute = route<{ client: ApolloClient<unknown> }>(
   async ({ params, context }): Promise<{}> => {
     const query = params.q;
+
+    if (query === undefined) {
+      return {
+        title: "Not Found",
+        view: <NotFound />,
+        status: 404
+      }
+    }
+
     const queryResult = await context.client.query<{ search: Character[] }>({
       query: GET_SEARCH_RESULTS,
       variables: {
