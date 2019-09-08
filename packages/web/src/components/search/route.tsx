@@ -26,7 +26,7 @@ export const searchRoute = route<{ client: ApolloClient<unknown> }>(
         title: "Not Found",
         view: <NotFound />,
         status: 404
-      }
+      };
     }
 
     const queryResult = await context.client.query<{ search: Character[] }>({
