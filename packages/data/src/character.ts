@@ -80,16 +80,5 @@ export async function getCharacter(
 
 export function getUpdateCharactersSql(characters: Character[]): string {
   return `${pgp.helpers.insert(characters, CHARACTER_CS)}
-    ON CONFLICT (literal) DO UPDATE
-    SET radical = EXCLUDED.radical,
-        nelson_radical = EXCLUDED.nelson_radical,
-        grade = EXCLUDED.grade,
-        freq = EXCLUDED.freq,
-        jlpt = EXCLUDED.jlpt,
-        stroke_count = EXCLUDED.stroke_count,
-        radical_names = EXCLUDED.radical_names,
-        "on" = EXCLUDED."on",
-        kun = EXCLUDED.kun,
-        meaning = EXCLUDED.meaning,
-        nanori = EXCLUDED.nanori`;
+    ON CONFLICT(literal) DO UPDATE ${CHARACTER_CS.assignColumns({from: 'EXCLUDED', skip: 'literal'})}`;
 }
